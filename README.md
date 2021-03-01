@@ -6,7 +6,7 @@
 
 A ideia inicial do projeto consiste no desenvolvimento de um sistema de gestão de dados de uma varejista (o nome está para ser definido mas por enquanto será ”Não-Magalu”). Esse sistema será elaborado em linguagem C, e conterá (pelo menos  pretende-se  conter) CRUD’s de produtos, fornecedores, colaboradores e de clientes fidelizados. Além disso, cada um dos CRUD’s, antes mencionados, deverão conter também uma opção para a mostra do relatório geral dos dados obtidos. 
 
-Em seguida, estão os dados que serão cadastrados no sistema (cada um com os seus respectivos campos):
+Os dados cadastrados no sistema, cada um com os seus respectivos campos, serão:
 
 #### 1. Produtos:
 
@@ -54,7 +54,7 @@ Em seguida, estão os dados que serão cadastrados no sistema (cada um com os se
 
 Os  CRUD’s em si, devem conter as opções de inserção, remoção, alteração e consulta dos dados que foram obtidos. Também buscaremos colocar uma opção para gerar um relatório geral dos dados que foram obtidos.
 
-Tendo em vista que, esta é uma descrição inicial do projeto, algumas coisas poderão ser alteradas (inseridas ou removidas) durante o desenvolvimento, para podermos entregar o projeto com a melhor qualidade possível.
+Tendo em vista que esta é uma descrição inicial do projeto, algumas coisas poderão ser alteradas (inseridas ou removidas) durante o desenvolvimento, para podermos entregar o projeto com a melhor qualidade possível.
 
 ### Quem são os desenvolvedores:
 
