@@ -41,7 +41,7 @@ Em seguida, estão os dados que serão cadastrados no sistema (cada um com os se
 - Cargo;
 - Salário;
 - Data em que foi contratado;
-- Saída da emrpesa.
+- Saída da empresa.
 
 #### 4. Clientes fidelizados:
 
@@ -54,7 +54,7 @@ Em seguida, estão os dados que serão cadastrados no sistema (cada um com os se
 
 Os  CRUD’s em si, devem conter as opções de inserção, remoção, alteração e consulta dos dados que foram obtidos. Também buscaremos colocar uma opção para gerar um relatório geral dos dados que foram obtidos.
 
-Como isto é uma descriçãoo inicial do projeto, algumas coisas poderão ser alteradas (inseridas ou removidas) durante o desenvolvimento, para podermos entregar com a melhor qualidade possível o projeto.
+Tendo em vista que, esta é uma descrição inicial do projeto, algumas coisas poderão ser alteradas (inseridas ou removidas) durante o desenvolvimento, para podermos entregar o projeto com a melhor qualidade possível.
 
 ### Quem são os desenvolvedores:
 
