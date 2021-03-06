@@ -35,6 +35,7 @@ Os  CRUD’s em si, devem conter as opções de inserção, remoção, alteraç�
 
 Tendo em vista que esta é uma descrição inicial do projeto, algumas coisas poderão ser alteradas (inseridas ou removidas) durante o desenvolvimento, para podermos entregar o projeto com a melhor qualidade possível.
 
+
 ### Quem são os desenvolvedores:
 
 A equipe de desenvolvimento é composta pelos alunos:
