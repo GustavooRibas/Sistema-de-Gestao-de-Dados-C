@@ -4,7 +4,7 @@
 
 ### Aplicação que será desenvolvida
 
-A ideia inicial do projeto consiste no desenvolvimento de um sistema de gestão de dados de uma varejista (o nome está para ser definido mas por enquanto será ”Não-Magalu”). Esse sistema será elaborado em linguagem C, e conterá (pelo menos  pretende-se  conter) CRUD’s de produtos e dos fornecedores a loja. Além disso, cada um desses CRUD’s deverá conter também uma opção para se ver um relatório geral dos dados obtidos. 
+A ideia inicial do projeto consiste no desenvolvimento de um sistema de gestão de dados de uma varejista (o nome está para ser definido mas por enquanto será ”Não-Magalu”). Esse sistema será elaborado em linguagem C, e conterá (pelo menos  pretende-se  conter) CRUD’s dos produtos e fornecedores da loja. Além disso, cada um desses CRUD’s deverá conter também uma opção para se ver um relatório geral dos dados obtidos. 
 
 Os dados que buscaremos cadastrar no sistema são:
 
