@@ -1,4 +1,4 @@
-# Projeto de implementação para a disciplina de Estrutura de Dado
+# Projeto de implementação para a disciplina de Estrutura de Dados
 
 ## Descrição do Projeto
 
@@ -6,7 +6,7 @@
 
 A ideia inicial do projeto consiste no desenvolvimento de um sistema de gestão de dados de uma varejista (o nome está para ser definido mas por enquanto será ”Não-Magalu”). Esse sistema será elaborado em linguagem C, e conterá (pelo menos  pretende-se  conter) CRUD’s de produtos e dos fornecedores a loja. Além disso, cada um desses CRUD’s deverá conter também uma opção para se ver um relatório geral dos dados obtidos. 
 
-Os dados que serão cadastrado no sistema serão (cada um com os seus respec-tivos campos):
+Os dados que buscaremos cadastrar no sistema são:
 
 #### 1. Produtos:
 
@@ -33,7 +33,7 @@ Os dados que serão cadastrado no sistema serão (cada um com os seus respec-tiv
 
 Os  CRUD’s em si, devem conter as opções de inserção, remoção, alteração e consulta dos dados que foram obtidos. Também buscaremos colocar uma opção para gerar um relatório geral dos dados que foram obtidos.
 
-Como isto é uma descriçãoo inicial do projeto, algumas coisas poderão ser alteradas (inseridas ou removidas) durante o desenvolvimento, para podermos entregar com a melhor qualidade possível o projeto.
+Tendo em vista que esta é uma descrição inicial do projeto, algumas coisas poderão ser alteradas (inseridas ou removidas) durante o desenvolvimento, para podermos entregar o projeto com a melhor qualidade possível.
 
 ### Quem são os desenvolvedores:
 
