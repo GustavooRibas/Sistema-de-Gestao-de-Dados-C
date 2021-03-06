@@ -31,7 +31,7 @@ Os dados que buscaremos cadastrar no sistema são:
 - Data de início das relações;
 - Data do fim das relações.
 
-Os  CRUD’s em si, devem conter as opções de inserção, remoção, alteração e consulta dos dados que foram obtidos. Também buscaremos colocar uma opção para gerar um relatório geral dos dados que foram obtidos.
+Os  CRUD’s em si, devem conter as opções de inserção, remoção, alteração e consulta dos dados que foram obtidos. Também buscaremos colocar uma opção para gerar um relatório geral dos dados obtidos.
 
 Tendo em vista que esta é uma descrição inicial do projeto, algumas coisas poderão ser alteradas (inseridas ou removidas) durante o desenvolvimento, para podermos entregar o projeto com a melhor qualidade possível.
 
