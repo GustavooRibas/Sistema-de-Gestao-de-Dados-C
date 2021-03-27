@@ -1,42 +1,51 @@
-/*
- ********************************************************************************
- *                          "PROJETO NÃO-MAGALU"                                *
- ********************************************************************************
-Como falado na descrição, a ideia inicial do projeto consiste no desenvolvimento de
-um sistema de gestão de dados de uma varejista
-(o nome está para ser definido mas por enquanto será ”Não-Magalu”).
-Esse sistema será elaborado em linguagem C, e conterá
-(pelo menos pretende-se conter) CRUD’s dos produtos e fornecedores da loja.
-Além disso, cada um desses CRUD’s deverá conter também uma opção para se ver
-um relatório geral dos dados obtidos.
-**********************************************************************************
+*************************************************************************************
+*  Diego Enrique da Silva Lima                                                      *
+*- Matrícula: 202003556;                                                            *
+*- E-mail: diegoenrique@discente.ufg.br;                                            *
+*- Aluno de Ciência da Computação.                                                  *
+*                                                                                   *
+*  Gustavo Rodrigues Ribeiro                                                        *
+*- Matrícula: 202003570;                                                            *
+*- E-mail:  ribeirogustavo@discente.ufg.br;                                         *
+*- Aluno de Ciência da Computação.                                                  *
+*                                                                                   *
+*************************************************************************************
 
-*****************************************
-*   ESTRUTURAS A SEREM UTILIZADAS       *
-*****************************************
+
+*************************************************************************************
+*                          "PROJETO NÃO-MAGALU"                                     *
+*************************************************************************************
+Como falado na descrição, a ideia inicial do projeto consiste no desenvolvimento de
+um sistema de gestão de estoque de uma varejista.
+Esse sistema será elaborado em linguagem C, e conterá CRUD’s dos produtos e
+fornecedores da loja.
+Além disso, cada um desses CRUD’s deverá conter também uma opção para se ver
+um relatório geral dos dados obtidos - O histórico geral de fornecedores e produtos.
+*************************************************************************************
+
+
+*******************************************************
+*          ESTRUTURAS A SEREM UTILIZADAS              *
+*******************************************************
 Criaremos tipos de estruturas para os seguintes itens:
 
 1. Produtos:
 
---Nome do produto;
 --Código do produto;
+--Preço de compra;
 --Valor de venda;
 --Pequena descrição do produto que está sendo vendido;
---Quantidade de itens em estoque.
 --Valor lógico de exclusão
-
 
 2. Fornecedores:
 
 --Nome do fornecedor;
 --Código do fornecedor;
+--Quantidade de produtos;
+--Código do produto[Quantidade de produtos fornecidos];
 --CNPJ;
 --Endereço;
 --Telefone;
---Produto que é fornecido;
---Preço de compra;
---Quantidade de produtos que são comprados;
---Descrição do produto;
 --Data da última compra;
 --Data de início das relações;
 --Data do fim das relações;
@@ -54,171 +63,67 @@ Criaremos tipos de estruturas para os seguintes itens:
 *    UTILIZAÇÂO DAS ESTRUTURAS      *
 *************************************
 
-As estruturas de Produtos e Fornecedores serão utilizadas para:
+##### As estruturas de Produtos e Fornecedores serão utilizadas para:
 
-O armazenamento dos dados dos Produtos disponives, e
-dos Fornecedores da varejista, em arquivos expecíficos de cada para tipo de dado
-(fornecedores e produtos).
+--O armazenamento dos dados dos Produtos disponíveis e não disponíveis (O que não estão
+mais em estoque), e dos Fornecedores parceiros e não parceiros da varejista, em
+arquivos binários expecíficos de cada para tipo de dado (fornecedores e produtos).
 
-Já a estrutura para verificação da exclusão será utilizada para:
+##### Já a estrutura para verificação da exclusão será utilizada:
 
---Para a maior eficiência do código, sendo que, ela aramazenará o código do
-Produto ou Fornecedor, e sua posição dentro do arquivo onde estão armazenados
-cada tipo de dado.
+--Para armazenar o código dos Produtos e Fornecedores, suas posições e se eles estão
+ou não excluídos, dentro dos arquivos binários distintos para cada tipo de dado.
 
 ***************************************************************************************
+
 
 ************************************
 *   FUNCIONALIDADES DA APLICAÇÃO   *
 ************************************
 
-##Descoberta do SO (para a limpeza da tela):
+##### Descoberta do SO (para a limpeza da tela) #####
 
-Primeiro menu que deve aparecer no programa a ser rodado,
-pedindo para o usuário selecionar o SO utilizado (UNIX / WINDOWS).
+Primeiro menu que deve aparecer no programa a ser rodado, pedindo para o usuário
+selecionar o Sistema Operacional utilizado (UNIX / WINDOWS).
 
 Devido a diferença entre os sistemas, a limpeza de tela ocorre por meio de funções
-distintas. Com isso, o resultado obtido por essa função irá definir o modo como a
-limpeza de tela acontece.
-
-system("cls") - Para sistemas Windows.
-system("clear") - Para sistemas UNIX.
+distintas. Com isso, o resultado obtido por essa função de "descoberta" irá definir
+o modo como a limpeza de tela acontece.
 
 
-##Função para a limpeza de tela, de acordo com a opção dada na descoberta do sistema
-operacional:
+##### Função para a limpeza de tela #####
 
 Está função limpa a tela com o resultado obtido pela função de seleção do Sistema
-operacional.
+Operacional. Isso se dá pois os sistemas diferem-se nas seguintes funções:
 
-##Menu principal:
+--system("cls") - Para sistemas Windows.
+--system("clear") - Para sistemas UNIX.
 
-O menu principal terá como objetivo a seleção de ações a ser realizadas, sendo elas:
+Logo, função limpará a tela de acordo com a função correta de limpeza para o
+Sistema Operacional.
+
+
+##### Menu principal #####
+
+O menu principal apresentará a seguinte tela e terá como objetivo a seleção das ações a
+serem realizadas, sendo elas:
 
         --------------------------------------
-        * Escolha uma das seguintes opçõess: *
-        * 1 - Gerenciar Produtos             *
-        * 2 - Gerenciar Fornecedores         *
+        * Escolha uma das seguintes opções   *
+        * 1 - Gerenciar Fornecedores         *
+        * 2 - Gerenciar Produtos             *
         * 3 - Sair                           *
         --------------------------------------
 
-*A opção 1 leva para o menu de gerenciamento de Produtos;
-*A opção 2 leva para o menu de gerenciamento de Fornecedores;
+*A opção 1 leva para o menu de gerenciamento de Fornecedores;
+*A opção 2 leva para o menu de gerenciamento de Produtos;
 *A opção 3 finaliza a execução do programa.
 
-##Menu para gerenciar os Produtos
 
-O menu para gerenciar os produtos terá como objetivo a seleção de ações a serem
-realizadas, sendo elas:
+##### Menu para gerenciar os Fornecedores #####
 
-        --------------------------------------
-        * Escolha uma das seguintes opçõess: *
-        * 1 - INSERIR os produto             *
-        * 2 - PESQUISAR o produto            *
-        * 3 - ATUALIZAR os produtos          *
-        * 4 - REMOVER os produtos            *
-        * 5 - APRESENTAR RELATÓRIO GERAL     *
-        * 6 - Sair                           *
-        --------------------------------------
-
-*A opção 1 leva para a função inserção de produtos;
-*A opção 2 leva para a função pesquisa de produtos;
-*A opção 3 leva para a função atualização de produtos;
-*A opção 4 leva para a função remoção de produtos;
-*A opção 5 leva para a função apresentação do relatório geral dos produtos;
-*A opção 6 retorna ao MENU PRINCIPAL.
-
-##Função para INSERIR os produtos
-
-Primeiramente, ela abre o arquivo binário de produtos, caso não exista ela
-cria um novo, e caso exista, ela abre para a escrita no final do arquivo.
-
-Em seguida, é feita a limpeza da tela, e pede para o usuário digitar os
-dados presentes na Struct de Produtos. Sendo os dados:
-
---Nome do produto;
---Código do produto;
---Valor de venda;
---Pequena descrição do produto que está sendo vendido;
---Quantidade de itens em estoque;
---Inserindo também no campo de valor lógico a indicação de que não está excluido.
-
-Por fim, a função insere os dados obtidos no arquivo de Produtos, fechando o arquivo de produtos.
-
-
-##Função para PESQUISAR os produtos
-
-A função abre o arquivo binário de produtos para a leitura aleatória,
-caso não exista o arquivo ela retorna uma mensagem de erro.
-
-Em seguida, é feita a limpeza da tela, e pede para o usuário digitar o
-código do Produto a ser pesquisado.
-
-Em seguida é pesquisado o código do Produto dentro do vetor de posições,
-caso encontre o código e o produto não esteja excluído logicamente,
-ele abre o arquivo de produtos na posição exata dos dados do produto,
-e os imprime na tela. Caso o código não seja encontrado, é apresentada
-uma mensagem indicando que o produto não está cadastrado.
-
-Por fim, é fechado o arquivo de produtos.
-
-
-##Função para ATUALIZAR os produtos
-
-A função abre o arquivo binário de produtos para a leitura e escrita aleatória,
-caso não exista o arquivo ela retorna uma mensagem de erro.
-
-Em seguida é pesquisado o código do Produto dentro do vetor de posições,
-caso encontre o código e o produto não esteja excluído logicamente,
-ele abre o arquivo de produtos na posição exata dos dados do produto,
-e os imprime na tela, em seguida pede a confirmação se deseja atualizar os
-dados apresentados. Assim, é feita a limpeza da tela, e pede para o usuário digitar os
-dados presentes na Struct de Produtos. Sendo os dados:
-
---Nome do produto;
---Código do produto;
---Valor de venda;
---Pequena descrição do produto que está sendo vendido;
---Quantidade de itens em estoque;
---Inserindo também no campo de valor lógico a indicação de que não está excluido.
-
-Entretanto se o código não for encontrado, é apresentada
-uma mensagem indicando que o produto não está cadastrado.
-
-Por fim, é fechado o arquivo de produtos.
-
-
-##Função para REMOVER os produtos
-
-A função abre o arquivo binário de produtos para a leitura e escrita aleatória,
-caso não exista o arquivo ela retorna uma mensagem de erro.
-
-Em seguida é pesquisado o código do Produto dentro do vetor de posições,
-caso encontre o código e o produto não esteja excluído logicamente,
-ele abre o arquivo de produtos na posição exata dos dados do produto,
-e os imprime na tela, em seguida pede a confirmação se deseja remover os
-dados apresentados. Assim, é feita ocorre a exclusão lógica do cadastro do produto
-trocando o valor logico da variável "valor lógico de exclusão".
-
-Entretanto se o código não for encontrado, é apresentada
-uma mensagem indicando que o produto não está cadastrado.
-
-Por fim, é fechado o arquivo de produtos.
-
-
-##Função para apresentar o relatório geral dos dados dos produtos
-
-A função abre o arquivo binário de produtos para a leitura sequencial,
-caso não exista o arquivo ela retorna uma mensagem de erro.
-
-Em seguida é apresentado todos os dados presentes no arquivo.
-
-Por fim, é fechado o arquivo de produtos.
-
-
-##Menu para gerenciar os Fornecedores
-O menu para gerenciar os fornecedores terá como objetivo a seleção de ações a serem
-realizadas, sendo elas:
+O menu para gerenciar os fornecedores apresentará a seguinte tela e terá como objetivo
+a seleção de ações a serem realizadas, sendo elas:
 
         --------------------------------------
         * Escolha uma das seguintes opçõess: *
@@ -238,138 +143,242 @@ realizadas, sendo elas:
 *A opção 6 retorna ao MENU PRINCIPAL.
 
 
-##Função pra INSERIR os fornecedores
+##### Função pra INSERIR os fornecedores #####
 
-Ela abre o arquivo binário de Fornecedores, caso não exista ela cria
-um novo, e caso exista, ela abre para a escrita no final do arquivo.
+Primeiramente, ela abre os arquivos binários de Fornecedores e de índices de fornecedores,
+caso não exista ela cria um novo, e caso exista, ela abre para a escrita no final do arquivo.
 
 Em seguida, é feita a limpeza da tela, e pede para o usuário digitar os
-dados presentes na Struct de Fornecedores. Sendo os dados:
+dados presentes na Struct de Fornecedores e de Produtos. Sendo os dados:
 
 --Nome do fornecedor;
 --Código do fornecedor;
+--Quantidade de produtos que são comprados;
+--Código do produto;
+
+Ocorre a chamada da FUNÇÃO PARA INSERIR PRODUTOS e após isso segue a inserção dos dados
+restantes do fornecedor...
+
 --CNPJ;
 --Endereço;
 --Telefone;
---Produto que é fornecido;
---Preço de compra;
---Quantidade de produtos que são comprados;
---Descrição do produto;
 --Data da última compra;
 --Data de início das relações;
 --Data do fim das relações;
---Inserindo também no campo de valor lógico a indicação de que não está excluido.
+
+--Além disso insere também no campo de valor lógico a indicação de que não está excluido.
 
 Por fim, a função insere os dados obtidos no arquivo de Fornecedores, fechando o
 arquivo.
 
 
-##Função para PESQUISAR os Fornecedores
+##### Função para PESQUISAR os Fornecedores #####
 
-A função abre o arquivo binário de fornecedores para a leitura aleatória,
-caso não exista o arquivo ela retorna uma mensagem de erro.
+A função abre o arquivos binários de fornecedores e de índices de fornecedores
+para a leitura aleatória, caso não exista o arquivo ela retorna uma mensagem de erro.
 
 Em seguida, é feita a limpeza da tela, e pede para o usuário digitar o
 código do Fornecedor a ser pesquisado.
 
-Logo após, é pesquisado o código do Fornecedor dentro do vetor de posições,
-caso encontre o código e o fronecedor não esteja excluído logicamente,
+Logo após, é pesquisado o código do Fornecedor dentro do arquivo de índices de fornecedores,
+caso encontre o código e o fornecedor não esteja excluído logicamente,
 ele abre o arquivo de fornecedores na posição exata dos dados do fornecedor,
-e os imprime na tela. Caso o código não seja encontrado, é apresentada
+e os faz uma chamada para FUNÇÃO PESQUISA DE PRODUTOS, por fim, imprime na tela os dados do fornecedor
+e dos produtos fornecidos. Caso o código não seja encontrado, é apresentada
 uma mensagem indicando que o fornecedor não está cadastrado.
 
-Por fim, é fechado o arquivo.
+Por fim, é fechado os arquivos de fornecedores e de índices.
 
 
-##Função para ATUALIZAR os Fornecedores
+##### Função para ATUALIZAR os Fornecedores #####
 
-A função abre o arquivo binário de fornecedores para a leitura e escrita aleatória,
-caso não exista o arquivo ela retorna uma mensagem de erro.
+A função abre os arquivos binários de fornecedores e de índices de fornecedores
+para a leitura e escrita aleatória, caso não exista o arquivo ela retorna uma mensagem de erro.
 
-Em seguida é pesquisado o código do fornecedor dentro do vetor de posições,
-caso encontre o código e o produto não esteja excluído logicamente,
-ele abre o arquivo de fornecedores na posição exata dos dados do produto,
+Em seguida é pesquisado o código do fornecedor dentro do arquivo de índices de fornedores,
+caso encontre o código e o fornecedor não esteja excluído logicamente,
+ele abre o arquivo de fornecedores na posição exata dos dados do fornecedor,
 e os imprime na tela, em seguida pede a confirmação se deseja atualizar os
 dados apresentados. Assim, é feita a limpeza da tela, e pede para o usuário digitar os
-dados presentes na Struct de fornecedores. Sendo os dados:
+dados presentes na Struct de fornecedores (o código do fornecedor permanecerá o mesmo).
+
+Sendo os dados:
 
 --Nome do fornecedor;
---Código do fornecedor;
+--Quantidade de produtos que são comprados;
+--Código do produto;
+
+Ocorre a chamada da FUNÇÃO PARA INSERIR PRODUTOS (Ainda podem existir produtos
+em estoque que anteriormente eram oferecidos pelo fornecedor) e após isso
+segue a inserção dos dados restantes do fornecedor...
+
 --CNPJ;
 --Endereço;
 --Telefone;
---Produto que é fornecido;
---Preço de compra;
---Quantidade de produtos que são comprados;
---Descrição do produto;
 --Data da última compra;
 --Data de início das relações;
 --Data do fim das relações;
---Inserindo também no campo de valor lógico a indicação de que não está excluido.
+
+--Além disso insere também no campo de valor lógico a indicação de que não está excluido.
 
 Entretanto se o código não for encontrado, é apresentada
 uma mensagem indicando que o fornecedor não está cadastrado.
 
-Por fim, é fechado o arquivo de fornecedores.
+Por fim, é fechado os arquivos de fornecedores e de índices.
 
 
-##Função para REMOVER os Fornecedores
+##### Função para REMOVER os Fornecedores #####
 
-A função abre o arquivo binário de fornecedores para a leitura e escrita aleatória,
-caso não exista o arquivo ela retorna uma mensagem de erro.
+A função abre os arquivos binários de fornecedores e de índices de fornecedores
+para a leitura e escrita aleatória, caso não exista o arquivo ela retorna uma mensagem de erro.
 
-Em seguida é pesquisado o código do Fornecedor dentro do vetor de posições,
+Em seguida é pesquisado o código do Fornecedor dentro do arquivo de índices de fornecedores,
 caso encontre o código e o fornecedor não esteja excluído logicamente,
 ele abre o arquivo de fornecedores na posição exata dos dados do fornecedor,
-e os imprime na tela, em seguida pede a confirmação se deseja remover os
-dados apresentados. Assim, é feita ocorre a exclusão lógica do cadastro do fornecedor
+e os imprime na tela. Em seguida, pede a confirmação se deseja remover os
+dados apresentados. Assim, é feita a exclusão lógica do cadastro do fornecedor
 trocando o valor logico da variável "valor lógico de exclusão".
 
-Entretanto se o código não for encontrado, é apresentada
+Entretanto, se o código não for encontrado, é apresentada
 uma mensagem indicando que o fornecedor não está cadastrado.
 
-Por fim, é fechado o arquivo de fornecedores.
+Por fim, é fechado o arquivo de fornecedores e de índices.
 
 
-##Função para apresentar o relatório geral dos dados dos fornecedores
+##### Função para apresentar o relatório geral dos dados dos fornecedores #####
 
 A função abre o arquivo binário de fornecedores para a leitura sequencial,
 caso não exista o arquivo ela retorna uma mensagem de erro.
 
-Em seguida é apresentado todos os dados presentes no arquivo.
+Em seguida é apresentado todos os dados presentes no arquivo, sejam
+fornecedores excluídos ou não.
 
 Por fim, é fechado o arquivo de fornecedores.
 
 
-##Função para criar os vetores de verificação de exclusão
+##### Menu para gerenciar os Produtos #####
 
-A função abre o arquivo binário de fornecedores ou produtos para a
-leitura sequencial, caso não exista o arquivo ela retorna uma mensagem de erro.
+O menu para gerenciar os produtos apresenteŕa a seguinte tela e terá como objetivo
+a seleção de ações a serem realizadas, sendo elas:
 
-Em seguida, é feita a leitura de todos os elementos do arquivo, coletando a
-quantidade de itens dentro do arquivo.
+        --------------------------------------
+        * Escolha uma das seguintes opçõess: *
+        * 1 - PESQUISAR o produto            *
+        * 2 - ATUALIZAR os produtos          *
+        * 3 - REMOVER os produtos            *
+        * 4 - APRESENTAR RELATÓRIO GERAL     *
+        * 5 - Sair                           *
+        --------------------------------------
 
-Após isso, é alocado dinamicamente um vetor de Structs para Verificar a Exclusão,
-com a quantidade de elementos do arquivo.
-
-Por fim, é feito o armazenamento do código do produto ou fornecedor e sua posição
-no arquivo.
-
-fechando o arquivo aberto.
+*A opção 1 leva para a função pesquisa de produtos;
+*A opção 2 leva para a função atualização de produtos;
+*A opção 3 leva para a função remoção de produtos;
+*A opção 4 leva para a função apresentação do relatório geral dos produtos;
+*A opção 5 retorna ao MENU PRINCIPAL.
 
 
-##Função para confirmação (Atualização / Remoção)
+##### Função para INSERIR os produtos #####
+
+A função recebe como parâmetro o código do produto a ser inserido, e
+depois, é aberto os arquivos binários de produtos e de índices de produtos, caso não exista ela
+cria um novo, e caso exista, ela abre para a escrita no final do arquivo.
+
+--O código do produto passado por parâmetro será armazenado dentro da estrutura
+
+Em seguida, é feita a limpeza da tela, e pede para o usuário digitar os
+dados presentes na Struct de Produtos.
+
+Sendo os dados:
+
+--Nome do produto;
+--Preço de compra;
+--Valor de venda;
+--Pequena descrição do produto que está sendo vendido;
+
+--Além disso insere também no campo de valor lógico a indicação de que não está excluido.
+
+Por fim, a função insere os dados obtidos no arquivo de Produtos e sua posição no arquivo
+de índices de produtos, fechando os arquivos.
+
+
+##### Função para PESQUISAR os produtos #####
+
+A função abres os arquivos binário de produtos e de índices de produtos para a leitura aleatória,
+caso não exista algum dos arquivos ela retorna uma mensagem de erro.
+
+Em seguida, é feita a limpeza da tela, e pede para o usuário digitar o
+código do Produto a ser pesquisado.
+
+Logo após, é pesquisado o código do Produto dentro do arquivo de índices de
+produtos e, caso encontre o código e o produto não esteja excluído logicamente,
+ele abre o arquivo de produtos na posição exata dos dados do produto,
+e os imprime na tela. Caso o código não seja encontrado, é apresentada
+uma mensagem indicando que o produto não está cadastrado.
+
+Por fim, é fechado os arquivos de produtos e de índices.
+
+
+##### Função para ATUALIZAR os produtos #####
+
+A função abre os arquivos binários de produtos de índices de produtos
+para a leitura e escrita aleatória, caso não exista o arquivo ela retorna
+uma mensagem de erro.
+
+Em seguida é pesquisado o código do Produto dentro do arquivo de índices de produtos,
+caso encontre o código e o produto não esteja excluído logicamente,
+ele abre o arquivo de produtos na posição exata dos dados do produto,
+e os imprime na tela, em seguida pede a confirmação se deseja atualizar os
+dados apresentados. Assim, é feita a limpeza da tela, e pede para o usuário digitar os
+dados presentes na Struct de Produtos (o código do produto permanecerá o mesmo).
+
+Sendo os dados:
+
+--Nome do produto;
+--Preço de compra;
+--Valor de venda;
+--Pequena descrição do produto que está sendo vendido;
+
+--Além disso insere também no campo de valor lógico a indicação de que não está excluido.
+
+Entretanto, se o código não for encontrado, é apresentada
+uma mensagem indicando que o produto não está cadastrado.
+
+Por fim, é fechado os arquivos de produtos e de índices.
+
+
+##### Função para REMOVER os produtos #####
+
+A função abre os arquivos binários de produtos e de índices de produtos
+para a leitura e escrita aleatória, caso não exista o arquivo ela retorna uma mensagem de erro.
+
+Em seguida é pesquisado o código do Produto dentro do arquivo de índices
+de produtos, caso encontre o código e o produto não esteja excluído logicamente,
+ele abre o arquivo de produtos na posição exata dos dados do produto,
+e os imprime na tela. Em seguida, pede a confirmação se deseja remover os
+dados apresentados. Assim, é feita a exclusão lógica do cadastro do produto
+trocando o valor logico da variável "valor lógico de exclusão".
+
+Entretanto se o código não for encontrado, é apresentada
+uma mensagem indicando que o produto não está cadastrado.
+
+Por fim, é fechado os arquivos de produtos de índices.
+
+
+##### Função para apresentar o relatório geral dos dados dos produtos #####
+
+A função abre o arquivo binário de produtos para a leitura sequencial,
+caso não exista o arquivo ela retorna uma mensagem de erro.
+
+Em seguida é apresentado todos os dados presentes no arquivo, sejam
+produtos excluídos ou não.
+
+Por fim, é fechado o arquivo de produtos.
+
+
+##### Função para confirmação (Atualização / Remoção) #####
 
 Esta função irá a confirmação se o usuário deseja de fato atualizar ou remover
 o item selecionado.
-
-
-##Função para a quantidade de elementos (que auxiliará na criação dos vetores da
-função acima)
-
-Esta função é a que faz a leitura de todos os elementos do arquivo, coletando a
-quantidade de itens dentro do arquivo. Sendo chamada na função de criação dos
-vetores de verificação de exclusão.
 
 
 (Fim do arquivo)
