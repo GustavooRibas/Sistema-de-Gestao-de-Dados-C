@@ -120,6 +120,12 @@ void atualizar_produto(void);
 void remover_fornecedor(void);
 
 void remover_produto(void);
+
+//Relatório geral
+void relatorio_geral_prod(void);
+
+void relatorio_geral_forn(void);
+
 //-------------------------------------------------------------------------------
 
 
@@ -190,12 +196,12 @@ int binary_search(FILE *arq, int ini, int fim, int cod, int tipo)
             {
                 if (aux_prod.cod_produto > cod)
                 {
-                    mid = ini + 1;
+                    ini = mid + 1;
                 }
 
                 else
                 {
-                    mid = fim - 1;
+                    fim = mid - 1;
                 }
             }
 
@@ -221,9 +227,9 @@ int binary_search(FILE *arq, int ini, int fim, int cod, int tipo)
 
             }
 
-            else if (aux_forn.cod_fornecedor > cod) mid = ini + 1;
+            else if (aux_forn.cod_fornecedor > cod) ini = mid + 1;
 
-            else mid = fim - 1;
+            else fim = mid - 1;
         }
     }
 
@@ -277,6 +283,7 @@ int sistema(void)
         printf("--------------------------------------\n");
         printf("OPCAO: ");
         scanf("%d", &res);
+        getchar();
 
     }
     res--;
@@ -304,6 +311,7 @@ int menu_principal(void)
         printf("-----------------------------------------------------------------------------------\n");
         printf("OPCAO: ");
         scanf("%d", &res);
+        getchar();
 
         limp_tela();
     }
@@ -335,7 +343,7 @@ void gerenciar_fornecedor(void)
             printf("--------------------------------------\n");
             printf("OPCAO: ");
             scanf("%d", &res);
-
+            getchar();
 
 	        limp_tela();
         }
@@ -455,16 +463,15 @@ void inserir_fornecedor(void);
 void inserir_produto(int codigo)
 {
     produtos aux_prod;
-    int quant_prod;
- 
+
     FILE *arq = fopen(A_PROD, "ab");
     if (!arq)
     {
         fprintf(stderr, "Arquivo de produtos não pode ser encontrado\n");
         exit(1);
-    }   
-   
-    memset(&aux_prod, 0, sizeof(aux_prod));
+    }
+
+    memset(&aux_prod, 0, sizeof(produtos));
 
     aux_prod.cod_produto = codigo;
     printf("Código do Produto: %d\n", aux_prod.cod_produto);
@@ -486,8 +493,8 @@ void inserir_produto(int codigo)
 
     aux_prod.valor_logico = NEXC;
 
-    fwrite(&aux_prod, sizeof(aux_prod), 1, arq);
-    
+    fwrite(&aux_prod, sizeof(produtos), 1, arq);
+
     printf("\n");
 
     fclose(arq);
@@ -507,3 +514,39 @@ void atualizar_produto(void);
 void remover_fornecedor(void);
 
 void remover_produto(void);
+
+////Relatório geral
+void relatorio_geral_forn(void);
+
+void relatorio_geral_prod(void){
+
+    FILE *arq = fopen(A_PROD, "rb");
+    if (!arq)
+    {
+        fprintf(stderr, "Arquivo de produtos não pode ser encontrado\n");
+        exit(1);
+    }
+
+    produtos aux_prod;
+
+    fseek(arq, 0, SEEK_SET);
+
+    while(fread(&aux_prod, sizeof(produtos), 1, arq)){
+
+        printf("Código do Produto: %d\n", aux_prod.cod_produto);
+
+        printf("Nome do produto: %s\n", aux_prod.nome_prod);
+
+        printf("Valor de compra produto: %.2f\n", aux_prod.preco_prod);
+
+        printf("Valor de venda do produto: %.2f\n", aux_prod.venda_prod);
+
+        printf("Descrição do produto: %s\n", aux_prod.descricao);
+        printf("\n");
+
+    }
+    getchar();
+
+
+    fclose(arq);
+}
