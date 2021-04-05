@@ -10,7 +10,7 @@ A ideia inicial do projeto consiste no desenvolvimento de um sistema de gestão 
 
 ### Tabela de conteúdos
 
-* [Descrição do Projeto](#i#Descrição-do-Projeto)
+* [Descrição do Projeto](##Descrição-do-Projeto)
 * [Tabela de conteúdos](###Tabela-de-conteúdos)
 * [Dados no cadastro](###Dados-no-cadastro)
     * [1. Produtos](####1.-Produtos)
@@ -22,7 +22,7 @@ A ideia inicial do projeto consiste no desenvolvimento de um sistema de gestão 
 
 ### Dados no cadastro
 
-Os dados que buscaremos cadastrar no sistema são:
+Os dados que serão cadastrados no sistema são:
 
 #### 1. Produtos
 
@@ -53,23 +53,23 @@ Tendo em vista que esta é uma descrição inicial do projeto, algumas coisas po
 
 ### Features
 
--[X] Descoberta do SO;
--[X] Função para limpeza de tela;
--[X] Menu principal;
--[X] Menu para Gerenciar Fornecedores;
--[X] Menu para Gerenciar Produtos;
--[X] Confirmação da exclusão | alteração;
--[] Gerenciador de códigos;
--[] Inserção de Produtos;
--[] Inserção de Fornecedores;
--[] Pesquisar cadastro do Produto;
--[] Pesquisar cadastro do Fornecedor;
--[] Remoção do Produtos;
--[] Remoção do Fornecedores;
--[] Atualização do cadastro do Produto;
--[] Atualização do cadastro do Fornecedor;
--[] Relatório Geral de Produtos;
--[] Relatório Geral de Fornecedores;
+- [X] Descoberta do SO;
+- [X] Função para limpeza de tela;
+- [X] Menu principal;
+- [X] Menu para Gerenciar Fornecedores;
+- [X] Menu para Gerenciar Produtos;
+- [X] Confirmação da exclusão | alteração;
+- [ ] Gerenciador de códigos;
+- [ ] Inserção de Produtos;
+- [ ] Inserção de Fornecedores;
+- [ ] Pesquisar cadastro do Produto;
+- [ ] Pesquisar cadastro do Fornecedor;
+- [ ] Remoção do Produtos;
+- [ ] Remoção do Fornecedores;
+- [ ] Atualização do cadastro do Produto;
+- [ ] Atualização do cadastro do Fornecedor;
+- [ ] Relatório Geral de Produtos;
+- [ ] Relatório Geral de Fornecedores;
 
 
 ### Quem são os desenvolvedores
