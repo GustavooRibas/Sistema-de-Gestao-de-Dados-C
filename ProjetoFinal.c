@@ -66,6 +66,9 @@ typedef struct
 //-----------------------------------------------------------------------------
 //Protótios das funções utilizadas
 
+//Geranciador de códigos (Produtos | Fornecedores)
+//Ainda falta o protótipo
+
 //Logo do Projeto Não-Magalu
 void logo_nmagalu(void);
 
@@ -325,6 +328,8 @@ void gerenciar_produtos(void)
     }
 }
 
+//Geranciador de códigos (Produtos | Fornecedores)
+//Ainda falta o protótipo
 
 //Inserir
 void Inserir_Fornecedor(void);
