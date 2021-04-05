@@ -59,8 +59,8 @@ Tendo em vista que esta é uma descrição inicial do projeto, algumas coisas po
 - [X] Menu para Gerenciar Fornecedores;
 - [X] Menu para Gerenciar Produtos;
 - [X] Confirmação da exclusão | alteração;
-- [ ] Gerenciador de códigos;
-- [ ] Inserção de Produtos;
+- [X] Gerenciador de códigos;
+- [X] Inserção de Produtos;
 - [ ] Inserção de Fornecedores;
 - [ ] Pesquisar cadastro do Produto;
 - [ ] Pesquisar cadastro do Fornecedor;
@@ -68,7 +68,7 @@ Tendo em vista que esta é uma descrição inicial do projeto, algumas coisas po
 - [ ] Remoção do Fornecedores;
 - [ ] Atualização do cadastro do Produto;
 - [ ] Atualização do cadastro do Fornecedor;
-- [ ] Relatório Geral de Produtos;
+- [X] Relatório Geral de Produtos;
 - [ ] Relatório Geral de Fornecedores;
 
 
