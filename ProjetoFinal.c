@@ -1,17 +1,17 @@
 /*----------------------------------------------
- * 	        	Trabalho final
- *---------------------------------------------
- * Nome: Diego Enrique da Silva Lima
- * Matrícula: 202003556;
- * E-mail: diegoenrique@discente.ufg.br
- *
- * Nome: Gustavo Rodrigues Ribeiro
- * Matrícula: 202003570;
- * E-mail:  ribeirogustavo@discente.ufg.br;
- *
- *--------------------------------------------
- * DATA DE FINALIZAÇÃO:
- * ------------------------------------------*/
+  	        	Trabalho final
+ -----------------------------------------------
+  Nome: Diego Enrique da Silva Lima
+  Matrícula: 202003556;
+  E-mail: diegoenrique@discente.ufg.br
+ 
+  Nome: Gustavo Rodrigues Ribeiro
+  Matrícula: 202003570;
+  E-mail:  ribeirogustavo@discente.ufg.br;
+ 
+ --------------------------------------------
+   DATA DE FINALIZAÇÃO:
+ --------------------------------------------*/
 //Bibiotecas
 #include <stdio.h>
 #include <math.h>
@@ -183,7 +183,7 @@ int binary_search(FILE *arq, int ini, int fim, int cod, int tipo)
         {
             int mid = (ini + fim) / 2;
 
-            fseek(arq, mid, SEEK_SET);
+            fseek(arq, mid * sizeof(produtos), SEEK_SET);
             fread(&aux_prod, sizeof(produtos), 1, arq);
 
             if (aux_prod.cod_produto == cod)
@@ -194,7 +194,7 @@ int binary_search(FILE *arq, int ini, int fim, int cod, int tipo)
 
             else
             {
-                if (aux_prod.cod_produto > cod)
+                if (aux_prod.cod_produto < cod)
                 {
                     ini = mid + 1;
                 }
@@ -217,7 +217,7 @@ int binary_search(FILE *arq, int ini, int fim, int cod, int tipo)
         {
             int mid = (ini + fim) / 2;
 
-            fseek(arq, mid, SEEK_SET);
+            fseek(arq, mid * sizeof(fornecedor), SEEK_SET);
             fread(&aux_forn, sizeof(fornecedor), 1, arq);
 
             if (aux_forn.cod_fornecedor == cod)
@@ -227,7 +227,7 @@ int binary_search(FILE *arq, int ini, int fim, int cod, int tipo)
 
             }
 
-            else if (aux_forn.cod_fornecedor > cod) ini = mid + 1;
+            else if (aux_forn.cod_fornecedor < cod) ini = mid + 1;
 
             else fim = mid - 1;
         }
@@ -463,7 +463,7 @@ void inserir_fornecedor(void);
 void inserir_produto(int codigo)
 {
     produtos aux_prod;
-
+    
     FILE *arq = fopen(A_PROD, "ab");
     if (!arq)
     {
@@ -503,7 +503,58 @@ void inserir_produto(int codigo)
 //Pesquisar
 void pesquisar_fornecedor(void);
 
-void pesquisar_produto(void);
+void pesquisar_produto(void)
+{
+    produtos aux_prod;
+    int aux = gerenciador_cod(PROD) - 1;
+    int codigo = 0, posicao;
+
+    printf("--------------------------------------\n\n");
+    printf("Digite o código a ser pesquisado: ");
+    scanf("%d", &codigo);
+    getchar();
+    
+    FILE *arq = fopen(A_PROD, "r+b");
+    if (!arq)
+    {
+        fprintf(stderr, "Arquivo de produtos não pode ser encontrado\n");
+        exit(1);
+    }
+    printf("%d\n\n", aux);
+    posicao = binary_search(arq, 0, aux, codigo, PROD);
+
+    if (posicao == -1)
+    {
+        printf("Código inexistente\n");
+
+        printf("\n\n (Aperte a tecla Enter para sair)\n\n");
+        printf("--------------------------------------\n\n");
+        getchar();
+    }
+    else
+    {
+
+        fseek(arq, posicao, SEEK_SET);
+        fread(&aux_prod, sizeof(produtos), 1, arq);
+
+        printf("Código do Produto: %d\n", aux_prod.cod_produto);
+
+        printf("Nome do produto: %s\n", aux_prod.nome_prod);
+
+        printf("Valor de compra produto: %.2f\n", aux_prod.preco_prod);
+
+        printf("Valor de venda do produto: %.2f\n", aux_prod.venda_prod);
+
+        printf("Descrição do produto: %s\n", aux_prod.descricao);
+
+        printf("\n\n (Aperte a tecla Enter para sair)\n\n"); 
+        printf("--------------------------------------\n\n");
+        getchar();
+    }
+
+    fclose(arq);
+}
+
 
 //Atualizar
 void atualizar_fornecedor(void);
@@ -520,17 +571,21 @@ void relatorio_geral_forn(void);
 
 void relatorio_geral_prod(void){
 
+    printf("--------------------------------------\n\n");
     FILE *arq = fopen(A_PROD, "rb");
     if (!arq)
     {
         fprintf(stderr, "Arquivo de produtos não pode ser encontrado\n");
-        exit(1);
+        printf("\n\n (Aperte a tecla Enter para sair)\n\n"); 
+        printf("--------------------------------------\n\n");
+        getchar();
+        return;
     }
 
     produtos aux_prod;
 
     fseek(arq, 0, SEEK_SET);
-
+     
     while(fread(&aux_prod, sizeof(produtos), 1, arq)){
 
         printf("Código do Produto: %d\n", aux_prod.cod_produto);
@@ -545,6 +600,8 @@ void relatorio_geral_prod(void){
         printf("\n");
 
     }
+    printf("\n\n (Aperte a tecla Enter para sair)\n\n"); 
+    printf("--------------------------------------\n\n");
     getchar();
 
 
