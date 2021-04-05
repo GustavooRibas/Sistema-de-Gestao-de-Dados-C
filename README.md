@@ -12,9 +12,9 @@ A ideia inicial do projeto consiste no desenvolvimento de um sistema de gestão 
 
 * [Descrição do Projeto](#descrição-do-Projeto)
 * [Tabela de conteúdos](#tabela-de-conteúdos)
-* [Dados no cadastro](#ados-no-cadastro)
+* [Dados no cadastro](#dados-no-cadastro)
     * [1. Produtos](#1-produtos)
-    * [2. Fornecedores](#2-forncedores)
+    * [2. Fornecedores](#2-fornecedores)
 * [Features](#features)
 * [Quem são os desenvolvedores](#quem-são-os-desenvolvedores)
 
