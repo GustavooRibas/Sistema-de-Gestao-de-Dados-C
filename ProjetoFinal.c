@@ -19,7 +19,7 @@
 #include <string.h>
 
 //Constantes Gerais
-enum {NOM = 41, DESC = 101, TRUE =  1, FALSE = 0, QUANT_PROD = 10, END = 41, UF = 3};
+enum {NOM = 41, DESC = 101, EXC =  1, NEXC = 0, QUANT_PROD = 10, END = 41, UF = 3, CARAC_A = 13};
 
 //Constantes bases para o funcionamento do sistema
 #define WIN 0
@@ -27,6 +27,11 @@ enum {NOM = 41, DESC = 101, TRUE =  1, FALSE = 0, QUANT_PROD = 10, END = 41, UF 
 
 #define LWIN system("cls")
 #define LLUX system("clear")
+
+
+//Constantes de definição dos arquivos
+#define FORN  0
+#define PROD  1
 
 //Constantes para os nomes dos arquivos de fornecedores e produtos
 #define A_PROD "Produtos"
@@ -66,8 +71,11 @@ typedef struct
 //-----------------------------------------------------------------------------
 //Protótios das funções utilizadas
 
-//Geranciador de códigos (Produtos | Fornecedores)
-//Ainda falta o protótipo
+//Pesquisa binária para os códigos
+int binary_search(FILE *arq, int ini, int fim, int cod);
+
+//Gerador de códigos (Produtos | Fornecedores)
+int gerador_codigo(int tipo);
 
 //Logo do Projeto Não-Magalu
 void logo_nmagalu(void);
@@ -96,7 +104,7 @@ void gerenciar_produtos(void);
 //Inserir
 void inserir_fornecedor(void);
 
-void inserir_froduto(int codigo);
+void inserir_produto(int codigo);
 
 //Pesquisar
 void pesquisar_fornecedor(void);
@@ -153,6 +161,73 @@ void logo_nmagalu(){
     printf("                                                  /____/                 \n");
     printf("-----------------------------------------------------------------------------------\n");
 
+}
+
+//Pesquisa binária dos códigos
+int binary_search(FILE *arq, int ini, int fim, int cod, int tipo)
+{
+    buff_arquiv[CARAC_A];
+
+    if (tipo)
+    {
+        strcpy(buff_arquiv, A_PROD);
+        produtos aux_prod;
+
+        while (fim >= ini)
+        {
+            int mid = (ini + fim) / 2;
+
+            fseek(arq, mid, SEEK_SET);
+            fread(&aux_prod, sizeof(produtos), 1, arq);
+
+            if (aux_prod.cod_produto == cod)
+            {
+                fseek(arq, sizeof(produtos)*(-1), SEEK_CUR);
+                return ftell(arq);
+            }
+
+            else
+            {
+                if (aux_prod.cod_produto > cod)
+                {
+                    mid = ini + 1;
+                }
+
+                else
+                {
+                    mid = fim - 1;
+                }
+            }
+
+        }
+    }
+
+    else
+    {
+        strcpy(buff_arquiv, A_FORN);
+        fornecedor aux_forn;
+
+        while (fim >= ini)
+        {
+            int mid = (ini + fim) / 2;
+
+            fseek(arq, mid, SEEK_SET);
+            fread(&aux_forn, sizeof(fornecedor), 1, arq);
+
+            if (aux_forn.cod_fornecedor == cod)
+            {
+                fseek(arq, sizeof(fornecedor)*(-1), SEEK_CUR);
+                return ftell(arq);
+
+            }
+
+            else if (aux_forn.cod_fornecedor > cod) mid = ini + 1;
+
+            else mid = fim - 1;
+        }
+    }
+
+    return -1;
 }
 
 //Limpeza do "\n" das strings
@@ -268,12 +343,10 @@ void gerenciar_fornecedor(void)
         switch (res)
         {
             case 1:
-
                 break;
             case 2:
                 break;
             case 3:
-
                 break;
             case 4:
                 break;
@@ -328,25 +401,109 @@ void gerenciar_produtos(void)
     }
 }
 
-//Geranciador de códigos (Produtos | Fornecedores)
-//Ainda falta o protótipo
+//Gerador de códigos (Produtos | Fornecedores)
+int gerador_codigo(int tipo)
+{
+    int quant = 0;
+
+    char buff_nome_arquivo[CARAC_A];
+
+    if (tipo)
+    {
+         strcpy(buff_nome_arquivo, A_PROD);
+    }
+    else
+    {
+        strcpy(buff_nome_arquivo, A_FORN);
+    }
+
+    FILE *arquiv = fopen(buff_nome_arquivo, "rb");
+    if (!arquiv)
+    {
+        //caso ainda não tenha um arquivo contendo os dados
+        return 1;
+    }
+
+    if (tipo)
+    {
+        produtos aux_prod;
+
+        while (!feof(arquiv))
+        {
+            quant++;
+            fread(&aux_prod, sizeof(produtos), 1, arquiv);
+        }
+    }
+    else
+    {
+        fornecedor aux_forn;
+        while(!feof(arquiv))
+        {
+            quant++;
+            fread(&aux_forn, sizeof(fornecedor), 1, arquiv);
+        }
+    }
+
+    fclose(arquiv);
+
+    return quant
+}
 
 //Inserir
-void Inserir_Fornecedor(void);
+void inserir_fornecedor(void);
 
-void Inserir_Produto(int codigo);
+void inserir_produto(int codigo)
+{
+    produtos aux_prod;
+    int quant_prod;
+ 
+    FILE *arq = fopen(A_PROD, "ab");
+    if (!arq)
+    {
+        fprintf(stderr, "Arquivo de produtos não pode ser encontrado\n");
+        exit(1);
+    }   
+   
+    memset(&aux_prod, 0, sizeof(aux_prod));
+
+    aux_prod.cod_produto = codigo;
+    printf("Código do Produto: %d\n", aux_prod.cod_produto);
+
+    printf("Nome do produto: ");
+    fgets(aux_prod.nome_prod, NOM, stdin);
+    clear(aux_prod.nome_prod);
+
+    printf("Valor de compra produto: ");
+    scanf("%f", &aux_prod.preco_prod);
+
+    printf("Valor de venda do produto: ");
+    scanf("%f", &aux_prod.venda_prod);
+    getchar();
+
+    printf("Digite uma pequena descrição do produto: ");
+    fgets(aux_prod.descricao, DESC, stdin);
+    clear(aux_prod.descricao);
+
+    aux_prod.valor_logico = FALSE;
+
+    fwrite(&aux_prod, sizeof(aux_prod), 1, arq);
+    
+    printf("\n");
+
+    fclose(arq);
+}
 
 //Pesquisar
-void Pesquisar_Fornecedor(void);
+void pesquisar_fornecedor(void);
 
-void Pesquisar_Produto(void);
+void pesquisar_produto(void);
 
 //Atualizar
-void Atualizar_Fornecedor(void);
+void atualizar_fornecedor(void);
 
-void Atualizar_Produto(void);
+void atualizar_produto(void);
 
 //Remover
-void Remover_Fornecedor(void);
+void remover_fornecedor(void);
 
-void Remover_Produto(void);
+void remover_produto(void);
