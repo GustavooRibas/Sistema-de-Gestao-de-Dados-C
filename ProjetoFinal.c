@@ -484,7 +484,7 @@ void inserir_produto(int codigo)
     fgets(aux_prod.descricao, DESC, stdin);
     clear(aux_prod.descricao);
 
-    aux_prod.valor_logico = FALSE;
+    aux_prod.valor_logico = NEXC;
 
     fwrite(&aux_prod, sizeof(aux_prod), 1, arq);
     
