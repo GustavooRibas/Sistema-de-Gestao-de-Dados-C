@@ -520,7 +520,6 @@ void pesquisar_produto(void)
         fprintf(stderr, "Arquivo de produtos não pode ser encontrado\n");
         exit(1);
     }
-    printf("%d\n\n", aux);
     posicao = binary_search(arq, 0, aux, codigo, PROD);
 
     if (posicao == -1)
