@@ -495,18 +495,18 @@ void inserir_fornecedor(void){
     }
 
     printf("CNPJ do fornecedor: ");
-    fgets(aux_forn.CNPJ, NOM, stdin);
+    fgets(aux_forn.CNPJ, NUM_CNPJ, stdin);
     clear(aux_forn.CNPJ);
     printf("\n");
 
     printf("Endereço do fornecedor\n");
 
     printf("Rua: ");
-    fgets(aux_forn.rua, NOM, stdin);
+    fgets(aux_forn.rua, END, stdin);
     clear(aux_forn.rua);
 
     printf("Bairro: ");
-    fgets(aux_forn.bairro, NOM, stdin);
+    fgets(aux_forn.bairro, END, stdin);
     clear(aux_forn.bairro);
 
     printf("CEP: ");
@@ -514,11 +514,11 @@ void inserir_fornecedor(void){
     getchar();
 
     printf("Cidade: ");
-    fgets(aux_forn.cidade, NOM, stdin);
+    fgets(aux_forn.cidade, END, stdin);
     clear(aux_forn.cidade);
 
     printf("UF: ");
-    fgets(aux_forn.UF, NOM, stdin);
+    fgets(aux_forn.UF, UF, stdin);
     clear(aux_forn.UF);
 
     aux_forn.valor_logico = NEXC;
