@@ -29,6 +29,7 @@ Os dados que serão cadastrados no sistema são:
 - Nome do produto;
 - Código do produto;
 - Valor de venda;
+- Valor de compra
 - Pequena descrição do produto que está sendo vendido;
 - Quantidade de itens em estoque.
 
@@ -61,15 +62,15 @@ Tendo em vista que esta é uma descrição inicial do projeto, algumas coisas po
 - [X] Confirmação da exclusão | alteração;
 - [X] Gerenciador de códigos;
 - [X] Inserção de Produtos;
-- [ ] Inserção de Fornecedores;
-- [ ] Pesquisar cadastro do Produto;
-- [ ] Pesquisar cadastro do Fornecedor;
+- [X] Inserção de Fornecedores;
+- [X] Pesquisar cadastro do Produto;
+- [X] Pesquisar cadastro do Fornecedor;
 - [ ] Remoção do Produtos;
 - [ ] Remoção do Fornecedores;
 - [ ] Atualização do cadastro do Produto;
 - [ ] Atualização do cadastro do Fornecedor;
 - [X] Relatório Geral de Produtos;
-- [ ] Relatório Geral de Fornecedores;
+- [X] Relatório Geral de Fornecedores;
 
 
 ### Quem são os desenvolvedores
