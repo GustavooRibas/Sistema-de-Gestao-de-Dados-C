@@ -67,8 +67,8 @@ Tendo em vista que esta é uma descrição inicial do projeto, algumas coisas po
 - [X] Pesquisar cadastro do Fornecedor;
 - [X] Remoção do Produtos;
 - [X] Remoção do Fornecedores;
-- [ ] Atualização do cadastro do Produto;
-- [ ] Atualização do cadastro do Fornecedor;
+- [X] Atualização do cadastro do Produto;
+- [X] Atualização do cadastro do Fornecedor;
 - [X] Relatório Geral de Produtos;
 - [X] Relatório Geral de Fornecedores;
 
