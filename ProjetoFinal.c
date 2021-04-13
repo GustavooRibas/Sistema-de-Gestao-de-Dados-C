@@ -7,7 +7,7 @@
 
   Nome: Gustavo Rodrigues Ribeiro
   Matrícula: 202003570;
-  E-mail:  ribeirogustavo@discente.ufg.br;
+  E-mail: ribeirogustavo@discente.ufg.br;
 
  --------------------------------------------
    DATA DE FINALIZAÇÃO:
@@ -17,6 +17,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
+#include <locale.h>
 
 //Constantes Gerais
 enum {NOM = 41, DESC = 101, EXC =  1, NEXC = 0, QUANT_PROD = 10, END = 41, UF = 3, CARAC_A = 13, NUM_CNPJ = 15};
@@ -44,7 +45,7 @@ int SO;
 //Estruturas
 typedef struct
 {
-    int cod_produto;
+    unsigned long cod_produto;
     char nome_prod[NOM];
     float preco_prod;
     float venda_prod;
@@ -55,16 +56,26 @@ typedef struct
 
 typedef struct
 {
-	int cod_fornecedor;
+    int dia;
+    int mes;
+    int ano;
+}data;
+
+typedef struct
+{
+	unsigned long cod_fornecedor;
 	char nome_forn[NOM];
 	int quant_produtos;
-	int cod_produtos[QUANT_PROD];
+	unsigned long cod_produtos[QUANT_PROD];
 	char CNPJ[NUM_CNPJ];
 	char rua[END];
     char bairro[END];
     int CEP;
     char cidade[END];
     char UF[UF];
+    int telefone;
+    data inicio_rel;
+    data final_rel;
 	int valor_logico;
 
 }fornecedor;
@@ -73,10 +84,10 @@ typedef struct
 //Protótios das funções utilizadas
 
 //Pesquisa binária para os códigos
-int binary_search(FILE *arq, int ini, int fim, int cod, int tipo);
+int binary_search(FILE *arq, int ini, int fim, unsigned long cod, int tipo);
 
 //Gerador de códigos (Produtos | Fornecedores)
-int gerador_codigo(int tipo);
+unsigned long gerador_codigo(int tipo);
 
 //Logo do Projeto Não-Magalu
 void logo_nmagalu(void);
@@ -110,7 +121,7 @@ void inserir_produto(int codigo);
 //Pesquisar
 void pesquisar_fornecedor(void);
 
-void pesquisar_produto_forn(int codigo);
+void pesquisar_produto_forn(unsigned long codigo);
 
 void pesquisar_produto(void);
 
@@ -134,6 +145,7 @@ void relatorio_geral_forn(void);
 
 int main(void)
 {
+  setlocale(LC_ALL, "portuguese-brazilian");
   int resp;
 
     SO = sistema();
@@ -173,7 +185,7 @@ void logo_nmagalu(){
 }
 
 //Pesquisa binária dos códigos
-int binary_search(FILE *arq, int ini, int fim, int cod, int tipo)
+int binary_search(FILE *arq, int ini, int fim, unsigned long cod, int tipo)
 {
     char buff_arquiv[CARAC_A];
 
@@ -262,7 +274,7 @@ int confirmar(void)
     while (resp != 's' && resp != 'S' && resp != 'n' && resp != 'N')
     {
         printf("-----------------------------------------------------------------\n\n");
-        printf("Tem certeza? - Os dados não poderão ser recuperados [S-s/N-n]: ");
+        printf("Tem certeza? - Os dados nao poderao ser recuperados [S-s/N-n]: ");
         scanf("%c", &resp);
         getchar();
         printf("\n");
@@ -309,7 +321,7 @@ int menu_principal(void)
     while (res < 1 || res > 3)
     {
         logo_nmagalu();
-        printf(" Esolha uma das seguintes opçõess:\n\n");
+        printf(" Escolha uma das seguintes opcoes:\n\n");
         printf(" 1 - Gerenciar Fornecedores\n");
         printf(" 2 - Gerenciar Produtos\n");
         printf(" 3 - Sair\n");
@@ -338,12 +350,12 @@ void gerenciar_fornecedor(void)
             printf("--------------------------------------\n\n");
             printf("     GERENCIADOR DE FORNECEDORES     \n\n");
             printf("--------------------------------------\n");
-            printf(" Esolha uma das seguintes opções:\n\n");
+            printf(" Escolha uma das seguintes opcoes:\n\n");
             printf(" 1 - INSERIR fornecedor \n");
             printf(" 2 - PESQUISAR fornecedor \n");
             printf(" 3 - ATUALIZAR fornecedor \n");
             printf(" 4 - REMOVER fornecedor \n");
-            printf(" 5 - APRESENTAR RELATÓRIO GERAL \n");
+            printf(" 5 - APRESENTAR RELATORIO GERAL \n");
             printf(" 6 - Sair\n");
             printf("--------------------------------------\n");
             printf("OPCAO: ");
@@ -390,11 +402,11 @@ void gerenciar_produtos(void)
             printf("--------------------------------------\n\n");
             printf("        GERENCIADOR DE PRODUTOS       \n\n");
             printf("--------------------------------------\n");
-            printf(" Esolha uma das seguintes opções:\n\n");
+            printf(" Escolha uma das seguintes opcoes:\n\n");
             printf(" 1 - PESQUISAR produto \n");
             printf(" 2 - ATUALIZAR produto \n");
             printf(" 3 - REMOVER produto \n");
-            printf(" 4 - APRESENTAR RELATÓRIO GERAL \n");
+            printf(" 4 - APRESENTAR RELATORIO GERAL \n");
             printf(" 5 - Sair\n");
             printf("--------------------------------------\n");
             printf("OPCAO: ");
@@ -427,9 +439,9 @@ void gerenciar_produtos(void)
 }
 
 //Gerador de códigos (Produtos | Fornecedores)
-int gerador_codigo(int tipo)
+unsigned long gerador_codigo(int tipo)
 {
-    int quant = 0;
+    unsigned long quant = 0;
 
     char buff_nome_arquivo[CARAC_A];
 
@@ -484,7 +496,7 @@ void inserir_fornecedor(void){
     memset(&aux_forn, 0, sizeof(fornecedor));
 
     aux_forn.cod_fornecedor = gerador_codigo(FORN);
-    printf("# Código do Fornecedor: %d\n", aux_forn.cod_fornecedor);
+    printf("# Codigo do Fornecedor: %lu\n", aux_forn.cod_fornecedor);
     printf("\n");
 
     printf("- Nome do fornecedor: ");
@@ -494,6 +506,10 @@ void inserir_fornecedor(void){
     printf("- CNPJ do fornecedor: ");
     fgets(aux_forn.CNPJ, NUM_CNPJ, stdin);
     clear(aux_forn.CNPJ);
+
+
+    printf("- Telefone do fornecedor: ");
+    scanf("%d", &aux_forn.telefone);
     printf("\n");
 
     printf("- Quantidade de produtos fornecidos: ");
@@ -508,9 +524,20 @@ void inserir_fornecedor(void){
         inserir_produto(aux_forn.cod_produtos[x]);
     }
 
+    printf("- Data do inicio das relacoes com o fornecedor:\n");
 
+    printf("Dia: ");
+    scanf("%d", &aux_forn.inicio_rel.dia);
 
-    printf("- Endereço do fornecedor\n");
+    printf("Mes: ");
+    scanf("%d", &aux_forn.inicio_rel.mes);
+
+    printf("Ano: ");
+    scanf("%d", &aux_forn.inicio_rel.ano);
+    getchar();
+    printf("\n");
+
+    printf("- Endereco do fornecedor\n");
 
     printf("Rua: ");
     fgets(aux_forn.rua, END, stdin);
@@ -532,12 +559,13 @@ void inserir_fornecedor(void){
     fgets(aux_forn.UF, UF, stdin);
     clear(aux_forn.UF);
 
+
     aux_forn.valor_logico = NEXC;
 
     FILE *arq = fopen(A_FORN, "ab");
     if (!arq)
     {
-        fprintf(stderr, "Arquivo de fornecedores não pode ser encontrado\n");
+        fprintf(stderr, "Arquivo de fornecedores nao pode ser encontrado\n");
         exit(1);
     }
 
@@ -559,7 +587,7 @@ void inserir_produto(int codigo)
     FILE *arq = fopen(A_PROD, "ab");
     if (!arq)
     {
-        fprintf(stderr, "Arquivo de produtos não pode ser encontrado\n");
+        fprintf(stderr, "Arquivo de produtos nao pode ser encontrado\n");
         printf("\n\n (Aperte a tecla Enter para sair)\n\n");
         printf("------------------------------------------------------\n\n");
         getchar();
@@ -569,7 +597,7 @@ void inserir_produto(int codigo)
     memset(&aux_prod, 0, sizeof(produtos));
 
     aux_prod.cod_produto = codigo;
-    printf("Código do Produto: %d\n", aux_prod.cod_produto);
+    printf("Codigo do Produto: %lu\n", aux_prod.cod_produto);
 
     printf("Nome do produto: ");
     fgets(aux_prod.nome_prod, NOM, stdin);
@@ -582,7 +610,7 @@ void inserir_produto(int codigo)
     scanf("%f", &aux_prod.venda_prod);
     getchar();
 
-    printf("Digite uma pequena descrição do produto: ");
+    printf("Digite uma pequena descricao do produto: ");
     fgets(aux_prod.descricao, DESC, stdin);
     clear(aux_prod.descricao);
 
@@ -599,13 +627,14 @@ void inserir_produto(int codigo)
 void pesquisar_fornecedor(void)
 {
     fornecedor aux_forn;
-    int aux = gerador_codigo(FORN) - 1;
-    int codigo = 0, posicao;
+    unsigned long aux = gerador_codigo(FORN) - 1;
+    unsigned long codigo = 0;
+    int posicao;
     int x = 0;
 
     printf("------------------------------------------------------\n\n");
-    printf("Digite o código a ser pesquisado: ");
-    scanf("%d", &codigo);
+    printf("Digite o codigo a ser pesquisado: ");
+    scanf("%lu", &codigo);
     getchar();
     printf("\n");
 
@@ -616,7 +645,7 @@ void pesquisar_fornecedor(void)
     {
 
         printf("------------------------------------------------------\n\n");
-        fprintf(stderr, "Arquivo de fornecedores não pode ser encontrado\n");
+        fprintf(stderr, "Arquivo de fornecedores nao pode ser encontrado\n");
         printf("\n\n (Aperte a tecla Enter para sair)\n\n");
         printf("------------------------------------------------------\n\n");
         getchar();
@@ -628,7 +657,7 @@ void pesquisar_fornecedor(void)
     {
 
         printf("------------------------------------------------------\n\n");
-        printf("Código inexistente\n");
+        printf("Codigo inexistente\n");
         printf("\n\n (Aperte a tecla Enter para sair)\n\n");
         printf("------------------------------------------------------\n\n");
         fclose(arq);
@@ -642,7 +671,7 @@ void pesquisar_fornecedor(void)
     if (aux_forn.valor_logico == EXC)
     {
         printf("------------------------------------------------------\n\n");
-        printf("Código inexistente\n");
+        printf("Codigo inexistente\n");
         printf("\n\n (Aperte a tecla Enter para sair)\n\n");
         printf("------------------------------------------------------\n\n");
         getchar();
@@ -651,13 +680,14 @@ void pesquisar_fornecedor(void)
     {
         printf("------------------------------------------------------\n\n");
 
-        printf("# Código do Fornecedor: %d\n", aux_forn.cod_fornecedor);
+        printf("# Codigo do Fornecedor: %lu\n", aux_forn.cod_fornecedor);
         printf("\n");
 
         printf("- Nome do fornecedor: %s\n", aux_forn.nome_forn);
 
         printf("- CNPJ do fornecedor: %s\n", aux_forn.CNPJ);
-        printf("\n");
+
+        printf("- Telefone do fornecedor: %d\n\n", aux_forn.telefone);
 
         printf("- Quantidade de produtos fornecidos: %d\n", aux_forn.quant_produtos);
         printf("\n");
@@ -668,9 +698,10 @@ void pesquisar_fornecedor(void)
             pesquisar_produto_forn(aux_forn.cod_produtos[x]);
         }
 
+        printf("- Data do inicio das relacoes com o fornecedor: %d/%d/%d\n", aux_forn.inicio_rel.dia, aux_forn.inicio_rel.mes, aux_forn.inicio_rel.ano);
+        printf("\n");
 
-
-        printf("- Endereço do fornecedor:\n");
+        printf("- Endereco do fornecedor:\n");
 
         printf(" Rua: %s\n", aux_forn.rua);
         printf(" Bairro: %s\n", aux_forn.bairro);
@@ -686,16 +717,16 @@ void pesquisar_fornecedor(void)
     fclose(arq);
 }
 
-void pesquisar_produto_forn(int codigo)
+void pesquisar_produto_forn(unsigned long codigo)
 {
     produtos aux_prod;
-    int aux = gerador_codigo(PROD) - 1;
+    unsigned long aux = gerador_codigo(PROD) - 1;
     int posicao;
 
     FILE *arq = fopen(A_PROD, "r+b");
     if (!arq)
     {
-        fprintf(stderr, " Arquivo de produtos não pode ser encontrado\n");
+        fprintf(stderr, " Arquivo de produtos nao pode ser encontrado\n");
         printf("\n");
         return;
     }
@@ -704,8 +735,8 @@ void pesquisar_produto_forn(int codigo)
     if (posicao == -1)
     {
         printf("------------\n");
-        printf(" Código do Produto: %d\n", codigo);
-        printf(" Código inexistente\n");
+        printf(" Codigo do Produto: %lu\n", codigo);
+        printf(" Codigo inexistente\n");
         fclose(arq);
         printf("\n");
     }
@@ -716,8 +747,8 @@ void pesquisar_produto_forn(int codigo)
     if (aux_prod.valor_logico == EXC)
     {
         printf("------------\n");
-        printf(" Código do Produto: %d\n", codigo);
-        printf(" Código inexistente\n");
+        printf(" Codigo do Produto: %lu\n", codigo);
+        printf(" Codigo inexistente\n");
         printf("\n");
     }
     else
@@ -725,7 +756,7 @@ void pesquisar_produto_forn(int codigo)
 
         printf("------------\n");
 
-        printf(" Código do Produto: %d\n", aux_prod.cod_produto);
+        printf(" Codigo do Produto: %lu\n", aux_prod.cod_produto);
 
         printf(" Nome do produto: %s\n", aux_prod.nome_prod);
 
@@ -733,7 +764,7 @@ void pesquisar_produto_forn(int codigo)
 
         printf(" Valor de venda do produto: %.2f\n", aux_prod.venda_prod);
 
-        printf(" Descrição do produto: %s\n", aux_prod.descricao);
+        printf(" Descricao do produto: %s\n", aux_prod.descricao);
         printf("\n");
 
     }
@@ -744,12 +775,13 @@ void pesquisar_produto_forn(int codigo)
 void pesquisar_produto(void)
 {
     produtos aux_prod;
-    int aux = gerador_codigo(PROD) - 1;
-    int codigo = 0, posicao;
+    unsigned long aux = gerador_codigo(PROD) - 1;
+    unsigned long codigo = 0;
+    int posicao;
 
     printf("------------------------------------------------------\n\n");
-    printf("Digite o código a ser pesquisado: ");
-    scanf("%d", &codigo);
+    printf("Digite o codigo a ser pesquisado: ");
+    scanf("%lu", &codigo);
     getchar();
 
     limp_tela();
@@ -759,7 +791,7 @@ void pesquisar_produto(void)
     {
 
         printf("------------------------------------------------------\n\n");
-        fprintf(stderr, "Arquivo de produtos não pode ser encontrado\n");
+        fprintf(stderr, "Arquivo de produtos nao pode ser encontrado\n");
         printf("\n\n (Aperte a tecla Enter para sair)\n\n");
         printf("------------------------------------------------------\n\n");
         getchar();
@@ -770,7 +802,7 @@ void pesquisar_produto(void)
     if (posicao == -1)
     {
         printf("------------------------------------------------------\n\n");
-        printf("Código inexistente\n");
+        printf("Codigo inexistente\n");
         printf("\n\n (Aperte a tecla Enter para sair)\n\n");
         printf("------------------------------------------------------\n\n");
         fclose(arq);
@@ -784,7 +816,7 @@ void pesquisar_produto(void)
     if (aux_prod.valor_logico == EXC)
     {
         printf("------------------------------------------------------\n\n");
-        printf("Código inexistente\n");
+        printf("Codigo inexistente\n");
         printf("\n\n (Aperte a tecla Enter para sair)\n\n");
         printf("------------------------------------------------------\n\n");
         getchar();
@@ -794,7 +826,7 @@ void pesquisar_produto(void)
 
         printf("------------------------------------------------------\n\n");
 
-        printf("Código do Produto: %d\n", aux_prod.cod_produto);
+        printf("Codigo do Produto: %lu\n", aux_prod.cod_produto);
 
         printf("Nome do produto: %s\n", aux_prod.nome_prod);
 
@@ -802,7 +834,7 @@ void pesquisar_produto(void)
 
         printf("Valor de venda do produto: %.2f\n", aux_prod.venda_prod);
 
-        printf("Descrição do produto: %s\n", aux_prod.descricao);
+        printf("Descricao do produto: %s\n", aux_prod.descricao);
 
         printf("\n\n (Aperte a tecla Enter para sair)\n\n");
         printf("------------------------------------------------------\n\n");
@@ -817,14 +849,14 @@ void pesquisar_produto(void)
 void atualizar_fornecedor(void)
 {
     fornecedor aux_forn;
-    int codigo, resp, posicao, x;
-    int aux = gerador_codigo(FORN) - 1;
+    unsigned long codigo, aux = gerador_codigo(FORN) - 1;
+    int resp, posicao, x;
 
     memset(&aux_forn, 0, sizeof(fornecedor));
 
     printf("------------------------------------------------------\n\n");
-    printf("Digite o código do fornecedor a ser atualizado: ");
-    scanf("%d", &codigo);
+    printf("Digite o codigo do fornecedor a ser atualizado: ");
+    scanf("%lu", &codigo);
     getchar();
 
     limp_tela();
@@ -834,7 +866,7 @@ void atualizar_fornecedor(void)
     {
 
         printf("------------------------------------------------------\n\n");
-        fprintf(stderr, "Arquivo de fornecedores não pode ser encontrado\n");
+        fprintf(stderr, "Arquivo de fornecedores nao pode ser encontrado\n");
         printf("\n\n (Aperte a tecla Enter para sair)\n\n");
         printf("------------------------------------------------------\n\n");
         getchar();
@@ -846,7 +878,7 @@ void atualizar_fornecedor(void)
     {
 
         printf("------------------------------------------------------\n\n");
-        printf("Código inexistente\n");
+        printf("Codigo inexistente\n");
         printf("\n\n (Aperte a tecla Enter para sair)\n\n");
         printf("------------------------------------------------------\n\n");
         fclose(arq);
@@ -860,7 +892,7 @@ void atualizar_fornecedor(void)
     if (aux_forn.valor_logico == EXC)
     {
         printf("------------------------------------------------------\n\n");
-        printf("Código inexistente\n");
+        printf("Codigo inexistente\n");
         printf("\n\n (Aperte a tecla Enter para sair)\n\n");
         printf("------------------------------------------------------\n\n");
         fclose(arq);
@@ -872,13 +904,14 @@ void atualizar_fornecedor(void)
         printf("------------------------------------------------------\n\n");
 
 
-        printf("# Código do Fornecedor: %d\n", aux_forn.cod_fornecedor);
+        printf("# Codigo do Fornecedor: %lu\n", aux_forn.cod_fornecedor);
         printf("\n");
 
         printf("- Nome do fornecedor: %s\n", aux_forn.nome_forn);
 
         printf("- CNPJ do fornecedor: %s\n", aux_forn.CNPJ);
-        printf("\n");
+
+        printf("- Telefone do fornecedor: %d\n\n", aux_forn.telefone);
 
         printf("- Quantidade de produtos fornecidos: %d\n", aux_forn.quant_produtos);
         printf("\n");
@@ -889,14 +922,15 @@ void atualizar_fornecedor(void)
             pesquisar_produto_forn(aux_forn.cod_produtos[x]);
         }
 
-        printf("- Endereço do fornecedor:\n");
+        printf("- Data do inicio das relacoes com o fornecedor: %d/%d/%d\n\n", aux_forn.inicio_rel.dia, aux_forn.inicio_rel.mes, aux_forn.inicio_rel.ano);
+
+        printf("- Endereco do fornecedor:\n");
 
         printf(" Rua: %s\n", aux_forn.rua);
         printf(" Bairro: %s\n", aux_forn.bairro);
         printf(" CEP: %d\n", aux_forn.CEP);
         printf(" Cidade: %s\n", aux_forn.cidade);
         printf(" UF: %s\n", aux_forn.UF);
-
     }
 
 
@@ -909,7 +943,7 @@ void atualizar_fornecedor(void)
     }
     else
     {
-        printf("# Código do Fornecedor: %d\n", aux_forn.cod_fornecedor);
+        printf("# Codigo do Fornecedor: %lu\n", aux_forn.cod_fornecedor);
         printf("\n");
 
         printf("- Nome do fornecedor: ");
@@ -919,6 +953,9 @@ void atualizar_fornecedor(void)
         printf("- CNPJ do fornecedor: ");
         fgets(aux_forn.CNPJ, NUM_CNPJ, stdin);
         clear(aux_forn.CNPJ);
+
+        printf("- Telefone do fornecedor: ");
+        scanf("%d", &aux_forn.telefone);
         printf("\n");
 
         printf("- Quantidade de produtos fornecidos: ");
@@ -933,7 +970,20 @@ void atualizar_fornecedor(void)
             inserir_produto(aux_forn.cod_produtos[x]);
         }
 
-        printf("- Endereço do fornecedor\n");
+        printf("- Data do inicio das relacoes com o fornecedor:\n");
+
+        printf("Dia: ");
+        scanf("%d", &aux_forn.inicio_rel.dia);
+
+        printf("Mes: ");
+        scanf("%d", &aux_forn.inicio_rel.mes);
+
+        printf("Ano: ");
+        scanf("%d", &aux_forn.inicio_rel.ano);
+        getchar();
+        printf("\n");
+
+        printf("- Endereco do fornecedor\n");
 
         printf("Rua: ");
         fgets(aux_forn.rua, END, stdin);
@@ -960,7 +1010,10 @@ void atualizar_fornecedor(void)
         fseek(arq, posicao, SEEK_SET);
 
         fwrite(&aux_forn, sizeof(fornecedor), 1, arq);
+    
+        limp_tela();
 
+        printf("------------------------------------------------------\n\n");
         printf("\n * Atualizacao de fornecedor realizada !! *\n");
 
         printf("\n\n (Aperte a tecla Enter para sair)\n\n");
@@ -974,14 +1027,14 @@ void atualizar_fornecedor(void)
 void atualizar_produto(void)
 {
     produtos aux_prod;
-    int codigo, resp, posicao, x;
-    int aux = gerador_codigo(PROD) - 1;
+    unsigned long codigo, aux = gerador_codigo(PROD) - 1;
+    int resp, posicao, x;
 
     memset(&aux_prod, 0, sizeof(produtos));
 
     printf("------------------------------------------------------\n\n");
-    printf("Digite o código do produto a ser atualizado: ");
-    scanf("%d", &codigo);
+    printf("Digite o codigo do produto a ser atualizado: ");
+    scanf("%lu", &codigo);
     getchar();
 
     limp_tela();
@@ -991,7 +1044,7 @@ void atualizar_produto(void)
     {
 
         printf("------------------------------------------------------\n\n");
-        fprintf(stderr, "Arquivo de produtos não pode ser encontrado\n");
+        fprintf(stderr, "Arquivo de produtos nao pode ser encontrado\n");
         printf("\n\n (Aperte a tecla Enter para sair)\n\n");
         printf("------------------------------------------------------\n\n");
         getchar();
@@ -1002,7 +1055,7 @@ void atualizar_produto(void)
     if (posicao == -1)
     {
         printf("------------------------------------------------------\n\n");
-        printf("Código inexistente\n");
+        printf("Codigo inexistente\n");
         printf("\n\n (Aperte a tecla Enter para sair)\n\n");
         printf("------------------------------------------------------\n\n");
         fclose(arq);
@@ -1016,7 +1069,7 @@ void atualizar_produto(void)
     if (aux_prod.valor_logico == EXC)
     {
         printf("------------------------------------------------------\n\n");
-        printf("Código inexistente\n");
+        printf("Codigo inexistente\n");
         printf("\n\n (Aperte a tecla Enter para sair)\n\n");
         printf("------------------------------------------------------\n\n");
         fclose(arq);
@@ -1028,7 +1081,7 @@ void atualizar_produto(void)
 
         printf("------------------------------------------------------\n\n");
 
-        printf("Código do Produto: %d\n", aux_prod.cod_produto);
+        printf("Codigo do Produto: %lu\n", aux_prod.cod_produto);
 
         printf("Nome do produto: %s\n", aux_prod.nome_prod);
 
@@ -1036,7 +1089,7 @@ void atualizar_produto(void)
 
         printf("Valor de venda do produto: %.2f\n", aux_prod.venda_prod);
 
-        printf("Descrição do produto: %s\n", aux_prod.descricao);
+        printf("Descricao do produto: %s\n", aux_prod.descricao);
 
     }
 
@@ -1049,9 +1102,11 @@ void atualizar_produto(void)
     }
     else
     {
+
+        printf("------------------------------------------------------\n\n");
         printf("* Insira as seguintes informacoes *\n\n");
 
-        printf("Código do Produto: %d\n", aux_prod.cod_produto);
+        printf("Codigo do Produto: %lu\n", aux_prod.cod_produto);
 
         printf("Nome do produto: ");
         fgets(aux_prod.nome_prod, NOM, stdin);
@@ -1064,7 +1119,7 @@ void atualizar_produto(void)
         scanf("%f", &aux_prod.venda_prod);
         getchar();
 
-        printf("Digite uma pequena descrição do produto: ");
+        printf("Digite uma pequena descricao do produto: ");
         fgets(aux_prod.descricao, DESC, stdin);
         clear(aux_prod.descricao);
 
@@ -1073,6 +1128,10 @@ void atualizar_produto(void)
         fseek(arq, posicao, SEEK_SET);
 
         fwrite(&aux_prod, sizeof(produtos), 1, arq);
+
+        limp_tela();
+
+        printf("------------------------------------------------------\n\n");
 
         printf("\n * Atualizacao de produto realizada !! *\n");
 
@@ -1088,12 +1147,12 @@ void atualizar_produto(void)
 void remover_fornecedor(void)
 {
     fornecedor aux_forn;
-    int codigo, resp, posicao, x;
-    int aux = gerador_codigo(FORN) - 1;
+    unsigned long codigo, aux = gerador_codigo(FORN) - 1;
+    int resp, posicao, x;
 
     printf("------------------------------------------------------\n\n");
-    printf("Digite o código do fornecedor a ser excluido: ");
-    scanf("%d", &codigo);
+    printf("Digite o codigo do fornecedor a ser excluido: ");
+    scanf("%lu", &codigo);
     getchar();
 
     limp_tela();
@@ -1103,7 +1162,7 @@ void remover_fornecedor(void)
     {
 
         printf("------------------------------------------------------\n\n");
-        fprintf(stderr, "Arquivo de fornecedores não pode ser encontrado\n");
+        fprintf(stderr, "Arquivo de fornecedores nao pode ser encontrado\n");
         printf("\n\n (Aperte a tecla Enter para sair)\n\n");
         printf("------------------------------------------------------\n\n");
         getchar();
@@ -1115,7 +1174,7 @@ void remover_fornecedor(void)
     {
 
         printf("------------------------------------------------------\n\n");
-        printf("Código inexistente\n");
+        printf("Codigo inexistente\n");
         printf("\n\n (Aperte a tecla Enter para sair)\n\n");
         printf("------------------------------------------------------\n\n");
         fclose(arq);
@@ -1129,7 +1188,7 @@ void remover_fornecedor(void)
     if (aux_forn.valor_logico == EXC)
     {
         printf("------------------------------------------------------\n\n");
-        printf("Código inexistente\n");
+        printf("Codigo inexistente\n");
         printf("\n\n (Aperte a tecla Enter para sair)\n\n");
         printf("------------------------------------------------------\n\n");
         fclose(arq);
@@ -1141,13 +1200,14 @@ void remover_fornecedor(void)
         printf("------------------------------------------------------\n\n");
 
 
-        printf("# Código do Fornecedor: %d\n", aux_forn.cod_fornecedor);
+        printf("# Codigo do Fornecedor: %lu\n", aux_forn.cod_fornecedor);
         printf("\n");
 
         printf("- Nome do fornecedor: %s\n", aux_forn.nome_forn);
 
         printf("- CNPJ do fornecedor: %s\n", aux_forn.CNPJ);
-        printf("\n");
+
+        printf("- Telefone do fornecedor: %d\n\n", aux_forn.telefone);
 
         printf("- Quantidade de produtos fornecidos: %d\n", aux_forn.quant_produtos);
         printf("\n");
@@ -1158,9 +1218,9 @@ void remover_fornecedor(void)
             pesquisar_produto_forn(aux_forn.cod_produtos[x]);
         }
 
+        printf("- Data do inicio das relacoes com o fornecedor: %d/%d/%d\n\n", aux_forn.inicio_rel.dia, aux_forn.inicio_rel.mes, aux_forn.inicio_rel.ano);
 
-
-        printf("- Endereço do fornecedor:\n");
+        printf("- Endereco do fornecedor:\n");
 
         printf(" Rua: %s\n", aux_forn.rua);
         printf(" Bairro: %s\n", aux_forn.bairro);
@@ -1180,11 +1240,29 @@ void remover_fornecedor(void)
     }
     else
     {
+        printf("------------------------------------------------------\n\n");
+        
         fseek(arq, posicao, SEEK_SET);
+
+        printf("- Data do fim das relacoes com o fornecedor:\n");
+
+        printf("Dia: ");
+        scanf("%d", &aux_forn.final_rel.dia);
+
+        printf("Mes: ");
+        scanf("%d", &aux_forn.final_rel.mes);
+
+        printf("Ano: ");
+        scanf("%d", &aux_forn.final_rel.ano);
+        getchar();
+        printf("\n");
 
         aux_forn.valor_logico = EXC;
 
         fwrite(&aux_forn, sizeof(fornecedor), 1, arq);
+
+        limp_tela();
+
         printf("------------------------------------------------------\n\n");
 
         printf("\n * Fornecedor Removido !! *\n");
@@ -1200,12 +1278,12 @@ void remover_fornecedor(void)
 void remover_produto(void)
 {
     produtos aux_prod;
-    int codigo, resp, posicao, x;
-    int aux = gerador_codigo(PROD) - 1;
+    unsigned long codigo, aux = gerador_codigo(PROD) - 1;
+    int resp, posicao, x;
 
     printf("------------------------------------------------------\n\n");
-    printf("Digite o código do produto a ser excluido: ");
-    scanf("%d", &codigo);
+    printf("Digite o codigo do produto a ser excluido: ");
+    scanf("%lu", &codigo);
     getchar();
 
     limp_tela();
@@ -1215,7 +1293,7 @@ void remover_produto(void)
     {
 
         printf("------------------------------------------------------\n\n");
-        fprintf(stderr, "Arquivo de produtos não pode ser encontrado\n");
+        fprintf(stderr, "Arquivo de produtos nao pode ser encontrado\n");
         printf("\n\n (Aperte a tecla Enter para sair)\n\n");
         printf("------------------------------------------------------\n\n");
         getchar();
@@ -1226,7 +1304,7 @@ void remover_produto(void)
     if (posicao == -1)
     {
         printf("------------------------------------------------------\n\n");
-        printf("Código inexistente\n");
+        printf("Codigo inexistente\n");
         printf("\n\n (Aperte a tecla Enter para sair)\n\n");
         printf("------------------------------------------------------\n\n");
         fclose(arq);
@@ -1240,7 +1318,7 @@ void remover_produto(void)
     if (aux_prod.valor_logico == EXC)
     {
         printf("------------------------------------------------------\n\n");
-        printf("Código inexistente\n");
+        printf("Codigo inexistente\n");
         printf("\n\n (Aperte a tecla Enter para sair)\n\n");
         printf("------------------------------------------------------\n\n");
         fclose(arq);
@@ -1252,7 +1330,7 @@ void remover_produto(void)
 
         printf("------------------------------------------------------\n\n");
 
-        printf("Código do Produto: %d\n", aux_prod.cod_produto);
+        printf("Codigo do Produto: %lu\n", aux_prod.cod_produto);
 
         printf("Nome do produto: %s\n", aux_prod.nome_prod);
 
@@ -1260,7 +1338,7 @@ void remover_produto(void)
 
         printf("Valor de venda do produto: %.2f\n", aux_prod.venda_prod);
 
-        printf("Descrição do produto: %s\n", aux_prod.descricao);
+        printf("Descricao do produto: %s\n", aux_prod.descricao);
 
     }
 
@@ -1299,7 +1377,7 @@ void relatorio_geral_forn(void)
     FILE *arq = fopen(A_FORN, "rb");
     if (!arq)
     {
-        fprintf(stderr, "Arquivo de fornecedores não pode ser encontrado\n");
+        fprintf(stderr, "Arquivo de fornecedores nao pode ser encontrado\n");
         printf("\n\n (Aperte a tecla Enter para sair)\n\n");
         printf("------------------------------------------------------\n\n");
         getchar();
@@ -1316,13 +1394,14 @@ void relatorio_geral_forn(void)
     {
         printf("------------------------------------------------------\n\n");
 
-        printf("# Código do Fornecedor: %d\n", aux_forn.cod_fornecedor);
+        printf("# Codigo do Fornecedor: %lu\n", aux_forn.cod_fornecedor);
         printf("\n");
 
         printf("- Nome do fornecedor: %s\n", aux_forn.nome_forn);
 
         printf("- CNPJ do fornecedor: %s\n", aux_forn.CNPJ);
-        printf("\n");
+
+        printf("- Telefone do fornecedor: %d\n\n", aux_forn.telefone);
 
         printf("- Quantidade de produtos fornecidos: %d\n", aux_forn.quant_produtos);
         printf("\n");
@@ -1333,18 +1412,23 @@ void relatorio_geral_forn(void)
             pesquisar_produto_forn(aux_forn.cod_produtos[i]);
         }
 
-        printf("- Endereço do fornecedor:\n");
+        printf("- Endereco do fornecedor:\n");
 
         printf(" Rua: %s\n", aux_forn.rua);
         printf(" Bairro: %s\n", aux_forn.bairro);
         printf(" CEP: %d\n", aux_forn.CEP);
         printf(" Cidade: %s\n", aux_forn.cidade);
-        printf(" UF: %s\n", aux_forn.UF);
+        printf(" UF: %s\n\n", aux_forn.UF);
+
+        printf("- Data do inicio das relacoes com o fornecedor: %d/%d/%d\n", aux_forn.inicio_rel.dia, aux_forn.inicio_rel.mes, aux_forn.inicio_rel.ano);
 
         if(!aux_forn.valor_logico){
             printf("\n- Fornecedor Cadastrado -\n\n");
         }
         else{
+
+            printf("- Data do fim das relacoes com o fornecedor: %d/%d/%d\n", aux_forn.final_rel.dia, aux_forn.final_rel.mes, aux_forn.final_rel.ano);
+
             printf("\n- Fornecedor Excluido -\n\n");
         }
     }
@@ -1362,7 +1446,7 @@ void relatorio_geral_prod(void){
     FILE *arq = fopen(A_PROD, "rb");
     if (!arq)
     {
-        fprintf(stderr, "Arquivo de produtos não pode ser encontrado\n");
+        fprintf(stderr, "Arquivo de produtos nao pode ser encontrado\n");
         printf("\n\n (Aperte a tecla Enter para sair)\n\n");
         printf("------------------------------------------------------\n\n");
         getchar();
@@ -1379,7 +1463,7 @@ void relatorio_geral_prod(void){
 
         printf("------------------------------------------------------\n\n");
 
-        printf("Código do Produto: %d\n", aux_prod.cod_produto);
+        printf("Codigo do Produto: %lu\n", aux_prod.cod_produto);
 
         printf("Nome do produto: %s\n", aux_prod.nome_prod);
 
@@ -1387,7 +1471,7 @@ void relatorio_geral_prod(void){
 
         printf("Valor de venda do produto: %.2f\n", aux_prod.venda_prod);
 
-        printf("Descrição do produto: %s\n", aux_prod.descricao);
+        printf("Descricao do produto: %s\n", aux_prod.descricao);
 
         if(!aux_prod.valor_logico){
             printf("\n- Produto Cadastrado -\n\n");

@@ -1,4 +1,4 @@
-# Projeto de implementação para a disciplina de Estrutura de Dados
+# Projeto de implementação para a disciplina de Estrutura de Dados 1
 
 <h4 align="center"> 
 	🚧 Projeto Não-Magalu em construção...  🚧
@@ -6,7 +6,7 @@
 
 ## Descrição do Projeto
 
-A ideia inicial do projeto consiste no desenvolvimento de um sistema de gestão de dados de uma varejista (”Não-Magalu”). Esse sistema será elaborado em linguagem C, e conterá CRUD’s dos produtos e fornecedores da loja. Além disso, cada um desses CRUD’s deverá conter também uma opção para se ver um relatório geral dos dados obtidos. 
+A ideia do projeto consiste no desenvolvimento de um sistema de gestão de dados de uma varejista (”Não-Magalu”) em linha de comando. Esse sistema será elaborado em linguagem C, e conterá CRUD’s dos produtos e fornecedores da loja. Além disso, cada um desses CRUD’s deverá conter também uma opção para se ver um relatório geral dos dados obtidos. 
 
 ### Tabela de conteúdos
 
@@ -29,28 +29,21 @@ Os dados que serão cadastrados no sistema são:
 - Nome do produto;
 - Código do produto;
 - Valor de venda;
-- Valor de compra
-- Pequena descrição do produto que está sendo vendido;
-- Quantidade de itens em estoque.
+- Valor de compra;
+- Pequena descrição do produto que está sendo vendido.
 
 #### 2. Fornecedores
 
 - Nome do fornecedor;
 - Código do fornecedor;
 - CNPJ;
-- Endereço;
+- Endereço (Rua, Bairro, CEP, UF e Cidade);
 - Telefone;
-- Produto que é fornecido;
-- Preço de compra;
 - Quantidade de produtos que são comprados;
-- Descrição do produto;
-- Data da última compra;
 - Data de início das relações;
 - Data do fim das relações.
 
-Os  CRUD’s em si, devem conter as opções de inserção, remoção, alteração e consulta dos dados que foram obtidos. Também buscaremos colocar uma opção para gerar um relatório geral dos dados obtidos.
-
-Tendo em vista que esta é uma descrição inicial do projeto, algumas coisas poderão ser alteradas (inseridas ou removidas) durante o desenvolvimento, para podermos entregar o projeto com a melhor qualidade possível.
+Os  CRUD de fornecedores em si, devem conter as opções de inserção, remoção, alteração e consulta dos dados que foram obtidos e o CRUD de produtos as opções de pesquisar, atualizar e remover produtos. Também colocamos uma opção, em cada um dos CRUD'S, para apresentar um relatório geral dos dados que foram obtidos.
 
 ### Features
 
@@ -70,20 +63,20 @@ Tendo em vista que esta é uma descrição inicial do projeto, algumas coisas po
 - [X] Atualização do cadastro do Produto;
 - [X] Atualização do cadastro do Fornecedor;
 - [X] Relatório Geral de Produtos;
-- [X] Relatório Geral de Fornecedores;
+- [x] Relatório Geral de Fornecedores;
 
 
 ### Quem são os desenvolvedores
 
 A equipe de desenvolvimento é composta pelos alunos: 
 
-__Diego Enrique da Silva Lima__
+__[Diego Enrique da Silva Lima](https://github.com/dgoenrique)__
 
 - Matrícula: 202003556;
 - E-mail: diegoenrique@discente.ufg.br;
 - Aluno de Ciência da Computação do INF-UFG.
 
-__Gustavo Rodrigues Ribeiro__
+__[Gustavo Rodrigues Ribeiro](https://github.com/GustavooRibas)__
 
 - Matrícula: 202003570;
 - E-mail:  ribeirogustavo@discente.ufg.br;
