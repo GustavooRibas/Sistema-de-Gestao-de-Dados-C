@@ -14,21 +14,20 @@
  --------------------------------------------*/
 //Bibiotecas
 #include <stdio.h>
-#include <math.h>
 #include <stdlib.h>
 #include <string.h>
-#include <locale.h>
 
 //Constantes Gerais
 enum {NOM = 41, DESC = 101, EXC =  1, NEXC = 0, QUANT_PROD = 10, END = 41, UF = 3, CARAC_A = 13, NUM_CNPJ = 15};
 
-//Constantes bases para o funcionamento do sistema
-#define WIN 0
-#define LUX 1
+//Limpeza da tela de acordo com o sistema operacional do usuário
+#ifdef _WIN32 
+    #define CLS "cls"
+    	    
+#elif __linux__
+    #define CLS "clear"
 
-#define LWIN system("cls")
-#define LLUX system("clear")
-
+#endif
 
 //Constantes de definição dos arquivos
 #define FORN  0
@@ -37,9 +36,6 @@ enum {NOM = 41, DESC = 101, EXC =  1, NEXC = 0, QUANT_PROD = 10, END = 41, UF = 
 //Constantes para os nomes dos arquivos de fornecedores e produtos
 #define A_PROD "Produtos"
 #define A_FORN "Fornecedores"
-
-//Variaveis globais
-int SO;
 
 //---------------------------------------------------------------------------------
 //Estruturas
@@ -95,14 +91,8 @@ void logo_nmagalu(void);
 //Limpeza do "\n" das strings
 void clear(char str[]);
 
-//Limpeza de tela
-void limp_tela(void);
-
 //Confirmação
 int confirmar(void);
-
-//Confirmação do Sistema Operaçional
-int sistema(void);
 
 //Menu Principal
 int menu_principal(void);
@@ -145,10 +135,9 @@ void relatorio_geral_forn(void);
 
 int main(void)
 {
-  setlocale(LC_ALL, "portuguese-brazilian");
   int resp;
-
-    SO = sistema();
+    
+    system(CLS); //limpar a tela do usuário antes de iniciar de fato o código
     resp = menu_principal();
 
     while (resp != 3)
@@ -259,13 +248,6 @@ void clear(char str[])
     else while(getchar() != '\n');
 }
 
-//Limpeza de tela
-void limp_tela(void)
-{
-    if (SO) LLUX;
-	else LWIN;
-}
-
 //Confirmação
 int confirmar(void)
 {
@@ -278,39 +260,10 @@ int confirmar(void)
         scanf("%c", &resp);
         getchar();
         printf("\n");
-        limp_tela();
+        system(CLS);
     }
     if (resp == 'n' || resp == 'N') return 0;
     else return 1;
-}
-
-//Confirmação do Sistema Operaçional
-int sistema(void)
-{
-    int res = -1;
-
-    while (res < 1 || res > 2)
-    {
-        printf("--------------------------------------\n");
-        printf("               AJUSTES                \n");
-        printf("--------------------------------------\n");
-        printf(" Escolha o Sistema Operacional:\n\n");
-        printf(" 1 - Windows\n");
-        printf(" 2 - UNIX/Linux\n");
-        printf("--------------------------------------\n");
-        printf("OPCAO: ");
-        scanf("%d", &res);
-        getchar();
-
-    }
-    res--;
-    if (res == WIN)
-    {
-        LWIN;
-        return 0;
-    }
-    LLUX;
-    return 1;
 }
 
 //Menu Principal
@@ -330,7 +283,7 @@ int menu_principal(void)
         scanf("%d", &res);
         getchar();
 
-        limp_tela();
+        system(CLS);
     }
 
     return res;
@@ -362,7 +315,7 @@ void gerenciar_fornecedor(void)
             scanf("%d", &res);
             getchar();
 
-	        limp_tela();
+	        system(CLS);
         }
 
         switch (res)
@@ -384,7 +337,7 @@ void gerenciar_fornecedor(void)
                 break;
         }
 
-    	limp_tela();
+    	system(CLS);
     }
 }
 
@@ -414,7 +367,7 @@ void gerenciar_produtos(void)
             getchar();
 
 
-	        limp_tela();
+	        system(CLS);
         }
 
 
@@ -434,7 +387,7 @@ void gerenciar_produtos(void)
                 break;
         }
 
-	    limp_tela();
+	    system(CLS);
     }
 }
 
@@ -486,98 +439,112 @@ unsigned long gerador_codigo(int tipo)
     return quant;
 }
 
+
 //Inserir
 void inserir_fornecedor(void){
 
     printf("------------------------------------------------------\n\n");
     fornecedor aux_forn;
-    int x=0;
-
-    memset(&aux_forn, 0, sizeof(fornecedor));
-
-    aux_forn.cod_fornecedor = gerador_codigo(FORN);
-    printf("# Codigo do Fornecedor: %lu\n", aux_forn.cod_fornecedor);
-    printf("\n");
-
-    printf("- Nome do fornecedor: ");
-    fgets(aux_forn.nome_forn, NOM, stdin);
-    clear(aux_forn.nome_forn);
-
-    printf("- CNPJ do fornecedor: ");
-    fgets(aux_forn.CNPJ, NUM_CNPJ, stdin);
-    clear(aux_forn.CNPJ);
-
-
-    printf("- Telefone do fornecedor: ");
-    scanf("%d", &aux_forn.telefone);
-    printf("\n");
-
-    printf("- Quantidade de produtos fornecidos: ");
-    scanf("%d", &aux_forn.quant_produtos);
+    int x=0, i, quant_forn;
+    
+    printf("Digite a quantidade de fornecedores a serem inseridos: ");
+    scanf("%d", &quant_forn);
     getchar();
-    printf("\n");
+    
+    system(CLS);
 
-    for(x=0; x<aux_forn.quant_produtos; x++){
-
-        printf("* Produto %d\n", x+1);
-        aux_forn.cod_produtos[x] = gerador_codigo(PROD);
-        inserir_produto(aux_forn.cod_produtos[x]);
-    }
-
-    printf("- Data do inicio das relacoes com o fornecedor:\n");
-
-    printf("Dia: ");
-    scanf("%d", &aux_forn.inicio_rel.dia);
-
-    printf("Mes: ");
-    scanf("%d", &aux_forn.inicio_rel.mes);
-
-    printf("Ano: ");
-    scanf("%d", &aux_forn.inicio_rel.ano);
-    getchar();
-    printf("\n");
-
-    printf("- Endereco do fornecedor\n");
-
-    printf("Rua: ");
-    fgets(aux_forn.rua, END, stdin);
-    clear(aux_forn.rua);
-
-    printf("Bairro: ");
-    fgets(aux_forn.bairro, END, stdin);
-    clear(aux_forn.bairro);
-
-    printf("CEP: ");
-    scanf("%d", &aux_forn.CEP);
-    getchar();
-
-    printf("Cidade: ");
-    fgets(aux_forn.cidade, END, stdin);
-    clear(aux_forn.cidade);
-
-    printf("UF: ");
-    fgets(aux_forn.UF, UF, stdin);
-    clear(aux_forn.UF);
-
-
-    aux_forn.valor_logico = NEXC;
-
-    FILE *arq = fopen(A_FORN, "ab");
-    if (!arq)
+    for (i = 0; i < quant_forn; i++)
     {
-        fprintf(stderr, "Arquivo de fornecedores nao pode ser encontrado\n");
-        exit(1);
+        printf("\n");
+        printf("------------------------------------------------------\n\n");
+
+        memset(&aux_forn, 0, sizeof(fornecedor));
+
+        aux_forn.cod_fornecedor = gerador_codigo(FORN);
+        printf("# Codigo do Fornecedor: %lu\n", aux_forn.cod_fornecedor);
+        printf("\n");
+
+        printf("- Nome do fornecedor: ");
+        fgets(aux_forn.nome_forn, NOM, stdin);
+        clear(aux_forn.nome_forn);
+
+        printf("- CNPJ do fornecedor: ");
+        fgets(aux_forn.CNPJ, NUM_CNPJ, stdin);
+        clear(aux_forn.CNPJ);
+
+
+        printf("- Telefone do fornecedor: ");
+        scanf("%d", &aux_forn.telefone);
+        printf("\n");
+
+        printf("- Quantidade de produtos fornecidos: ");
+        scanf("%d", &aux_forn.quant_produtos);
+        getchar();
+        printf("\n");
+
+        for(x=0; x<aux_forn.quant_produtos; x++){
+
+            printf("* Produto %d\n", x+1);
+            aux_forn.cod_produtos[x] = gerador_codigo(PROD);
+            inserir_produto(aux_forn.cod_produtos[x]);
+        }
+
+        printf("- Data do inicio das relacoes com o fornecedor:\n");
+
+        printf("Dia: ");
+        scanf("%d", &aux_forn.inicio_rel.dia);
+
+        printf("Mes: ");
+        scanf("%d", &aux_forn.inicio_rel.mes);
+
+        printf("Ano: ");
+        scanf("%d", &aux_forn.inicio_rel.ano);
+        getchar();
+        printf("\n");
+
+        printf("- Endereco do fornecedor\n");
+
+        printf("Rua: ");
+        fgets(aux_forn.rua, END, stdin);
+        clear(aux_forn.rua);
+
+        printf("Bairro: ");
+        fgets(aux_forn.bairro, END, stdin);
+        clear(aux_forn.bairro);
+
+        printf("CEP: ");
+        scanf("%d", &aux_forn.CEP);
+        getchar();
+
+        printf("Cidade: ");
+        fgets(aux_forn.cidade, END, stdin);
+        clear(aux_forn.cidade);
+
+        printf("UF: ");
+        fgets(aux_forn.UF, UF, stdin);
+        clear(aux_forn.UF);
+
+
+        aux_forn.valor_logico = NEXC;
+
+        FILE *arq = fopen(A_FORN, "ab");
+        if (!arq)
+        {
+            fprintf(stderr, "Arquivo de fornecedores nao pode ser encontrado\n");
+            exit(1);
+        }
+
+        fwrite(&aux_forn, sizeof(fornecedor), 1, arq);
+
+        fclose(arq);
     }
 
-    fwrite(&aux_forn, sizeof(fornecedor), 1, arq);
-
-    fclose(arq);
-
-    printf("\n\n (Aperte a tecla Enter para sair)\n\n");
-    printf("------------------------------------------------------\n\n");
-    getchar();
+        printf("\n\n (Aperte a tecla Enter para sair)\n\n");
+        printf("------------------------------------------------------\n\n");
+        getchar();
 
 }
+
 
 void inserir_produto(int codigo)
 {
@@ -638,7 +605,7 @@ void pesquisar_fornecedor(void)
     getchar();
     printf("\n");
 
-    limp_tela();
+    system(CLS);
 
     FILE *arq = fopen(A_FORN, "r+b");
     if (!arq)
@@ -784,7 +751,7 @@ void pesquisar_produto(void)
     scanf("%lu", &codigo);
     getchar();
 
-    limp_tela();
+    system(CLS);
 
     FILE *arq = fopen(A_PROD, "r+b");
     if (!arq)
@@ -859,7 +826,7 @@ void atualizar_fornecedor(void)
     scanf("%lu", &codigo);
     getchar();
 
-    limp_tela();
+    system(CLS);
 
     FILE *arq = fopen(A_FORN, "r+b");
     if (!arq)
@@ -1011,7 +978,7 @@ void atualizar_fornecedor(void)
 
         fwrite(&aux_forn, sizeof(fornecedor), 1, arq);
     
-        limp_tela();
+        system(CLS);
 
         printf("------------------------------------------------------\n\n");
         printf("\n * Atualizacao de fornecedor realizada !! *\n");
@@ -1037,7 +1004,7 @@ void atualizar_produto(void)
     scanf("%lu", &codigo);
     getchar();
 
-    limp_tela();
+    system(CLS);
 
     FILE *arq = fopen(A_PROD, "r+b");
     if (!arq)
@@ -1129,7 +1096,7 @@ void atualizar_produto(void)
 
         fwrite(&aux_prod, sizeof(produtos), 1, arq);
 
-        limp_tela();
+        system(CLS);
 
         printf("------------------------------------------------------\n\n");
 
@@ -1155,7 +1122,7 @@ void remover_fornecedor(void)
     scanf("%lu", &codigo);
     getchar();
 
-    limp_tela();
+    system(CLS);
 
     FILE *arq = fopen(A_FORN, "r+b");
     if (!arq)
@@ -1261,7 +1228,7 @@ void remover_fornecedor(void)
 
         fwrite(&aux_forn, sizeof(fornecedor), 1, arq);
 
-        limp_tela();
+        system(CLS);
 
         printf("------------------------------------------------------\n\n");
 
@@ -1286,7 +1253,7 @@ void remover_produto(void)
     scanf("%lu", &codigo);
     getchar();
 
-    limp_tela();
+    system(CLS);
 
     FILE *arq = fopen(A_PROD, "r+b");
     if (!arq)
