@@ -130,6 +130,11 @@ void relatorio_geral_prod(void);
 
 void relatorio_geral_forn(void);
 
+//Saída dos dados
+void print_fornecedor(fornecedor aux_forn);
+
+void print_produto(produtos aux_prod);
+
 //-------------------------------------------------------------------------------
 
 
@@ -439,6 +444,54 @@ unsigned long gerador_codigo(int tipo)
     return quant;
 }
 
+void print_fornecedor(fornecedor aux_forn)
+{
+        int x;
+
+        printf("# Codigo do Fornecedor: %lu\n", aux_forn.cod_fornecedor);
+        printf("\n");
+
+        printf("- Nome do fornecedor: %s\n", aux_forn.nome_forn);
+
+        printf("- CNPJ do fornecedor: %s\n", aux_forn.CNPJ);
+
+        printf("- Telefone do fornecedor: %d\n\n", aux_forn.telefone);
+
+        printf("- Quantidade de produtos fornecidos: %d\n", aux_forn.quant_produtos);
+        printf("\n");
+
+        for(x=0; x<aux_forn.quant_produtos; x++){
+
+            printf("* Produto %d\n", x+1);
+            pesquisar_produto_forn(aux_forn.cod_produtos[x]);
+            printf("\n");
+        }
+
+        printf("- Endereco do fornecedor:\n");
+
+        printf(" Rua: %s\n", aux_forn.rua);
+        printf(" Bairro: %s\n", aux_forn.bairro);
+        printf(" CEP: %d\n", aux_forn.CEP);
+        printf(" Cidade: %s\n", aux_forn.cidade);
+        printf(" UF: %s\n", aux_forn.UF);
+        printf("\n");
+
+        printf("- Data do inicio das relacoes com o fornecedor: %d/%d/%d\n", aux_forn.inicio_rel.dia, aux_forn.inicio_rel.mes, aux_forn.inicio_rel.ano);
+        printf("\n");
+}
+
+void print_produto(produtos aux_prod)
+{
+        printf("Codigo do Produto: %lu\n", aux_prod.cod_produto);
+
+        printf("Nome do produto: %s\n", aux_prod.nome_prod);
+
+        printf("Valor de compra produto: %.2f\n", aux_prod.preco_prod);
+
+        printf("Valor de venda do produto: %.2f\n", aux_prod.venda_prod);
+
+        printf("Descricao do produto: %s\n", aux_prod.descricao);
+}
 
 //Inserir
 void inserir_fornecedor(void){
@@ -646,36 +699,10 @@ void pesquisar_fornecedor(void)
     else
     {
         printf("------------------------------------------------------\n\n");
+    
+        print_fornecedor(aux_forn);
 
-        printf("# Codigo do Fornecedor: %lu\n", aux_forn.cod_fornecedor);
-        printf("\n");
-
-        printf("- Nome do fornecedor: %s\n", aux_forn.nome_forn);
-
-        printf("- CNPJ do fornecedor: %s\n", aux_forn.CNPJ);
-
-        printf("- Telefone do fornecedor: %d\n\n", aux_forn.telefone);
-
-        printf("- Quantidade de produtos fornecidos: %d\n", aux_forn.quant_produtos);
-        printf("\n");
-
-        for(x=0; x<aux_forn.quant_produtos; x++){
-
-            printf("* Produto %d\n", x+1);
-            pesquisar_produto_forn(aux_forn.cod_produtos[x]);
-        }
-
-        printf("- Data do inicio das relacoes com o fornecedor: %d/%d/%d\n", aux_forn.inicio_rel.dia, aux_forn.inicio_rel.mes, aux_forn.inicio_rel.ano);
-        printf("\n");
-
-        printf("- Endereco do fornecedor:\n");
-
-        printf(" Rua: %s\n", aux_forn.rua);
-        printf(" Bairro: %s\n", aux_forn.bairro);
-        printf(" CEP: %d\n", aux_forn.CEP);
-        printf(" Cidade: %s\n", aux_forn.cidade);
-        printf(" UF: %s\n", aux_forn.UF);
-
+       
         printf("\n\n (Aperte a tecla Enter para sair)\n\n");
         printf("------------------------------------------------------\n\n");
         getchar();
@@ -723,16 +750,7 @@ void pesquisar_produto_forn(unsigned long codigo)
 
         printf("------------\n");
 
-        printf(" Codigo do Produto: %lu\n", aux_prod.cod_produto);
-
-        printf(" Nome do produto: %s\n", aux_prod.nome_prod);
-
-        printf(" Valor de compra produto: %.2f\n", aux_prod.preco_prod);
-
-        printf(" Valor de venda do produto: %.2f\n", aux_prod.venda_prod);
-
-        printf(" Descricao do produto: %s\n", aux_prod.descricao);
-        printf("\n");
+        print_produto(aux_prod); 
 
     }
 
@@ -792,16 +810,9 @@ void pesquisar_produto(void)
     {
 
         printf("------------------------------------------------------\n\n");
-
-        printf("Codigo do Produto: %lu\n", aux_prod.cod_produto);
-
-        printf("Nome do produto: %s\n", aux_prod.nome_prod);
-
-        printf("Valor de compra produto: %.2f\n", aux_prod.preco_prod);
-
-        printf("Valor de venda do produto: %.2f\n", aux_prod.venda_prod);
-
-        printf("Descricao do produto: %s\n", aux_prod.descricao);
+        
+        print_produto(aux_prod);
+       
 
         printf("\n\n (Aperte a tecla Enter para sair)\n\n");
         printf("------------------------------------------------------\n\n");
@@ -870,34 +881,8 @@ void atualizar_fornecedor(void)
     {
         printf("------------------------------------------------------\n\n");
 
+        print_fornecedor(aux_forn);
 
-        printf("# Codigo do Fornecedor: %lu\n", aux_forn.cod_fornecedor);
-        printf("\n");
-
-        printf("- Nome do fornecedor: %s\n", aux_forn.nome_forn);
-
-        printf("- CNPJ do fornecedor: %s\n", aux_forn.CNPJ);
-
-        printf("- Telefone do fornecedor: %d\n\n", aux_forn.telefone);
-
-        printf("- Quantidade de produtos fornecidos: %d\n", aux_forn.quant_produtos);
-        printf("\n");
-
-        for(x=0; x<aux_forn.quant_produtos; x++){
-
-            printf("* Produto %d\n", x+1);
-            pesquisar_produto_forn(aux_forn.cod_produtos[x]);
-        }
-
-        printf("- Data do inicio das relacoes com o fornecedor: %d/%d/%d\n\n", aux_forn.inicio_rel.dia, aux_forn.inicio_rel.mes, aux_forn.inicio_rel.ano);
-
-        printf("- Endereco do fornecedor:\n");
-
-        printf(" Rua: %s\n", aux_forn.rua);
-        printf(" Bairro: %s\n", aux_forn.bairro);
-        printf(" CEP: %d\n", aux_forn.CEP);
-        printf(" Cidade: %s\n", aux_forn.cidade);
-        printf(" UF: %s\n", aux_forn.UF);
     }
 
 
@@ -1048,15 +1033,7 @@ void atualizar_produto(void)
 
         printf("------------------------------------------------------\n\n");
 
-        printf("Codigo do Produto: %lu\n", aux_prod.cod_produto);
-
-        printf("Nome do produto: %s\n", aux_prod.nome_prod);
-
-        printf("Valor de compra produto: %.2f\n", aux_prod.preco_prod);
-
-        printf("Valor de venda do produto: %.2f\n", aux_prod.venda_prod);
-
-        printf("Descricao do produto: %s\n", aux_prod.descricao);
+        print_produto(aux_prod); 
 
     }
 
@@ -1167,33 +1144,7 @@ void remover_fornecedor(void)
         printf("------------------------------------------------------\n\n");
 
 
-        printf("# Codigo do Fornecedor: %lu\n", aux_forn.cod_fornecedor);
-        printf("\n");
-
-        printf("- Nome do fornecedor: %s\n", aux_forn.nome_forn);
-
-        printf("- CNPJ do fornecedor: %s\n", aux_forn.CNPJ);
-
-        printf("- Telefone do fornecedor: %d\n\n", aux_forn.telefone);
-
-        printf("- Quantidade de produtos fornecidos: %d\n", aux_forn.quant_produtos);
-        printf("\n");
-
-        for(x=0; x<aux_forn.quant_produtos; x++){
-
-            printf("* Produto %d\n", x+1);
-            pesquisar_produto_forn(aux_forn.cod_produtos[x]);
-        }
-
-        printf("- Data do inicio das relacoes com o fornecedor: %d/%d/%d\n\n", aux_forn.inicio_rel.dia, aux_forn.inicio_rel.mes, aux_forn.inicio_rel.ano);
-
-        printf("- Endereco do fornecedor:\n");
-
-        printf(" Rua: %s\n", aux_forn.rua);
-        printf(" Bairro: %s\n", aux_forn.bairro);
-        printf(" CEP: %d\n", aux_forn.CEP);
-        printf(" Cidade: %s\n", aux_forn.cidade);
-        printf(" UF: %s\n", aux_forn.UF);
+       print_fornecedor(aux_forn); 
 
     }
 
@@ -1297,15 +1248,7 @@ void remover_produto(void)
 
         printf("------------------------------------------------------\n\n");
 
-        printf("Codigo do Produto: %lu\n", aux_prod.cod_produto);
-
-        printf("Nome do produto: %s\n", aux_prod.nome_prod);
-
-        printf("Valor de compra produto: %.2f\n", aux_prod.preco_prod);
-
-        printf("Valor de venda do produto: %.2f\n", aux_prod.venda_prod);
-
-        printf("Descricao do produto: %s\n", aux_prod.descricao);
+        print_produto(aux_prod); 
 
     }
 
@@ -1361,42 +1304,16 @@ void relatorio_geral_forn(void)
     {
         printf("------------------------------------------------------\n\n");
 
-        printf("# Codigo do Fornecedor: %lu\n", aux_forn.cod_fornecedor);
-        printf("\n");
-
-        printf("- Nome do fornecedor: %s\n", aux_forn.nome_forn);
-
-        printf("- CNPJ do fornecedor: %s\n", aux_forn.CNPJ);
-
-        printf("- Telefone do fornecedor: %d\n\n", aux_forn.telefone);
-
-        printf("- Quantidade de produtos fornecidos: %d\n", aux_forn.quant_produtos);
-        printf("\n");
-
-        for(int i =0; i< aux_forn.quant_produtos; i++){
-
-            printf("* Produto %d\n", i + 1);
-            pesquisar_produto_forn(aux_forn.cod_produtos[i]);
-        }
-
-        printf("- Endereco do fornecedor:\n");
-
-        printf(" Rua: %s\n", aux_forn.rua);
-        printf(" Bairro: %s\n", aux_forn.bairro);
-        printf(" CEP: %d\n", aux_forn.CEP);
-        printf(" Cidade: %s\n", aux_forn.cidade);
-        printf(" UF: %s\n\n", aux_forn.UF);
-
-        printf("- Data do inicio das relacoes com o fornecedor: %d/%d/%d\n", aux_forn.inicio_rel.dia, aux_forn.inicio_rel.mes, aux_forn.inicio_rel.ano);
+        print_fornecedor(aux_forn);
 
         if(!aux_forn.valor_logico){
-            printf("\n- Fornecedor Cadastrado -\n\n");
+            printf("\n\n    = Fornecedor Cadastrado =\n\n");
         }
         else{
 
             printf("- Data do fim das relacoes com o fornecedor: %d/%d/%d\n", aux_forn.final_rel.dia, aux_forn.final_rel.mes, aux_forn.final_rel.ano);
 
-            printf("\n- Fornecedor Excluido -\n\n");
+            printf("\n\n    = Fornecedor Excluido =\n\n");
         }
     }
 
@@ -1430,21 +1347,13 @@ void relatorio_geral_prod(void){
 
         printf("------------------------------------------------------\n\n");
 
-        printf("Codigo do Produto: %lu\n", aux_prod.cod_produto);
-
-        printf("Nome do produto: %s\n", aux_prod.nome_prod);
-
-        printf("Valor de compra produto: %.2f\n", aux_prod.preco_prod);
-
-        printf("Valor de venda do produto: %.2f\n", aux_prod.venda_prod);
-
-        printf("Descricao do produto: %s\n", aux_prod.descricao);
+        print_produto(aux_prod); 
 
         if(!aux_prod.valor_logico){
-            printf("\n- Produto Cadastrado -\n\n");
+            printf("\n\n    = Produto Cadastrado =\n\n");
         }
         else{
-            printf("\n- Produto Excluido -\n\n");
+            printf("\n\n    = Produto Excluido =\n\n");
         }
 
     }
