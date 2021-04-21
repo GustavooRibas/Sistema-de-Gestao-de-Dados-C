@@ -4,7 +4,7 @@
 	🚧 Projeto Não-Magalu em construção...  🚧
 </h4>
 
-## Descrição do Projeto
+## Descrição do Projeto ..
 
 A ideia do projeto consiste no desenvolvimento de um sistema de gestão de dados de uma varejista (”Não-Magalu”) em linha de comando. Esse sistema será elaborado em linguagem C, e conterá CRUD’s dos produtos e fornecedores da loja. Além disso, cada um desses CRUD’s deverá conter também uma opção para se ver um relatório geral dos dados obtidos. 
 
