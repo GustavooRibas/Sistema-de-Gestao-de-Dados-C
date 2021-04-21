@@ -18,12 +18,12 @@
 #include <string.h>
 
 //Constantes Gerais
-enum {NOM = 41, DESC = 101, EXC =  1, NEXC = 0, QUANT_PROD = 10, END = 41, UF = 3, CARAC_A = 13, NUM_CNPJ = 15};
+enum {NOM = 41, DESC = 101, EXC =  1, NEXC = 0, QUANT_PROD = 10, END = 41, UF = 3, CARAC_A = 15, NUM_CNPJ = 15 , NUM_CPF = 12 , CARG = 41};
 
 //Limpeza da tela de acordo com o sistema operacional do usuário
-#ifdef _WIN32 
+#ifdef _WIN32
     #define CLS "cls"
-    	    
+
 #elif __linux__
     #define CLS "clear"
 
@@ -32,10 +32,12 @@ enum {NOM = 41, DESC = 101, EXC =  1, NEXC = 0, QUANT_PROD = 10, END = 41, UF = 
 //Constantes de definição dos arquivos
 #define FORN  0
 #define PROD  1
+#define COL   2
 
 //Constantes para os nomes dos arquivos de fornecedores e produtos
 #define A_PROD "Produtos"
 #define A_FORN "Fornecedores"
+#define A_COL  "Colaboradores"
 
 //---------------------------------------------------------------------------------
 //Estruturas
@@ -76,6 +78,23 @@ typedef struct
 
 }fornecedor;
 
+typedef struct
+{
+    unsigned long cod_colaborador;
+	char nome_col[NOM];
+	char cargo[CARG];
+	char CPF[NUM_CPF];
+	char rua[END];
+    char bairro[END];
+    int CEP;
+    char cidade[END];
+    char UF[UF];
+    int telefone;
+    data inicio_cont;
+    data final_cont;
+	int valor_logico;
+}colaborador;
+
 //-----------------------------------------------------------------------------
 //Protótios das funções utilizadas
 
@@ -103,10 +122,15 @@ void gerenciar_fornecedor(void);
 //Gerenciar Produtos
 void gerenciar_produtos(void);
 
+//Gerenciar Colaboradores
+void gerenciar_colaborador(void);
+
 //Inserir
 void inserir_fornecedor(void);
 
 void inserir_produto(int codigo);
+
+void inserir_colaborador(void);
 
 //Pesquisar
 void pesquisar_fornecedor(void);
@@ -115,25 +139,35 @@ void pesquisar_produto_forn(unsigned long codigo);
 
 void pesquisar_produto(void);
 
+void pesquisar_colaborador(void);
+
 //Atualizar
 void atualizar_fornecedor(void);
 
 void atualizar_produto(void);
+
+void atualizar_colaborador(void);
 
 //Remover
 void remover_fornecedor(void);
 
 void remover_produto(void);
 
+void remover_colaborador(void);
+
 //Relatório geral
 void relatorio_geral_prod(void);
 
 void relatorio_geral_forn(void);
 
+void relatorio_geral_col(void);
+
 //Saída dos dados
 void print_fornecedor(fornecedor aux_forn);
 
 void print_produto(produtos aux_prod);
+
+void print_colaboradores(colaborador aux_col);
 
 //-------------------------------------------------------------------------------
 
@@ -141,11 +175,11 @@ void print_produto(produtos aux_prod);
 int main(void)
 {
   int resp;
-    
+
     system(CLS); //limpar a tela do usuário antes de iniciar de fato o código
     resp = menu_principal();
 
-    while (resp != 3)
+    while (resp != 4)
     {
         switch (resp)
         {
@@ -155,6 +189,8 @@ int main(void)
             case 2:
                 gerenciar_produtos();
                 break;
+            case 3:
+                gerenciar_colaborador();
         }
 
         resp = menu_principal();
@@ -183,7 +219,7 @@ int binary_search(FILE *arq, int ini, int fim, unsigned long cod, int tipo)
 {
     char buff_arquiv[CARAC_A];
 
-    if (tipo)
+    if (tipo == 1)
     {
         strcpy(buff_arquiv, A_PROD);
         produtos aux_prod;
@@ -219,6 +255,8 @@ int binary_search(FILE *arq, int ini, int fim, unsigned long cod, int tipo)
 
     else
     {
+    if (tipo == 0)
+    {
         strcpy(buff_arquiv, A_FORN);
         fornecedor aux_forn;
 
@@ -236,10 +274,53 @@ int binary_search(FILE *arq, int ini, int fim, unsigned long cod, int tipo)
 
             }
 
-            else if (aux_forn.cod_fornecedor < cod) ini = mid + 1;
-
-            else fim = mid - 1;
+            else
+            {
+                if (aux_forn.cod_fornecedor < cod)
+                {
+                    ini = mid + 1;
+                }
+                else
+                {
+                    fim = mid - 1;
+                }
+            }
         }
+    }
+
+    else
+    {
+        strcpy(buff_arquiv, A_COL);
+        colaborador aux_col;
+
+
+        while (fim >= ini)
+        {
+            int mid = (ini + fim) / 2;
+
+            fseek(arq, mid * sizeof(colaborador), SEEK_SET);
+            fread(&aux_col, sizeof(colaborador), 1, arq);
+
+            if (aux_col.cod_colaborador == cod)
+            {
+                fseek(arq, sizeof(colaborador)*(-1), SEEK_CUR);
+                return ftell(arq);
+
+            }
+
+            else
+            {
+                if (aux_col.cod_colaborador < cod)
+                {
+                    ini = mid + 1;
+                }
+                else
+                {
+                    fim = mid - 1;
+                }
+            }
+        }
+    }
     }
 
     return -1;
@@ -276,13 +357,14 @@ int menu_principal(void)
 {
     int res = -1;
 
-    while (res < 1 || res > 3)
+    while (res < 1 || res > 4)
     {
         logo_nmagalu();
         printf(" Escolha uma das seguintes opcoes:\n\n");
         printf(" 1 - Gerenciar Fornecedores\n");
         printf(" 2 - Gerenciar Produtos\n");
-        printf(" 3 - Sair\n");
+        printf(" 3 - Gerenciar Colaboradores\n");
+        printf(" 4 - Sair\n");
         printf("-----------------------------------------------------------------------------------\n");
         printf("OPCAO: ");
         scanf("%d", &res);
@@ -396,6 +478,60 @@ void gerenciar_produtos(void)
     }
 }
 
+//gerenciar colaboradores
+void gerenciar_colaborador(void)
+{
+    int res = 0;
+
+
+    while (res != 6)
+    {
+        res = 0;
+        while (res < 1 || res > 6)
+        {
+            printf("--------------------------------------\n\n");
+            printf("     GERENCIADOR DE COLABORADORES     \n\n");
+            printf("--------------------------------------\n");
+            printf(" Escolha uma das seguintes opcoes:\n\n");
+            printf(" 1 - INSERIR colaborador \n");
+            printf(" 2 - PESQUISAR colaborador \n");
+            printf(" 3 - ATUALIZAR colaborador \n");
+            printf(" 4 - REMOVER colaborador \n");
+            printf(" 5 - APRESENTAR RELATORIO GERAL \n");
+            printf(" 6 - Sair\n");
+            printf("--------------------------------------\n");
+            printf("OPCAO: ");
+            scanf("%d", &res);
+            getchar();
+
+	        system(CLS);
+        }
+
+        switch (res)
+        {
+            case 1:
+                inserir_colaborador();
+                break;
+            case 2:
+                pesquisar_colaborador();
+                break;
+            case 3:
+                atualizar_colaborador();
+                break;
+            case 4:
+                remover_colaborador();
+                break;
+            case 5:
+                relatorio_geral_col();
+                break;
+        }
+
+    	system(CLS);
+    }
+}
+
+
+
 //Gerador de códigos (Produtos | Fornecedores)
 unsigned long gerador_codigo(int tipo)
 {
@@ -403,13 +539,17 @@ unsigned long gerador_codigo(int tipo)
 
     char buff_nome_arquivo[CARAC_A];
 
-    if (tipo)
+    if (tipo == 1)
     {
          strcpy(buff_nome_arquivo, A_PROD);
     }
-    else
+    else if (tipo == 0)
     {
         strcpy(buff_nome_arquivo, A_FORN);
+    }
+    else
+    {
+        strcpy(buff_nome_arquivo, A_COL);
     }
 
     FILE *arquiv = fopen(buff_nome_arquivo, "rb");
@@ -419,7 +559,7 @@ unsigned long gerador_codigo(int tipo)
         return 1;
     }
 
-    if (tipo)
+    if (tipo == 1)
     {
         produtos aux_prod;
 
@@ -429,13 +569,27 @@ unsigned long gerador_codigo(int tipo)
             fread(&aux_prod, sizeof(produtos), 1, arquiv);
         }
     }
+
     else
     {
-        fornecedor aux_forn;
-        while(!feof(arquiv))
+        if (tipo == 0)
         {
-            quant++;
-            fread(&aux_forn, sizeof(fornecedor), 1, arquiv);
+
+            fornecedor aux_forn;
+            while(!feof(arquiv))
+            {
+                quant++;
+                fread(&aux_forn, sizeof(fornecedor), 1, arquiv);
+            }
+        }
+        else
+        {
+            colaborador aux_col;
+            while(!feof(arquiv))
+            {
+                quant++;
+                fread(&aux_col, sizeof(colaborador), 1, arquiv);
+            }
         }
     }
 
@@ -493,17 +647,44 @@ void print_produto(produtos aux_prod)
         printf("Descricao do produto: %s\n", aux_prod.descricao);
 }
 
+void print_colaborador(colaborador aux_col)
+{
+        printf("# Codigo do colaborador: %lu\n", aux_col.cod_colaborador);
+        printf("\n");
+
+        printf("- Nome do colaborador: %s\n", aux_col.nome_col);
+
+        printf("- Cargo do colaborador: %s\n", aux_col.cargo);
+
+        printf("- CPF do colaborador: %s\n", aux_col.CPF);
+
+        printf("- Telefone do colaborador: %d\n\n", aux_col.telefone);
+
+        printf("- Endereco do colaborador:\n");
+
+        printf(" Rua: %s\n", aux_col.rua);
+        printf(" Bairro: %s\n", aux_col.bairro);
+        printf(" CEP: %d\n", aux_col.CEP);
+        printf(" Cidade: %s\n", aux_col.cidade);
+        printf(" UF: %s\n", aux_col.UF);
+        printf("\n");
+
+        printf("- Data do inicio do contrato com o colaborador: %d/%d/%d\n", aux_col.inicio_cont.dia, aux_col.inicio_cont.mes, aux_col.inicio_cont.ano);
+        printf("\n");
+
+}
+
 //Inserir
 void inserir_fornecedor(void){
 
     printf("------------------------------------------------------\n\n");
     fornecedor aux_forn;
     int x=0, i, quant_forn;
-    
+
     printf("Digite a quantidade de fornecedores a serem inseridos: ");
     scanf("%d", &quant_forn);
     getchar();
-    
+
     system(CLS);
 
     for (i = 0; i < quant_forn; i++)
@@ -592,9 +773,9 @@ void inserir_fornecedor(void){
         fclose(arq);
     }
 
-        printf("\n\n (Aperte a tecla Enter para sair)\n\n");
-        printf("------------------------------------------------------\n\n");
-        getchar();
+    printf("\n\n (Aperte a tecla Enter para sair)\n\n");
+    printf("------------------------------------------------------\n\n");
+    getchar();
 
 }
 
@@ -641,6 +822,99 @@ void inserir_produto(int codigo)
     printf("\n");
 
     fclose(arq);
+}
+
+void inserir_colaborador(void)
+{
+    printf("------------------------------------------------------\n\n");
+    colaborador aux_col;
+    int i, quant_col;
+
+    printf("Digite a quantidade de colaboradores a serem inseridos: ");
+    scanf("%d", &quant_col);
+    getchar();
+
+    system(CLS);
+
+    for (i = 0; i < quant_col; i++)
+    {
+        printf("\n");
+        printf("------------------------------------------------------\n\n");
+
+        memset(&aux_col, 0, sizeof(colaborador));
+
+        aux_col.cod_colaborador = gerador_codigo(COL);
+        printf("# Codigo do colaborador: %lu\n", aux_col.cod_colaborador);
+        printf("\n");
+
+        printf("- Nome do colaborador: ");
+        fgets(aux_col.nome_col, NOM, stdin);
+        clear(aux_col.nome_col);
+
+        printf("- Cargo do colaborador: ");
+        fgets(aux_col.cargo, CARG, stdin);
+        clear(aux_col.cargo);
+
+        printf("- CPF do colaborador: ");
+        fgets(aux_col.CPF, NUM_CPF, stdin);
+        clear(aux_col.CPF);
+
+        printf("- Telefone do colaborador: ");
+        scanf("%d", &aux_col.telefone);
+        printf("\n");
+
+        printf("- Data do inicio do contrato com o colaborador:\n");
+
+        printf("Dia: ");
+        scanf("%d", &aux_col.inicio_cont.dia);
+
+        printf("Mes: ");
+        scanf("%d", &aux_col.inicio_cont.mes);
+
+        printf("Ano: ");
+        scanf("%d", &aux_col.inicio_cont.ano);
+        getchar();
+        printf("\n");
+
+        printf("- Endereco do colaborador\n");
+
+        printf("Rua: ");
+        fgets(aux_col.rua, END, stdin);
+        clear(aux_col.rua);
+
+        printf("Bairro: ");
+        fgets(aux_col.bairro, END, stdin);
+        clear(aux_col.bairro);
+
+        printf("CEP: ");
+        scanf("%d", &aux_col.CEP);
+        getchar();
+
+        printf("Cidade: ");
+        fgets(aux_col.cidade, END, stdin);
+        clear(aux_col.cidade);
+
+        printf("UF: ");
+        fgets(aux_col.UF, UF, stdin);
+        clear(aux_col.UF);
+
+        aux_col.valor_logico = NEXC;
+
+        FILE *arq = fopen(A_COL, "ab");
+        if (!arq)
+        {
+            fprintf(stderr, "Arquivo de colaboradores nao pode ser encontrado\n");
+            exit(1);
+        }
+
+        fwrite(&aux_col, sizeof(colaborador), 1, arq);
+
+        fclose(arq);
+    }
+
+    printf("\n\n (Aperte a tecla Enter para sair)\n\n");
+    printf("------------------------------------------------------\n\n");
+    getchar();
 }
 
 //Pesquisar
@@ -699,10 +973,10 @@ void pesquisar_fornecedor(void)
     else
     {
         printf("------------------------------------------------------\n\n");
-    
+
         print_fornecedor(aux_forn);
 
-       
+
         printf("\n\n (Aperte a tecla Enter para sair)\n\n");
         printf("------------------------------------------------------\n\n");
         getchar();
@@ -750,7 +1024,7 @@ void pesquisar_produto_forn(unsigned long codigo)
 
         printf("------------\n");
 
-        print_produto(aux_prod); 
+        print_produto(aux_prod);
 
     }
 
@@ -810,9 +1084,9 @@ void pesquisar_produto(void)
     {
 
         printf("------------------------------------------------------\n\n");
-        
+
         print_produto(aux_prod);
-       
+
 
         printf("\n\n (Aperte a tecla Enter para sair)\n\n");
         printf("------------------------------------------------------\n\n");
@@ -822,6 +1096,72 @@ void pesquisar_produto(void)
     fclose(arq);
 }
 
+void pesquisar_colaborador(void)
+{
+    colaborador aux_col;
+    unsigned long aux = gerador_codigo(COL) - 1;
+    unsigned long codigo = 0;
+    int posicao;
+    int x = 0;
+
+    printf("------------------------------------------------------\n\n");
+    printf("Digite o codigo a ser pesquisado: ");
+    scanf("%lu", &codigo);
+    getchar();
+    printf("\n");
+
+    system(CLS);
+
+    FILE *arq = fopen(A_COL, "r+b");
+    if (!arq)
+    {
+
+        printf("------------------------------------------------------\n\n");
+        fprintf(stderr, "Arquivo de colaboradores nao pode ser encontrado\n");
+        printf("\n\n (Aperte a tecla Enter para sair)\n\n");
+        printf("------------------------------------------------------\n\n");
+        getchar();
+        return;
+    }
+    posicao = binary_search(arq, 0, aux, codigo, COL);
+
+    if (posicao == -1)
+    {
+
+        printf("------------------------------------------------------\n\n");
+        printf("Codigo inexistente\n");
+        printf("\n\n (Aperte a tecla Enter para sair)\n\n");
+        printf("------------------------------------------------------\n\n");
+        fclose(arq);
+        getchar();
+        return;
+    }
+
+    fseek(arq, posicao, SEEK_SET);
+    fread(&aux_col, sizeof(colaborador), 1, arq);
+
+    if (aux_col.valor_logico == EXC)
+    {
+        printf("------------------------------------------------------\n\n");
+        printf("Codigo inexistente\n");
+        printf("\n\n (Aperte a tecla Enter para sair)\n\n");
+        printf("------------------------------------------------------\n\n");
+        getchar();
+    }
+    else
+    {
+        printf("------------------------------------------------------\n\n");
+
+        print_colaborador(aux_col);
+
+
+        printf("\n\n (Aperte a tecla Enter para sair)\n\n");
+        printf("------------------------------------------------------\n\n");
+        getchar();
+    }
+
+    fclose(arq);
+}
 
 //Atualizar
 void atualizar_fornecedor(void)
@@ -962,7 +1302,7 @@ void atualizar_fornecedor(void)
         fseek(arq, posicao, SEEK_SET);
 
         fwrite(&aux_forn, sizeof(fornecedor), 1, arq);
-    
+
         system(CLS);
 
         printf("------------------------------------------------------\n\n");
@@ -1033,7 +1373,7 @@ void atualizar_produto(void)
 
         printf("------------------------------------------------------\n\n");
 
-        print_produto(aux_prod); 
+        print_produto(aux_prod);
 
     }
 
@@ -1078,6 +1418,150 @@ void atualizar_produto(void)
         printf("------------------------------------------------------\n\n");
 
         printf("\n * Atualizacao de produto realizada !! *\n");
+
+        printf("\n\n (Aperte a tecla Enter para sair)\n\n");
+        printf("------------------------------------------------------\n\n");
+        getchar();
+    }
+
+    fclose(arq);
+}
+
+void atualizar_colaborador(void)
+{
+    colaborador aux_col;
+    unsigned long codigo, aux = gerador_codigo(COL) - 1;
+    int resp, posicao, x;
+
+    memset(&aux_col, 0, sizeof(colaborador));
+
+    printf("------------------------------------------------------\n\n");
+    printf("Digite o codigo do colaborador a ser atualizado: ");
+    scanf("%lu", &codigo);
+    getchar();
+
+    system(CLS);
+
+    FILE *arq = fopen(A_COL, "r+b");
+    if (!arq)
+    {
+
+        printf("------------------------------------------------------\n\n");
+        fprintf(stderr, "Arquivo de colaboradores nao pode ser encontrado\n");
+        printf("\n\n (Aperte a tecla Enter para sair)\n\n");
+        printf("------------------------------------------------------\n\n");
+        getchar();
+        return;
+    }
+    posicao = binary_search(arq, 0, aux, codigo, COL);
+
+    if (posicao == -1)
+    {
+
+        printf("------------------------------------------------------\n\n");
+        printf("Codigo inexistente\n");
+        printf("\n\n (Aperte a tecla Enter para sair)\n\n");
+        printf("------------------------------------------------------\n\n");
+        fclose(arq);
+        getchar();
+        return;
+    }
+
+    fseek(arq, posicao, SEEK_SET);
+    fread(&aux_col, sizeof(colaborador), 1, arq);
+
+    if (aux_col.valor_logico == EXC)
+    {
+        printf("------------------------------------------------------\n\n");
+        printf("Codigo inexistente\n");
+        printf("\n\n (Aperte a tecla Enter para sair)\n\n");
+        printf("------------------------------------------------------\n\n");
+        fclose(arq);
+        getchar();
+        return;
+    }
+    else
+    {
+        printf("------------------------------------------------------\n\n");
+
+        print_colaborador(aux_col);
+
+    }
+
+
+    resp = confirmar();
+
+    if (!resp)
+    {
+        fclose(arq);
+        return;
+    }
+    else
+    {
+        printf("# Codigo do colaborador: %lu\n", aux_col.cod_colaborador);
+        printf("\n");
+
+        printf("- Nome do colaborador: ");
+        fgets(aux_col.nome_col, NOM, stdin);
+        clear(aux_col.nome_col);
+
+        printf("- Cargo do colaborador: ");
+        fgets(aux_col.cargo, CARG, stdin);
+        clear(aux_col.cargo);
+
+        printf("- CPF do colaborador: ");
+        fgets(aux_col.CPF, NUM_CPF, stdin);
+        clear(aux_col.CPF);
+
+        printf("- Telefone do colaborador: ");
+        scanf("%d", &aux_col.telefone);
+        printf("\n");
+
+        printf("- Data do inicio do contrato com o colaborador:\n");
+
+        printf("Dia: ");
+        scanf("%d", &aux_col.inicio_cont.dia);
+
+        printf("Mes: ");
+        scanf("%d", &aux_col.inicio_cont.mes);
+
+        printf("Ano: ");
+        scanf("%d", &aux_col.inicio_cont.ano);
+        getchar();
+        printf("\n");
+
+        printf("- Endereco do colaborador\n");
+
+        printf("Rua: ");
+        fgets(aux_col.rua, END, stdin);
+        clear(aux_col.rua);
+
+        printf("Bairro: ");
+        fgets(aux_col.bairro, END, stdin);
+        clear(aux_col.bairro);
+
+        printf("CEP: ");
+        scanf("%d", &aux_col.CEP);
+        getchar();
+
+        printf("Cidade: ");
+        fgets(aux_col.cidade, END, stdin);
+        clear(aux_col.cidade);
+
+        printf("UF: ");
+        fgets(aux_col.UF, UF, stdin);
+        clear(aux_col.UF);
+
+        aux_col.valor_logico = NEXC;
+
+        fseek(arq, posicao, SEEK_SET);
+
+        fwrite(&aux_col, sizeof(colaborador), 1, arq);
+
+        system(CLS);
+
+        printf("------------------------------------------------------\n\n");
+        printf("\n * Atualizacao de colaborador realizada !! *\n");
 
         printf("\n\n (Aperte a tecla Enter para sair)\n\n");
         printf("------------------------------------------------------\n\n");
@@ -1144,7 +1628,7 @@ void remover_fornecedor(void)
         printf("------------------------------------------------------\n\n");
 
 
-       print_fornecedor(aux_forn); 
+       print_fornecedor(aux_forn);
 
     }
 
@@ -1159,7 +1643,7 @@ void remover_fornecedor(void)
     else
     {
         printf("------------------------------------------------------\n\n");
-        
+
         fseek(arq, posicao, SEEK_SET);
 
         printf("- Data do fim das relacoes com o fornecedor:\n");
@@ -1248,7 +1732,7 @@ void remover_produto(void)
 
         printf("------------------------------------------------------\n\n");
 
-        print_produto(aux_prod); 
+        print_produto(aux_prod);
 
     }
 
@@ -1279,10 +1763,113 @@ void remover_produto(void)
     fclose(arq);
 }
 
+void remover_colaborador(void)
+{
+    colaborador aux_col;
+    unsigned long codigo, aux = gerador_codigo(COL) - 1;
+    int resp, posicao, x;
+
+    printf("------------------------------------------------------\n\n");
+    printf("Digite o codigo do colaborador a ser excluido: ");
+    scanf("%lu", &codigo);
+    getchar();
+
+    system(CLS);
+
+    FILE *arq = fopen(A_COL, "r+b");
+    if (!arq)
+    {
+
+        printf("------------------------------------------------------\n\n");
+        fprintf(stderr, "Arquivo de colaboradores nao pode ser encontrado\n");
+        printf("\n\n (Aperte a tecla Enter para sair)\n\n");
+        printf("------------------------------------------------------\n\n");
+        getchar();
+        return;
+    }
+    posicao = binary_search(arq, 0, aux, codigo, COL);
+
+    if (posicao == -1)
+    {
+
+        printf("------------------------------------------------------\n\n");
+        printf("Codigo inexistente\n");
+        printf("\n\n (Aperte a tecla Enter para sair)\n\n");
+        printf("------------------------------------------------------\n\n");
+        fclose(arq);
+        getchar();
+        return;
+    }
+
+    fseek(arq, posicao, SEEK_SET);
+    fread(&aux_col, sizeof(colaborador), 1, arq);
+
+    if (aux_col.valor_logico == EXC)
+    {
+        printf("------------------------------------------------------\n\n");
+        printf("Codigo inexistente\n");
+        printf("\n\n (Aperte a tecla Enter para sair)\n\n");
+        printf("------------------------------------------------------\n\n");
+        fclose(arq);
+        getchar();
+        return;
+    }
+    else
+    {
+        printf("------------------------------------------------------\n\n");
+
+
+       print_colaborador(aux_col);
+
+    }
+
+    resp = confirmar();
+
+    if (!resp)
+    {
+        fclose(arq);
+        return;
+    }
+    else
+    {
+        printf("------------------------------------------------------\n\n");
+
+        fseek(arq, posicao, SEEK_SET);
+
+        printf("- Data do fim do contrato com o colaborador:\n");
+
+        printf("Dia: ");
+        scanf("%d", &aux_col.final_cont.dia);
+
+        printf("Mes: ");
+        scanf("%d", &aux_col.final_cont.mes);
+
+        printf("Ano: ");
+        scanf("%d", &aux_col.final_cont.ano);
+        getchar();
+        printf("\n");
+
+        aux_col.valor_logico = EXC;
+
+        fwrite(&aux_col, sizeof(colaborador), 1, arq);
+
+        system(CLS);
+
+        printf("------------------------------------------------------\n\n");
+
+        printf("\n * Colaborador Removido !! *\n");
+
+        printf("\n\n (Aperte a tecla Enter para sair)\n\n");
+        printf("------------------------------------------------------\n\n");
+        getchar();
+    }
+
+    fclose(arq);
+}
+
 ////Relatório geral
 void relatorio_geral_forn(void)
 {
-
     printf("------------------------------------------------------\n\n");
     FILE *arq = fopen(A_FORN, "rb");
     if (!arq)
@@ -1347,7 +1934,7 @@ void relatorio_geral_prod(void){
 
         printf("------------------------------------------------------\n\n");
 
-        print_produto(aux_prod); 
+        print_produto(aux_prod);
 
         if(!aux_prod.valor_logico){
             printf("\n\n    = Produto Cadastrado =\n\n");
@@ -1361,6 +1948,49 @@ void relatorio_geral_prod(void){
     printf("------------------------------------------------------\n\n");
     getchar();
 
+
+    fclose(arq);
+}
+
+void relatorio_geral_col(void)
+{
+    printf("------------------------------------------------------\n\n");
+    FILE *arq = fopen(A_COL, "rb");
+    if (!arq)
+    {
+        fprintf(stderr, "Arquivo de Colaborador nao pode ser encontrado\n");
+        printf("\n\n (Aperte a tecla Enter para sair)\n\n");
+        printf("------------------------------------------------------\n\n");
+        getchar();
+        return;
+    }
+
+    colaborador aux_col;
+
+    fseek(arq, 0, SEEK_SET);
+
+    printf("    * Relatorio Geral de Colaborador *\n\n");
+
+    while(fread(&aux_col, sizeof(colaborador), 1, arq))
+    {
+        printf("------------------------------------------------------\n\n");
+
+        print_colaborador(aux_col);
+
+        if(!aux_col.valor_logico){
+            printf("\n\n    = Colaborador Cadastrado =\n\n");
+        }
+        else{
+
+            printf("- Data do fim do contrato com o colaborador: %d/%d/%d\n", aux_col.final_cont.dia, aux_col.final_cont.mes, aux_col.final_cont.ano);
+
+            printf("\n\n    = Colaborador Excluido =\n\n");
+        }
+    }
+
+    printf("\n\n (Aperte a tecla Enter para sair)\n\n");
+    printf("------------------------------------------------------\n\n");
+    getchar();
 
     fclose(arq);
 }
