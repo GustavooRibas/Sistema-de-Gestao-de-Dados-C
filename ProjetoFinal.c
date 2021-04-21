@@ -99,75 +99,244 @@ typedef struct
 //-----------------------------------------------------------------------------
 //Protótios das funções utilizadas
 
-//Pesquisa binária para os códigos
+/**
+ * @fn binary_search(FILE *arq, int ini, int fim, unsigned long cod, int tipo)
+ * @brief Pesquisa binária para os códigos
+ * @param FILE *arq - Arquivo onde será procurada a struct desejada
+ * @param int ini - Byte inicial do arquivo onde a pesquisa será feita
+ * @param int fim - Byte final do arquivo onde a pesquisa será feita
+ * @param unsigned long cod - Código da struct a ser procurada
+ * @param int tipo - Tipo do arquivo a ser pesquisado, ou seja, arquivo de fornecedores, produtos ou colaboradores
+ * @return Posição, dentro do arquivo, da struct procurada
+*/
 int binary_search(FILE *arq, int ini, int fim, unsigned long cod, int tipo);
 
-//Gerador de códigos (Produtos | Fornecedores)
+/**
+ * @fn gerador_codigo(int tipo)
+ * @brief Gerador de códigos (Produtos | Fornecedores)
+ * @param int tipo - Tipo do arquivo em que será contada a quantidade de elementos (structs), ou seja, arquivo de fornecedores, produtos ou colaboradores
+ * @return Quantidade de elementos (structs) dentro do arquivo
+*/
 unsigned long gerador_codigo(int tipo);
 
-//Logo do Projeto Não-Magalu
+/**
+ * @fn logo_nmagalu(void)
+ * @brief Apreseta na tela a logo da varejista "Não-Magalu"
+*/
 void logo_nmagalu(void);
 
-//Limpeza do "\n" das strings
+/**
+ * @fn clear(char str[])
+ * @brief Limpeza do "\n" das strings
+ * @param char str[] - String em que se deseja retirar o "\n"
+*/
 void clear(char str[]);
 
-//Confirmação
+/**
+ * @fn confirmar(void)
+ * @brief Apresenta um menu de confirmação para a exclusão ou atualização dos dados
+ */
 int confirmar(void);
 
-//Menu Principal
+/**
+ * @fn menu_principal(void)
+ * @brief Display de ações a serem realizadas no menu principal
+*/
 int menu_principal(void);
 
-//Gerenciar Fornecedores
+/**
+ * @fn gerenciar_fornecedores(void)
+ * @brief Display de ações a serem realizadas no gerenciador de fornecedores, sendo elas:
+ * Inserir, atualizar, remover, pesquisar e apresentar relatório geral de fornecedores. Apresenta
+ * na tela uma opção de sair do menu de fornecedores.
+*/
 void gerenciar_fornecedor(void);
 
-//Gerenciar Produtos
+/**
+ * @fn gerenciar_produtos(void)
+ * @brief Display de ações a serem realizadas no menu gerenciador de produtos, sendo elas:
+ * Atualizar, remover, pesquisar e apresentar relatório geral de produtos. Apresenta
+ * na tela uma opção de sair do menu de produtos.
+*/
 void gerenciar_produtos(void);
 
-//Gerenciar Colaboradores
+/**
+ * @fn gerenciar_colaborador(void)
+ * @brief Display de ações a serem realizadas no menu gerenciador de colaboradores, sendo elas:
+ * Inserir, atualizar, remover, pesquisar e apresentar relatório geral de colaboradores. Apresenta
+ * na tela uma opção de sair do menu de colaboradores.
+*/
 void gerenciar_colaborador(void);
 
-//Inserir
+/**
+ * @fn inserir_fornecedor(void)
+ * @brief Solicita ao usuário a inserção dos seguintes dados:  Nome do fornecedor, quantidade de produtos a serem cadastrados,
+ * CNPJ, telefone , o endereço e data do início das relações com o fornecedor. Além disso, a função gera o código dos fornecedores e
+ * dos produtos, chamando a função gerador_codigo tendo como parâmetro o tipo do arquivo (Fornecedor | Produto | Colaborador).
+ * O código dos produtos é passado como argumento na função inserir_produto e, em seguida, ele atribui o valor 0 ao valor lógico
+ * de exclusão, indicando que não está excluso. Por fim, ele escreve os dados do fornecedor em um arquivo de fornecedores.
+*/
 void inserir_fornecedor(void);
 
+/**
+ * @fn inserir_produto(void)
+ * @brief A Função recebe como argumento o código do produto e solicita ao usuário a inserção dos seguintes dados:
+ * nome do produto, preço de compra, preço de venda e descrição do produto a ser ofertado. Em seguida, ele
+ * atribui o valor 0 ao valor lógico de exclusão, indicando que não está excluso e, por fim, escreve os
+ * dados do produto em um arquivo de produtos.
+ * @param codigo - código do produto a ser ofertado
+*/
 void inserir_produto(int codigo);
 
+/**
+ * @fn inserir_colaborador(void)
+ * @brief Solicita ao usuário a inserção dos seguintes dados:
+ * nome do colaborador, CPF, telefone , o endereço e data do início do contrato com o colaborador.
+ * Além disso, a função gera o código do colaborador, chamando a função gerador_codigo,
+ * tendo como parâmetro o tipo do arquivo (Fornecedor | Produto | Colaborador). Em seguida, ele
+ * atribui o valor 0 ao valor lógico de exclusão, indicando que não está excluso. Por fim, ele escreve os
+ * dados do colaborador em um arquivo de colaboradores.
+*/
 void inserir_colaborador(void);
 
-//Pesquisar
+/**
+ * @fn pesquisar_fornecedor(void)
+ * @brief Faz chamada da função binary_search passando como argumento o código a ser pesquisado. Em seguida, caso o arquivo de fornecedores exista,
+ * o código esteja cadastrado e o fornecedor não esteja excluso, ele imprime as suas informações na tela.
+ * Caso o código não esteja cadastrado, ele informa que o código é inexistente.
+*/
 void pesquisar_fornecedor(void);
 
+/**
+ * @fn pesquisar_produto_forn(unsigned long codigo)
+ * @brief A função recebe como argumento o codigo do produto, faz a chamada da função binary_search para encontrar o produto a ser pesquisado. Caso
+ * o produto exista e não esteja excluso, ele informa seus dados, caso contrário ele informa que o código é inexistente.
+ * @param codigo - Código do produto a ser pesquisado.
+*/
 void pesquisar_produto_forn(unsigned long codigo);
 
+/**
+ * @fn pesquisar_produto(void)
+ * @brief Faz chamada da função binary_search passando como argumento o código a ser pesquisado. Em seguida, caso o arquivo de produto exista,
+ * o código esteja cadastrado e o profuto não esteja excluso, ele imprime as suas informações na tela.
+ * Caso o código não esteja cadastrado, ele informa que o código é inexistente.
+*/
 void pesquisar_produto(void);
 
+/**
+ * @fn pesquisar_colaborador(void)
+ * @brief Faz chamada da função binary_search passando como argumento o código a ser pesquisado. Em seguida, caso o arquivo de colaboradores exista,
+ * o código esteja cadastrado e o colaborador não esteja excluso, ele imprime as suas informações na tela.
+ * Caso o código não esteja cadastrado, ele informa que o código é inexistente.
+*/
 void pesquisar_colaborador(void);
 
-//Atualizar
+/**
+ * @fn atualizar_fornecedor(void)
+ * @brief Pede para o usuário o código do fornecedor a ter seus dados atualizados, em seguida faz a chamada
+ * da função binary_search para procurar seus dados no arquivo de fornecedores. Apresenta na tela uma confirmação chamando a função confirmar, se o usuário
+ * digitar 's' ou 'S' a função solicita ao usuário os dados para serem atualizados, como: Nome do fornecedor, quantidade de produtos a serem cadastrados,
+ * CNPJ, telefone , o endereço e data do início das relações com o fornecedor. Em seguida, insere os dados no arquivo, no local do dados anteriores.
+ * Caso o usuário, na confirmação, digite 'n' ou 'N' a função irá retornar ao gerenciar_fornecedore.
+*/
 void atualizar_fornecedor(void);
 
+/**
+ * @fn atualizar_produto(void)
+ * @brief Pede para o usuário o código do produto a ter seus dados atualizados, em seguida faz a chamada
+ * da função binary_search para procurar seus dados no arquivo de produtos. Apresenta na tela uma confirmação chamando a função confirmar, se o usuário
+ * digitar 's' ou 'S' a função solicita ao usuário os dados para serem atualizados, como: nome do produto, preço de compra, preço de venda
+ * e descrição do produto a ser ofertado. Em seguida insere os dados no arquivo no local do dados anteriores.
+ * Caso o usuário, na confirmação, digite 'n' ou 'N' a função irá retornar ao gerenciar_produtos.
+*/
 void atualizar_produto(void);
 
+/**
+ * @fn atualizar_colaborador(void)
+ * @brief Pede para o usuário o código do colaborador a ter seus dados atualizados, em seguida faz a chamada
+ * da função binary_search para procurar seus dados no arquivo de colaboradores. Apresenta na tela uma confirmação chamando a função confirmar, se o usuário
+ * digitar 's' ou 'S' a função solicita ao usuário os dados para serem atualizados, como: nome do colaborador, CPF, telefone ,
+ * o endereço e data do início do contrato com o colaborador. Em seguida, insere os dados no arquivo, no local do dados anteriores.
+ * Caso o usuário, na confirmação, digite 'n' ou 'N' a função irá retornar ao gerenciar_colaborador.
+*/
 void atualizar_colaborador(void);
 
-//Remover
+
+/**************************
+ * to do
+ ***************************/
+
+
+/**
+ * @fn remover_fornecedor(void)
+ * @brief Faz chamada da função binary_search passando como argumento o código a ser pesquisado. Em seguida, caso o arquivo de produto exista,
+ * o código esteja cadastrado e o profuto não esteja excluso, ele imprime as suas informações na tela.
+ * Caso o código não esteja cadastrado, ele informa que o código é inexistente.
+*/
 void remover_fornecedor(void);
 
+/**
+ * @fn remover_produto(void)
+ * @brief Faz chamada da função binary_search passando como argumento o código a ser pesquisado. Em seguida, caso o arquivo de produto exista,
+ * o código esteja cadastrado e o profuto não esteja excluso, ele imprime as suas informações na tela.
+ * Caso o código não esteja cadastrado, ele informa que o código é inexistente.
+*/
 void remover_produto(void);
 
+/**
+ * @fn remover_colaborador(void)
+ * @brief Faz chamada da função binary_search passando como argumento o código a ser pesquisado. Em seguida, caso o arquivo de produto exista,
+ * o código esteja cadastrado e o profuto não esteja excluso, ele imprime as suas informações na tela.
+ * Caso o código não esteja cadastrado, ele informa que o código é inexistente.
+*/
 void remover_colaborador(void);
 
-//Relatório geral
+/**
+ * @fn relatorio_geral_prod(void)
+ * @brief Faz chamada da função binary_search passando como argumento o código a ser pesquisado. Em seguida, caso o arquivo de produto exista,
+ * o código esteja cadastrado e o profuto não esteja excluso, ele imprime as suas informações na tela.
+ * Caso o código não esteja cadastrado, ele informa que o código é inexistente.
+*/
 void relatorio_geral_prod(void);
 
+/**
+ * @fn relatorio_geral_forn(void)
+ * @brief Faz chamada da função binary_search passando como argumento o código a ser pesquisado. Em seguida, caso o arquivo de produto exista,
+ * o código esteja cadastrado e o profuto não esteja excluso, ele imprime as suas informações na tela.
+ * Caso o código não esteja cadastrado, ele informa que o código é inexistente.
+*/
 void relatorio_geral_forn(void);
 
+/**
+ * @fn relatorio_geral_col(void)
+ * @brief Faz chamada da função binary_search passando como argumento o código a ser pesquisado. Em seguida, caso o arquivo de produto exista,
+ * o código esteja cadastrado e o profuto não esteja excluso, ele imprime as suas informações na tela.
+ * Caso o código não esteja cadastrado, ele informa que o código é inexistente.
+*/
 void relatorio_geral_col(void);
 
-//Saída dos dados
+/**
+ * @fn print_fornecedor(fornecedor aux_forn)
+ * @brief Faz chamada da função binary_search passando como argumento o código a ser pesquisado. Em seguida, caso o arquivo de produto exista,
+ * o código esteja cadastrado e o profuto não esteja excluso, ele imprime as suas informações na tela.
+ * Caso o código não esteja cadastrado, ele informa que o código é inexistente.
+*/
 void print_fornecedor(fornecedor aux_forn);
 
+/**
+ * @fn print_produto(produtos aux_prod)
+ * @brief Faz chamada da função binary_search passando como argumento o código a ser pesquisado. Em seguida, caso o arquivo de produto exista,
+ * o código esteja cadastrado e o profuto não esteja excluso, ele imprime as suas informações na tela.
+ * Caso o código não esteja cadastrado, ele informa que o código é inexistente.
+*/
 void print_produto(produtos aux_prod);
 
+/**
+ * @fn print_colaboradores(colaborador aux_col)
+ * @brief Faz chamada da função binary_search passando como argumento o código a ser pesquisado. Em seguida, caso o arquivo de produto exista,
+ * o código esteja cadastrado e o profuto não esteja excluso, ele imprime as suas informações na tela.
+ * Caso o código não esteja cadastrado, ele informa que o código é inexistente.
+*/
 void print_colaboradores(colaborador aux_col);
 
 //-------------------------------------------------------------------------------
