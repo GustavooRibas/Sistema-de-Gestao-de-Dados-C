@@ -83,6 +83,7 @@ typedef struct
     unsigned long cod_colaborador;
 	char nome_col[NOM];
 	char cargo[CARG];
+	float salario;
 	char CPF[NUM_CPF];
 	char rua[END];
     char bairro[END];
@@ -656,6 +657,8 @@ void print_colaborador(colaborador aux_col)
 
         printf("- Cargo do colaborador: %s\n", aux_col.cargo);
 
+        printf("- Salario do colaborador: R$%.2f\n", aux_col.salario);
+
         printf("- CPF do colaborador: %s\n", aux_col.CPF);
 
         printf("- Telefone do colaborador: %d\n\n", aux_col.telefone);
@@ -854,6 +857,10 @@ void inserir_colaborador(void)
         printf("- Cargo do colaborador: ");
         fgets(aux_col.cargo, CARG, stdin);
         clear(aux_col.cargo);
+
+        printf("- Salario do colaborador: ");
+        scanf("%f", &aux_col.salario);
+        getchar();
 
         printf("- CPF do colaborador: ");
         fgets(aux_col.CPF, NUM_CPF, stdin);
@@ -1508,6 +1515,10 @@ void atualizar_colaborador(void)
         printf("- Cargo do colaborador: ");
         fgets(aux_col.cargo, CARG, stdin);
         clear(aux_col.cargo);
+
+        printf("- Salario do colaborador: ");
+        scanf("%f", &aux_col.salario);
+        getchar();
 
         printf("- CPF do colaborador: ");
         fgets(aux_col.CPF, NUM_CPF, stdin);
