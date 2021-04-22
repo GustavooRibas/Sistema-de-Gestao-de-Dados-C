@@ -12,13 +12,17 @@
  --------------------------------------------
    DATA DE FINALIZAÇÃO:
  --------------------------------------------*/
-//Bibiotecas
+
+/*********************************************
+ *          BIBLIOTECAS
+ ********************************************/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-//Constantes Gerais
-enum {NOM = 41, DESC = 101, EXC =  1, NEXC = 0, QUANT_PROD = 10, END = 41, UF = 3, CARAC_A = 15, NUM_CNPJ = 15 , NUM_CPF = 12 , CARG = 41};
+/********************************************
+ *          DEFINES
+ *******************************************/
 
 //Limpeza da tela de acordo com o sistema operacional do usuário
 #ifdef _WIN32
@@ -39,8 +43,17 @@ enum {NOM = 41, DESC = 101, EXC =  1, NEXC = 0, QUANT_PROD = 10, END = 41, UF = 
 #define A_FORN "Fornecedores"
 #define A_COL  "Colaboradores"
 
-//---------------------------------------------------------------------------------
-//Estruturas
+/****************************************
+ *          CONSTANTES
+ ***************************************/
+//Constantes Gerais
+enum {NOM = 41, DESC = 101, EXC =  1, NEXC = 0, QUANT_PROD = 10, END = 41, UF = 3, CARAC_A = 15, NUM_CNPJ = 15 , NUM_CPF = 12 , CARG = 41};
+
+/***************************************
+ *          ESTRUTURAS
+ **************************************/
+
+//Estrutura para produtos
 typedef struct
 {
     unsigned long cod_produto;
@@ -52,6 +65,7 @@ typedef struct
 
 }produtos;
 
+//Estrutura para data
 typedef struct
 {
     int dia;
@@ -59,6 +73,7 @@ typedef struct
     int ano;
 }data;
 
+//Estrutura para fornecedores
 typedef struct
 {
 	unsigned long cod_fornecedor;
@@ -78,6 +93,7 @@ typedef struct
 
 }fornecedor;
 
+//Estrutura para colaboradores
 typedef struct
 {
     unsigned long cod_colaborador;
@@ -96,8 +112,9 @@ typedef struct
 	int valor_logico;
 }colaborador;
 
-//-----------------------------------------------------------------------------
-//Protótios das funções utilizadas
+/***********************************************
+ *          PROTÓTIPOS
+ **********************************************/
 
 /**
  * @fn binary_search(FILE *arq, int ini, int fim, unsigned long cod, int tipo)
@@ -261,35 +278,48 @@ void atualizar_produto(void);
 */
 void atualizar_colaborador(void);
 
-
-/**************************
- * to do
- ***************************/
-
-
 /**
  * @fn remover_fornecedor(void)
- * @brief Faz chamada da função binary_search passando como argumento o código a ser pesquisado. Em seguida, caso o arquivo de produto exista,
- * o código esteja cadastrado e o profuto não esteja excluso, ele imprime as suas informações na tela.
- * Caso o código não esteja cadastrado, ele informa que o código é inexistente.
+ * @brief Pede para o usuário digitar o código do fornecedor a ser removido, em seguida
+ * faz a busca do código chamando a função binary_search. Caso o código não esteja 
+ * presente no arqivo de fornecedores ou o fornecedor já tenha sido excluído, é
+ * apresentado na tela uma mesagen de código inexistente. Caso o código não esteja 
+ * excluído, são apresentados os dados do fornecedor e pede uma confirmação 
+ * da exclusão. Se o usúario informar que quer excluír o fornecedor,
+ * a função pede para o usuário inserir a data do fim das relações e exclui logicamente, 
+ * o fornecedor, trocando o valor lógico de exclusão.
 */
 void remover_fornecedor(void);
 
 /**
  * @fn remover_produto(void)
- * @brief Faz chamada da função binary_search passando como argumento o código a ser pesquisado. Em seguida, caso o arquivo de produto exista,
- * o código esteja cadastrado e o profuto não esteja excluso, ele imprime as suas informações na tela.
- * Caso o código não esteja cadastrado, ele informa que o código é inexistente.
+ * @brief Pede para o usuário digitar o código do produto a ser removido, em seguida
+ * faz a busca do código chamando a função binary_search. Caso o código não esteja 
+ * presente no arqivo de produtos ou o produto já tenha sido excluído, é
+ * apresentado na tela uma mesagen de código inexistente. Caso o código não esteja 
+ * excluído, são apresentados os dados do produto e pede para uma confirmação da 
+ * exclusão. Se o usúario informar que quer excluír o produto, a função exclui
+ * logicamente o item, trocando o valor lógico de exclusão.
 */
 void remover_produto(void);
 
 /**
  * @fn remover_colaborador(void)
- * @brief Faz chamada da função binary_search passando como argumento o código a ser pesquisado. Em seguida, caso o arquivo de produto exista,
- * o código esteja cadastrado e o profuto não esteja excluso, ele imprime as suas informações na tela.
- * Caso o código não esteja cadastrado, ele informa que o código é inexistente.
+ * @brief Pede para o usuário digitar o código do colaborador a ser removido, em seguida
+ * faz a busca do código chamando a função binary_search. Caso o código não esteja 
+ * presente no arqivo de colaboraboradores ou o colaborador já tenha sido excluído, é
+ * apresentado na tela uma mesagen de código inexistente. Caso o código não esteja 
+ * excluído, são apresentados os dados do colaborador e pede uma confirmação da 
+ * exclusão. Se o usúario informar que quer excluír o colaborador, a função exclui
+ * logicamente o item, trocando o valor lógico de exclusão.
 */
 void remover_colaborador(void);
+
+
+/*******************************************************
+ *              TO DO
+ *****************************************************/
+
 
 /**
  * @fn relatorio_geral_prod(void)
@@ -339,8 +369,9 @@ void print_produto(produtos aux_prod);
 */
 void print_colaboradores(colaborador aux_col);
 
-//-------------------------------------------------------------------------------
-
+/********************************************
+ *              MAIN
+ *******************************************/
 
 int main(void)
 {
@@ -370,9 +401,11 @@ int main(void)
     exit(0);
 }
 
-//Logo do Projeto Não-Magalu
-void logo_nmagalu(){
+/*********************************************
+ *      IMPLEMENTAÇÃO DAS FUNÇÕES
+ ********************************************/
 
+void logo_nmagalu(){
     printf("-----------------------------------------------------------------------------------\n\n");
     printf("           _   __                        __  ___                  __     \n");
     printf("          / | / /___ _____              /  |/  /___ _____ _____ _/ /_  __\n");
@@ -732,34 +765,29 @@ unsigned long gerador_codigo(int tipo)
     if (tipo == 1)
     {
         produtos aux_prod;
-
-        while (!feof(arquiv))
-        {
-            quant++;
-            fread(&aux_prod, sizeof(produtos), 1, arquiv);
-        }
+        
+        fseek(arquiv, sizeof(produtos)*(-1), SEEK_END);
+        fread(&aux_prod, sizeof(produtos), 1, arquiv);
+        quant = aux_prod.cod_produto + 1;
     }
 
     else
     {
         if (tipo == 0)
         {
-
             fornecedor aux_forn;
-            while(!feof(arquiv))
-            {
-                quant++;
-                fread(&aux_forn, sizeof(fornecedor), 1, arquiv);
-            }
+            
+            fseek(arquiv, sizeof(fornecedor)*(-1), SEEK_END);
+            fread(&aux_forn, sizeof(fornecedor), 1, arquiv);
+            quant = aux_forn.cod_fornecedor + 1;
         }
         else
         {
             colaborador aux_col;
-            while(!feof(arquiv))
-            {
-                quant++;
-                fread(&aux_col, sizeof(colaborador), 1, arquiv);
-            }
+            
+            fseek(arquiv,sizeof(colaborador)*(-1), SEEK_END);
+            fread(&aux_col, sizeof(colaborador), 1, arquiv);
+            quant = aux_col.cod_colaborador + 1;
         }
     }
 
