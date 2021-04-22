@@ -201,7 +201,7 @@ void inserir_fornecedor(void);
  * nome do produto, preço de compra, preço de venda e descrição do produto a ser ofertado. Em seguida, ele
  * atribui o valor 0 ao valor lógico de exclusão, indicando que não está excluso e, por fim, escreve os
  * dados do produto em um arquivo de produtos.
- * @param codigo - código do produto a ser ofertado
+ * @param int codigo - código do produto a ser ofertado
 */
 void inserir_produto(int codigo);
 
@@ -228,7 +228,7 @@ void pesquisar_fornecedor(void);
  * @fn pesquisar_produto_forn(unsigned long codigo)
  * @brief A função recebe como argumento o codigo do produto, faz a chamada da função binary_search para encontrar o produto a ser pesquisado. Caso
  * o produto exista e não esteja excluso, ele informa seus dados, caso contrário ele informa que o código é inexistente.
- * @param codigo - Código do produto a ser pesquisado.
+ * @param unsigned long codigo - Código do produto a ser pesquisado.
 */
 void pesquisar_produto_forn(unsigned long codigo);
 
