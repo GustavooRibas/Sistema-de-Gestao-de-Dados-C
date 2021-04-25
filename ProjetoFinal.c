@@ -144,7 +144,7 @@ void logo_nmagalu(void);
 
 /**
  * @fn clear(char str[])
- * @brief Limpeza do "\n" das strings
+ * @brief Limpeza do "\n" das strings e limpeza dos caracteres excedentes no buffer
  * @param char str[] - String em que se deseja retirar o "\n"
 */
 void clear(char str[]);
@@ -315,57 +315,48 @@ void remover_produto(void);
 */
 void remover_colaborador(void);
 
-
-/*******************************************************
- *              TO DO
- *****************************************************/
-
-
 /**
  * @fn relatorio_geral_prod(void)
- * @brief Faz chamada da função binary_search passando como argumento o código a ser pesquisado. Em seguida, caso o arquivo de produto exista,
- * o código esteja cadastrado e o profuto não esteja excluso, ele imprime as suas informações na tela.
- * Caso o código não esteja cadastrado, ele informa que o código é inexistente.
+ * @brief Apresenta na tela todos os dados de produtos que foram obtidos até o momento
+ * da sua chamada, além disso, exibe a sua situação cadastral (se está ou não
+ * excluído).
 */
 void relatorio_geral_prod(void);
 
 /**
  * @fn relatorio_geral_forn(void)
- * @brief Faz chamada da função binary_search passando como argumento o código a ser pesquisado. Em seguida, caso o arquivo de produto exista,
- * o código esteja cadastrado e o profuto não esteja excluso, ele imprime as suas informações na tela.
- * Caso o código não esteja cadastrado, ele informa que o código é inexistente.
+ * @brief Exibe na tela todos os dados de fornecedores que foram obtidos até o 
+ * momento da sua chamada, além disso, apresenta a sua situação cadastral (se está ou não
+ * excluído).
 */
 void relatorio_geral_forn(void);
 
 /**
  * @fn relatorio_geral_col(void)
- * @brief Faz chamada da função binary_search passando como argumento o código a ser pesquisado. Em seguida, caso o arquivo de produto exista,
- * o código esteja cadastrado e o profuto não esteja excluso, ele imprime as suas informações na tela.
- * Caso o código não esteja cadastrado, ele informa que o código é inexistente.
+ * @brief Apresenta na tela todos os dados de colaboradores que foram obtidos até o 
+ * momento da sua chamada, além disso, exibe a sua situação cadastral (se está ou não
+ * excluído).
 */
 void relatorio_geral_col(void);
 
 /**
  * @fn print_fornecedor(fornecedor aux_forn)
- * @brief Faz chamada da função binary_search passando como argumento o código a ser pesquisado. Em seguida, caso o arquivo de produto exista,
- * o código esteja cadastrado e o profuto não esteja excluso, ele imprime as suas informações na tela.
- * Caso o código não esteja cadastrado, ele informa que o código é inexistente.
+ * @brief Esta é a função a ser chamada pelas outras funções para apresentar os dados 
+ * dos fornecedores.  
 */
 void print_fornecedor(fornecedor aux_forn);
 
 /**
  * @fn print_produto(produtos aux_prod)
- * @brief Faz chamada da função binary_search passando como argumento o código a ser pesquisado. Em seguida, caso o arquivo de produto exista,
- * o código esteja cadastrado e o profuto não esteja excluso, ele imprime as suas informações na tela.
- * Caso o código não esteja cadastrado, ele informa que o código é inexistente.
+ * @brief Esta é a função a ser chamada pelas outras funções para apresentar os dados 
+ * de produtos.  
 */
 void print_produto(produtos aux_prod);
 
 /**
  * @fn print_colaboradores(colaborador aux_col)
- * @brief Faz chamada da função binary_search passando como argumento o código a ser pesquisado. Em seguida, caso o arquivo de produto exista,
- * o código esteja cadastrado e o profuto não esteja excluso, ele imprime as suas informações na tela.
- * Caso o código não esteja cadastrado, ele informa que o código é inexistente.
+ * @brief Esta é a função a ser chamada pelas outras funções para apresentar os dados 
+ * de colaboradores.  
 */
 void print_colaboradores(colaborador aux_col);
 
@@ -375,7 +366,7 @@ void print_colaboradores(colaborador aux_col);
 
 int main(void)
 {
-  int resp;
+  int resp; //variável para obter a resposta do menu_principal
 
     system(CLS); //limpar a tela do usuário antes de iniciar de fato o código
     resp = menu_principal();
@@ -405,6 +396,7 @@ int main(void)
  *      IMPLEMENTAÇÃO DAS FUNÇÕES
  ********************************************/
 
+//saída da logo
 void logo_nmagalu(){
     printf("-----------------------------------------------------------------------------------\n\n");
     printf("           _   __                        __  ___                  __     \n");
@@ -420,7 +412,7 @@ void logo_nmagalu(){
 //Pesquisa binária dos códigos
 int binary_search(FILE *arq, int ini, int fim, unsigned long cod, int tipo)
 {
-    char buff_arquiv[CARAC_A];
+    char buff_arquiv[CARAC_A]; //vairável para guardar o nome do arquivo
 
     if (tipo == 1)
     {
@@ -529,18 +521,18 @@ int binary_search(FILE *arq, int ini, int fim, unsigned long cod, int tipo)
     return -1;
 }
 
-//Limpeza do "\n" das strings
+//Limpeza do "\n" das strings e dos caracteres excedentes 
 void clear(char str[])
 {
-    int c = strlen(str);
+    int c = strlen(str); //guarda o tamanho da string
     if (str[c - 1] == '\n') str[c - 1] = 0;
     else while(getchar() != '\n');
 }
 
-//Confirmação
+//Confirmação e exclusão | remoção
 int confirmar(void)
 {
-    char resp = ' ';
+    char resp = ' '; //variável para guardar a resposta
 
     while (resp != 's' && resp != 'S' && resp != 'n' && resp != 'N')
     {
@@ -558,7 +550,7 @@ int confirmar(void)
 //Menu Principal
 int menu_principal(void)
 {
-    int res = -1;
+    int res = -1; //variável para guardar a resposta
 
     while (res < 1 || res > 4)
     {
@@ -582,8 +574,7 @@ int menu_principal(void)
 //Gerenciar Fornecedores
 void gerenciar_fornecedor(void)
 {
-    int res = 0;
-
+    int res = 0; //variável para guardar a resposta
 
     while (res != 6)
     {
@@ -634,8 +625,7 @@ void gerenciar_fornecedor(void)
 //Gerenciar Produtos
 void gerenciar_produtos(void)
 {
-    int res = 0;
-
+    int res = 0; //variável para guardar a resposta
 
     while (res != 5)
     {
@@ -684,8 +674,7 @@ void gerenciar_produtos(void)
 //gerenciar colaboradores
 void gerenciar_colaborador(void)
 {
-    int res = 0;
-
+    int res = 0; //variável para guardar a resposta
 
     while (res != 6)
     {
@@ -733,12 +722,10 @@ void gerenciar_colaborador(void)
     }
 }
 
-
-
 //Gerador de códigos (Produtos | Fornecedores)
 unsigned long gerador_codigo(int tipo)
 {
-    unsigned long quant = 0;
+    unsigned long quant = 0; //guarda a quantidade de elementos no arquivo
 
     char buff_nome_arquivo[CARAC_A];
 
@@ -796,9 +783,10 @@ unsigned long gerador_codigo(int tipo)
     return quant;
 }
 
+//Apresenta na tela os dados dos fornecedores
 void print_fornecedor(fornecedor aux_forn)
 {
-        int x;
+        int x; //variável auxiliar para o for que será utilizado
 
         printf("# Codigo do Fornecedor: %lu\n", aux_forn.cod_fornecedor);
         printf("\n");
@@ -832,6 +820,7 @@ void print_fornecedor(fornecedor aux_forn)
         printf("\n");
 }
 
+//Apresenta na tela os dados de produtos
 void print_produto(produtos aux_prod)
 {
         printf("Codigo do Produto: %lu\n", aux_prod.cod_produto);
@@ -845,6 +834,7 @@ void print_produto(produtos aux_prod)
         printf("Descricao do produto: %s\n", aux_prod.descricao);
 }
 
+//Apresenta na tela os dados de colaboradores
 void print_colaborador(colaborador aux_col)
 {
         printf("# Codigo do colaborador: %lu\n", aux_col.cod_colaborador);
@@ -874,12 +864,12 @@ void print_colaborador(colaborador aux_col)
 
 }
 
-//Inserir
+//Inserir fornecedor
 void inserir_fornecedor(void){
 
     printf("------------------------------------------------------\n\n");
-    fornecedor aux_forn;
-    int x=0, i, quant_forn;
+    fornecedor aux_forn; //auxiliar para guardar os dados de fornecedores
+    int x=0, i, quant_forn; //auxliares
 
     printf("Digite a quantidade de fornecedores a serem inseridos: ");
     scanf("%d", &quant_forn);
@@ -979,11 +969,11 @@ void inserir_fornecedor(void){
 
 }
 
-
+//Inserir produto
 void inserir_produto(int codigo)
 {
     printf("----------------\n");
-    produtos aux_prod;
+    produtos aux_prod; //auxiliar para guardar os dados de produtos
 
     FILE *arq = fopen(A_PROD, "ab");
     if (!arq)
@@ -1024,11 +1014,12 @@ void inserir_produto(int codigo)
     fclose(arq);
 }
 
+//Inserir colaborador
 void inserir_colaborador(void)
 {
     printf("------------------------------------------------------\n\n");
-    colaborador aux_col;
-    int i, quant_col;
+    colaborador aux_col; //auxliar para guardar dados do colaborador
+    int i, quant_col; //auxiliares
 
     printf("Digite a quantidade de colaboradores a serem inseridos: ");
     scanf("%d", &quant_col);
@@ -1121,14 +1112,14 @@ void inserir_colaborador(void)
     getchar();
 }
 
-//Pesquisar
+//Pesquisar fornecedor
 void pesquisar_fornecedor(void)
 {
-    fornecedor aux_forn;
-    unsigned long aux = gerador_codigo(FORN) - 1;
-    unsigned long codigo = 0;
-    int posicao;
-    int x = 0;
+    fornecedor aux_forn; //auxiliaar para guardar os dados de fornecedor
+    unsigned long aux = gerador_codigo(FORN) - 1; //guarda a quantidade de elementos no arquivo de fornecedores
+    unsigned long codigo = 0; // guarda o código do fornecedor a ser pesquisado
+    int posicao; //guarda a posição no arquivo
+    int x = 0; //auxiliar
 
     printf("------------------------------------------------------\n\n");
     printf("Digite o codigo a ser pesquisado: ");
@@ -1189,11 +1180,12 @@ void pesquisar_fornecedor(void)
     fclose(arq);
 }
 
+//Pesquisar produto no arquivo de fornecedores
 void pesquisar_produto_forn(unsigned long codigo)
 {
-    produtos aux_prod;
-    unsigned long aux = gerador_codigo(PROD) - 1;
-    int posicao;
+    produtos aux_prod;//auxiliar para guardar os dados de produtos
+    unsigned long aux = gerador_codigo(PROD) - 1; //guarda a quantidade de elementos no arquivo de produtos
+    int posicao;//guarda a posição no arquivo
 
     FILE *arq = fopen(A_PROD, "r+b");
     if (!arq)
@@ -1235,12 +1227,13 @@ void pesquisar_produto_forn(unsigned long codigo)
     fclose(arq);
 }
 
+//pesquisar produto
 void pesquisar_produto(void)
 {
-    produtos aux_prod;
-    unsigned long aux = gerador_codigo(PROD) - 1;
-    unsigned long codigo = 0;
-    int posicao;
+    produtos aux_prod; //auxiliar para guardar os dados de produtos
+    unsigned long aux = gerador_codigo(PROD) - 1; //guarda a quantidade de elementos no arquivo de produtos
+    unsigned long codigo = 0; //guarda o código a ser pesquisado
+    int posicao;//guarda a posição no arquivo
 
     printf("------------------------------------------------------\n\n");
     printf("Digite o codigo a ser pesquisado: ");
@@ -1300,13 +1293,14 @@ void pesquisar_produto(void)
     fclose(arq);
 }
 
+//pesquisar colaboradores
 void pesquisar_colaborador(void)
 {
-    colaborador aux_col;
-    unsigned long aux = gerador_codigo(COL) - 1;
-    unsigned long codigo = 0;
-    int posicao;
-    int x = 0;
+    colaborador aux_col; //auxiliar para guardar os dados de colaboradores
+    unsigned long aux = gerador_codigo(COL) - 1; //guarda a quantidade de elementos no arquivo de colaboradores
+    unsigned long codigo = 0;//guarda o código a ser pesquisado
+    int posicao; //guarda a posição no arquivo
+    int x = 0; //auxiliar
 
     printf("------------------------------------------------------\n\n");
     printf("Digite o codigo a ser pesquisado: ");
@@ -1367,12 +1361,12 @@ void pesquisar_colaborador(void)
     fclose(arq);
 }
 
-//Atualizar
+//Atualizar fornecedor
 void atualizar_fornecedor(void)
 {
-    fornecedor aux_forn;
-    unsigned long codigo, aux = gerador_codigo(FORN) - 1;
-    int resp, posicao, x;
+    fornecedor aux_forn; //guarda os dados do colaborador
+    unsigned long codigo, aux = gerador_codigo(FORN) - 1; //guarda o codigo a ser pesquisado; guarda a quantidade de elementos no arquivo de fornecedores
+    int resp, posicao, x; //auxiliares
 
     memset(&aux_forn, 0, sizeof(fornecedor));
 
@@ -1520,11 +1514,12 @@ void atualizar_fornecedor(void)
     fclose(arq);
 }
 
+//Atualizar produto
 void atualizar_produto(void)
 {
-    produtos aux_prod;
-    unsigned long codigo, aux = gerador_codigo(PROD) - 1;
-    int resp, posicao, x;
+    produtos aux_prod;//guarda os dados do produto
+    unsigned long codigo, aux = gerador_codigo(PROD) - 1;//guarda o código do produto a ser pesquisado; guarda a quantidade de elementos no arquivo de produtos
+    int resp, posicao, x; //auxiliares
 
     memset(&aux_prod, 0, sizeof(produtos));
 
@@ -1631,11 +1626,12 @@ void atualizar_produto(void)
     fclose(arq);
 }
 
+//Atualizar colaborador
 void atualizar_colaborador(void)
 {
-    colaborador aux_col;
-    unsigned long codigo, aux = gerador_codigo(COL) - 1;
-    int resp, posicao, x;
+    colaborador aux_col;//guarda os dados do colaborador
+    unsigned long codigo, aux = gerador_codigo(COL) - 1;//guarda o código do colaborador;guarda a quantidade de elementos no arquivo de colaboradores
+    int resp, posicao, x; //auxiliares
 
     memset(&aux_col, 0, sizeof(colaborador));
 
@@ -1778,6 +1774,10 @@ void atualizar_colaborador(void)
 
     fclose(arq);
 }
+
+/*****************************************************
+ *              TO DO
+ ****************************************************/
 
 //Remover
 void remover_fornecedor(void)
