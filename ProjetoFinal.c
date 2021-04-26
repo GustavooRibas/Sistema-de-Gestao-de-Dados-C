@@ -16,6 +16,7 @@
 /*********************************************
  *          BIBLIOTECAS
  ********************************************/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -46,6 +47,7 @@
 /****************************************
  *          CONSTANTES
  ***************************************/
+
 //Constantes Gerais
 enum {NOM = 41, DESC = 101, EXC =  1, NEXC = 0, QUANT_PROD = 10, END = 41, UF = 3, CARAC_A = 15, NUM_CNPJ = 15 , NUM_CPF = 12 , CARG = 41};
 
@@ -1779,12 +1781,12 @@ void atualizar_colaborador(void)
  *              TO DO
  ****************************************************/
 
-//Remover
+//Remover fornecefor
 void remover_fornecedor(void)
 {
-    fornecedor aux_forn;
-    unsigned long codigo, aux = gerador_codigo(FORN) - 1;
-    int resp, posicao, x;
+    fornecedor aux_forn;//auxiliar par guardar os dados do fornecedor
+    unsigned long codigo, aux = gerador_codigo(FORN) - 1;//código a ser pesquisado; quantidade de elementos no arquivo de fornecedores
+    int resp, posicao, x;//auxiliares
 
     printf("------------------------------------------------------\n\n");
     printf("Digite o codigo do fornecedor a ser excluido: ");
@@ -1885,11 +1887,12 @@ void remover_fornecedor(void)
     fclose(arq);
 }
 
+//Remover produto
 void remover_produto(void)
 {
-    produtos aux_prod;
-    unsigned long codigo, aux = gerador_codigo(PROD) - 1;
-    int resp, posicao, x;
+    produtos aux_prod; //auxiliar para guardar os ados do produto
+    unsigned long codigo, aux = gerador_codigo(PROD) - 1;//guardar o código a ser pesquisado; quantidade de elementos no arquivo de produtos
+    int resp, posicao, x; //auxiliares
 
     printf("------------------------------------------------------\n\n");
     printf("Digite o codigo do produto a ser excluido: ");
@@ -1971,11 +1974,12 @@ void remover_produto(void)
     fclose(arq);
 }
 
+//Remover colaborador
 void remover_colaborador(void)
 {
-    colaborador aux_col;
-    unsigned long codigo, aux = gerador_codigo(COL) - 1;
-    int resp, posicao, x;
+    colaborador aux_col;//guardar os dados do colaborador
+    unsigned long codigo, aux = gerador_codigo(COL) - 1;//código a ser pesquisado; quantidade de elementos no arquivo de colaboradores
+    int resp, posicao, x;//auxiliares
 
     printf("------------------------------------------------------\n\n");
     printf("Digite o codigo do colaborador a ser excluido: ");
@@ -2075,11 +2079,11 @@ void remover_colaborador(void)
     fclose(arq);
 }
 
-////Relatório geral
+////Relatório geral de fornecedores
 void relatorio_geral_forn(void)
 {
     printf("------------------------------------------------------\n\n");
-    FILE *arq = fopen(A_FORN, "rb");
+    FILE *arq = fopen(A_FORN, "rb"); //abertura do arquivo
     if (!arq)
     {
         fprintf(stderr, "Arquivo de fornecedores nao pode ser encontrado\n");
@@ -2119,10 +2123,11 @@ void relatorio_geral_forn(void)
     fclose(arq);
 }
 
+//Relatório geral de produtos
 void relatorio_geral_prod(void){
 
     printf("------------------------------------------------------\n\n");
-    FILE *arq = fopen(A_PROD, "rb");
+    FILE *arq = fopen(A_PROD, "rb"); //abertura do arquivo
     if (!arq)
     {
         fprintf(stderr, "Arquivo de produtos nao pode ser encontrado\n");
@@ -2160,10 +2165,11 @@ void relatorio_geral_prod(void){
     fclose(arq);
 }
 
+//Relatório geral de colaboradores
 void relatorio_geral_col(void)
 {
     printf("------------------------------------------------------\n\n");
-    FILE *arq = fopen(A_COL, "rb");
+    FILE *arq = fopen(A_COL, "rb"); //abertura do arquivo
     if (!arq)
     {
         fprintf(stderr, "Arquivo de Colaborador nao pode ser encontrado\n");
