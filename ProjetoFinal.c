@@ -1,6 +1,6 @@
-/*----------------------------------------------
-  	        	Trabalho final
- -----------------------------------------------
+/*----------------------------------------------------------------
+  	        	        TRABALHO FILNA AED-1
+ -----------------------------------------------------------------
   Nome: Diego Enrique da Silva Lima
   Matrícula: 202003556;
   E-mail: diegoenrique@discente.ufg.br
@@ -9,9 +9,16 @@
   Matrícula: 202003570;
   E-mail: ribeirogustavo@discente.ufg.br;
 
- --------------------------------------------
-   DATA DE FINALIZAÇÃO:
- --------------------------------------------*/
+------------------------------------------------------------------
+DESCRIÇÃO: 
+
+O projeto consiste no desenvolvimento de um sistema de gestão
+de dados de uma varejista (”Não-Magalu”) em linha de comando
+elaborado em linguagem C.
+
+-----------------------------------------------------------------
+DATA DE FINALIZAÇÃO:
+----------------------------------------------------------------*/
 
 /*********************************************
  *          BIBLIOTECAS
