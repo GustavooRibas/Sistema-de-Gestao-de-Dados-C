@@ -1,6 +1,17 @@
 /*----------------------------------------------------------------
   	        	        TRABALHO FILNA AED-1
  -----------------------------------------------------------------
+ 
+ DESCRIÇÃO: 
+ ---------
+   O projeto consiste no desenvolvimento de um sistema de gestão
+ de dados de fornecedores, produtos e colaboradores de uma varejista (”Não-Magalu”).
+ Elaborado para rodar em linha de comando, o sistema foi desenvolvido em linguagem C
+ e permite, além da inserção, pesquisa, alteração e remoção dos dados, apresentar
+ um relatório geral dos dados que foram obtidos.
+
+ DESENVOLVEDORES:
+ ----------------
   Nome: Diego Enrique da Silva Lima
   Matrícula: 202003556;
   E-mail: diegoenrique@discente.ufg.br
@@ -9,15 +20,8 @@
   Matrícula: 202003570;
   E-mail: ribeirogustavo@discente.ufg.br;
 
-------------------------------------------------------------------
-DESCRIÇÃO: 
-
-O projeto consiste no desenvolvimento de um sistema de gestão
-de dados de uma varejista (”Não-Magalu”) em linha de comando
-elaborado em linguagem C.
-
 -----------------------------------------------------------------
-DATA DE FINALIZAÇÃO:
+ DATA DE FINALIZAÇÃO:
 ----------------------------------------------------------------*/
 
 /*********************************************
