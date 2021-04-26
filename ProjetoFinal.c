@@ -1777,10 +1777,6 @@ void atualizar_colaborador(void)
     fclose(arq);
 }
 
-/*****************************************************
- *              TO DO
- ****************************************************/
-
 //Remover fornecefor
 void remover_fornecedor(void)
 {
