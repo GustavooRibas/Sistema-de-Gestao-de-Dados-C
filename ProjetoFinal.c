@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------
-  	        	        TRABALHO FILNA AED-1
+  	        	        TRABALHO FINAL AED-1
  -----------------------------------------------------------------
  
  DESCRIÇÃO: 
@@ -21,7 +21,7 @@
   E-mail: ribeirogustavo@discente.ufg.br;
 
 -----------------------------------------------------------------
- DATA DE FINALIZAÇÃO:
+ DATA DA ÚLTIMA ALTERAÇÃO: 4 de Maio de 2021
 ----------------------------------------------------------------*/
 
 /*********************************************
@@ -539,7 +539,7 @@ void clear(char str[])
 {
     int c = strlen(str); //guarda o tamanho da string
     if (str[c - 1] == '\n') str[c - 1] = 0;
-    else while(getchar() != '\n');
+    else while(getchar() != '\n'); //limpeza do excedente, caso passe o tamanho da string
 }
 
 //Confirmação e exclusão | remoção
@@ -740,7 +740,7 @@ unsigned long gerador_codigo(int tipo)
 {
     unsigned long quant = 0; //guarda a quantidade de elementos no arquivo
 
-    char buff_nome_arquivo[CARAC_A];
+    char buff_nome_arquivo[CARAC_A]; //Irá guardar o nome do arquivo
 
     if (tipo == 1)
     {
@@ -1378,7 +1378,8 @@ void pesquisar_colaborador(void)
 void atualizar_fornecedor(void)
 {
     fornecedor aux_forn; //guarda os dados do colaborador
-    unsigned long codigo, aux = gerador_codigo(FORN) - 1; //guarda o codigo a ser pesquisado; guarda a quantidade de elementos no arquivo de fornecedores
+    unsigned long codigo; //guarda o codigo a ser pesquisado;
+    unsigned long aux = gerador_codigo(FORN) - 1; // guarda a quantidade de elementos no arquivo de fornecedores
     int resp, posicao, x; //auxiliares
 
     memset(&aux_forn, 0, sizeof(fornecedor));
@@ -1446,6 +1447,7 @@ void atualizar_fornecedor(void)
     }
     else
     {
+        printf("------------------------------------------------------\n\n");
         printf("# Codigo do Fornecedor: %lu\n", aux_forn.cod_fornecedor);
         printf("\n");
 
@@ -1531,7 +1533,8 @@ void atualizar_fornecedor(void)
 void atualizar_produto(void)
 {
     produtos aux_prod;//guarda os dados do produto
-    unsigned long codigo, aux = gerador_codigo(PROD) - 1;//guarda o código do produto a ser pesquisado; guarda a quantidade de elementos no arquivo de produtos
+    unsigned long codigo;//guarda o código do produto a ser pesquisado; 
+    unsigned long aux = gerador_codigo(PROD) - 1;//guarda a quantidade de elementos no arquivo de produtos
     int resp, posicao, x; //auxiliares
 
     memset(&aux_prod, 0, sizeof(produtos));
@@ -1643,7 +1646,8 @@ void atualizar_produto(void)
 void atualizar_colaborador(void)
 {
     colaborador aux_col;//guarda os dados do colaborador
-    unsigned long codigo, aux = gerador_codigo(COL) - 1;//guarda o código do colaborador;guarda a quantidade de elementos no arquivo de colaboradores
+    unsigned long codigo; //guarda o código do colaborador;
+    unsigned long aux = gerador_codigo(COL) - 1;//guarda a quantidade de elementos no arquivo de colaboradores
     int resp, posicao, x; //auxiliares
 
     memset(&aux_col, 0, sizeof(colaborador));
@@ -1711,6 +1715,7 @@ void atualizar_colaborador(void)
     }
     else
     {
+        printf("------------------------------------------------------\n\n");
         printf("# Codigo do colaborador: %lu\n", aux_col.cod_colaborador);
         printf("\n");
 
@@ -1792,7 +1797,8 @@ void atualizar_colaborador(void)
 void remover_fornecedor(void)
 {
     fornecedor aux_forn;//auxiliar par guardar os dados do fornecedor
-    unsigned long codigo, aux = gerador_codigo(FORN) - 1;//código a ser pesquisado; quantidade de elementos no arquivo de fornecedores
+    unsigned long codigo;//código a ser pesquisado; 
+    unsigned long aux = gerador_codigo(FORN) - 1;//quantidade de elementos no arquivo de fornecedores
     int resp, posicao, x;//auxiliares
 
     printf("------------------------------------------------------\n\n");
@@ -1898,7 +1904,8 @@ void remover_fornecedor(void)
 void remover_produto(void)
 {
     produtos aux_prod; //auxiliar para guardar os ados do produto
-    unsigned long codigo, aux = gerador_codigo(PROD) - 1;//guardar o código a ser pesquisado; quantidade de elementos no arquivo de produtos
+    unsigned long codigo;//guardar o código a ser pesquisado;
+    unsigned long  aux = gerador_codigo(PROD) - 1;//quantidade de elementos no arquivo de produtos
     int resp, posicao, x; //auxiliares
 
     printf("------------------------------------------------------\n\n");
@@ -1985,7 +1992,8 @@ void remover_produto(void)
 void remover_colaborador(void)
 {
     colaborador aux_col;//guardar os dados do colaborador
-    unsigned long codigo, aux = gerador_codigo(COL) - 1;//código a ser pesquisado; quantidade de elementos no arquivo de colaboradores
+    unsigned long codigo; //código a ser pesquisado; 
+    unsigned long aux = gerador_codigo(COL) - 1;//quantidade de elementos no arquivo de colaboradores
     int resp, posicao, x;//auxiliares
 
     printf("------------------------------------------------------\n\n");

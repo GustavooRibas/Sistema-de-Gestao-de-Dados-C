@@ -1,24 +1,50 @@
 # Projeto de implementação para a disciplina de Estrutura de Dados 1
 
-<h4 align="center"> 
-	🚧 Projeto Não-Magalu em construção...  🚧
-</h4>
+![[Pasted image 20210504213428.png]]
 
 ## Descrição do Projeto
 
-A ideia do projeto consiste no desenvolvimento de um sistema de gestão de dados de uma varejista (”Não-Magalu”) em linha de comando. Esse sistema será elaborado em linguagem C, e conterá CRUD’s dos produtos e fornecedores da loja. Além disso, cada um desses CRUD’s deverá conter também uma opção para se ver um relatório geral dos dados obtidos. 
+ O projeto consiste no desenvolvimento de um sistema de gestão
+ de dados de fornecedores, produtos e colaboradores de uma varejista (”Não-Magalu”). Elaborado para rodar em linha de comando, o sistema foi desenvolvido em linguagem C e permite, além da inserção, pesquisa, alteração e remoção dos dados, apresentar um relatório geral dos dados que foram obtidos.
 
 ### Tabela de conteúdos
 
 * [Descrição do Projeto](#descrição-do-Projeto)
 * [Tabela de conteúdos](#tabela-de-conteúdos)
+* [Como  compilar e rodar](#como-compilar-e-rodar)
 * [Dados no cadastro](#dados-no-cadastro)
     * [1. Produtos](#1-produtos)
     * [2. Fornecedores](#2-fornecedores)
+    * [3. Colaboradores](#3-colaboradores)
 * [Features](#features)
 * [Quem são os desenvolvedores](#quem-são-os-desenvolvedores)
 
+### Como compilar e rodar
 
+Para compilar o programa, primeiro você deve conferir se a sua máquina possui um compilador de C instalado com o seguinte comando: 
+
+```
+gcc -v
+```
+
+(No caso utilizamos o gcc, um compilador que já vem disponível para a maiorias das distribuições Linux e que pode ser instalada facilmente em compudatores com Windows e OSX)
+
+Caso não apareça uma mensagem de erro, basta compilar com o seguinte comando:
+
+```
+gcc <Nome do arquivo *.c> -lm -o <Nome do executável>
+```
+
+Após isso, basta rodar com:
+- No terminal do linux:
+```
+./<Nome do executável>
+```
+
+- No CMD do Windows:
+```
+<Nome do executável>
+```
 
 ### Dados no cadastro
 
@@ -43,27 +69,44 @@ Os dados que serão cadastrados no sistema são:
 - Data de início das relações;
 - Data do fim das relações.
 
-Os  CRUD de fornecedores em si, devem conter as opções de inserção, remoção, alteração e consulta dos dados que foram obtidos e o CRUD de produtos as opções de pesquisar, atualizar e remover produtos. Também colocamos uma opção, em cada um dos CRUD'S, para apresentar um relatório geral dos dados que foram obtidos.
+#### 3. Colaboradores
+
+- Nome do colaborador;
+- Código do colaborador; 
+- Cargo que ocupa;
+- Salário; 
+- CPF;	
+- Endereço (Rua, Bairro, Cep, Cidade, UF);
+- Telefone de contato;
+- Data de inicio do contrato;
+- Data do fim do contrato; 
+
+Os  CRUD's de fornecedores e colaboradores em si, devem conter as opções de inserção, remoção, alteração e consulta dos dados que foram obtidos e o CRUD de produtos as opções de pesquisar, atualizar e remover produtos. Foi colocado também uma opção, em cada um dos CRUD's, para apresentar um relatório geral dos dados que foram obtidos.
 
 ### Features
 
-- [X] Descoberta do SO;
 - [X] Função para limpeza de tela;
 - [X] Menu principal;
 - [X] Menu para Gerenciar Fornecedores;
+- [X] Menu para Gerenciar Colaboradores;
 - [X] Menu para Gerenciar Produtos;
 - [X] Confirmação da exclusão | alteração;
 - [X] Gerenciador de códigos;
 - [X] Inserção de Produtos;
 - [X] Inserção de Fornecedores;
+- [X] Inserção de Colaboradores;
 - [X] Pesquisar cadastro do Produto;
 - [X] Pesquisar cadastro do Fornecedor;
+- [X] Pesquisar cadastro do Colaborador;
 - [X] Remoção do Produtos;
 - [X] Remoção do Fornecedores;
+- [X] Remoção do Colaborador;
 - [X] Atualização do cadastro do Produto;
 - [X] Atualização do cadastro do Fornecedor;
+- [X] Atualização do cadastro do Colaborador;
 - [X] Relatório Geral de Produtos;
 - [x] Relatório Geral de Fornecedores;
+- [X] Relatório Geral de Colaboradores;
 
 
 ### Quem são os desenvolvedores
