@@ -1,10 +1,10 @@
 /*----------------------------------------------------------------
   	        	        TRABALHO FINAL AED-1
  -----------------------------------------------------------------
- 
- DESCRIÇÃO: 
+
+ DESCRIÇÃO:
  ---------
-   O projeto consiste no desenvolvimento de um sistema de gestão
+ O projeto consiste no desenvolvimento de um sistema de gestão
  de dados de fornecedores, produtos e colaboradores de uma varejista (”Não-Magalu”).
  Elaborado para rodar em linha de comando, o sistema foi desenvolvido em linguagem C
  e permite, além da inserção, pesquisa, alteração e remoção dos dados, apresentar
@@ -21,7 +21,7 @@
   E-mail: ribeirogustavo@discente.ufg.br;
 
 -----------------------------------------------------------------
- REPOSITÓRIO DO PROJETO: https://github.com/GustavooRibas/Trabalho-Final-AED1 
+ REPOSITÓRIO DO PROJETO: https://github.com/GustavooRibas/Trabalho-Final-AED1
 -----------------------------------------------------------------
  DATA DA ÚLTIMA ALTERAÇÃO: 05 de Maio de 2021
 ----------------------------------------------------------------*/
@@ -62,7 +62,19 @@
  ***************************************/
 
 //Constantes Gerais
-enum {NOM = 41, DESC = 101, EXC =  1, NEXC = 0, QUANT_PROD = 10, END = 41, UF = 3, CARAC_A = 15, NUM_CNPJ = 15 , NUM_CPF = 12 , CARG = 41};
+enum {
+    NOM = 41, //Quantidade de caracteres em cada nome (Produtos | Fornecedores | Colaboradores)
+    DESC = 101, //Quantidade de caracteres na descrição do produto
+    EXC =  1, //Valor lógico de exclusão (Excluído)
+    NEXC = 0, //Valor lógico de exclusão (Não Excluído)
+    QUANT_PROD = 20, //Quantidade máxima de produtos que um fornecedor pode ofertar
+    END = 41, //Quantidade de caracteres nos endereços dos fornecedores e colaboradores
+    UF = 3, //Quantidade de caracteres para a Unidade Federativa
+    CARAC_A = 15,//Quantidade de carateres para os nomes dos arquivos (Produtos | Fornecedores | Colaboradores)
+    NUM_CNPJ = 15 , //Quantidade de caracteres para o CNPJ do fornecedor
+    NUM_CPF = 12 , //Quantidade de caracteres para o CPF do colaborador
+    CARG = 41 //Quantidade de caracteres para o Cargo do colaborador
+};
 
 /***************************************
  *          ESTRUTURAS
@@ -132,6 +144,14 @@ typedef struct
  **********************************************/
 
 /**
+ * @fn gerador_codigo(int tipo)
+ * @brief Gerador de códigos (Produtos | Fornecedores)
+ * @param int tipo - Tipo do arquivo em que será contada a quantidade de elementos (structs), ou seja, arquivo de fornecedores, produtos ou colaboradores
+ * @return Quantidade de elementos (structs) dentro do arquivo
+*/
+unsigned long gerador_codigo(int tipo);
+
+/**
  * @fn binary_search(FILE *arq, int ini, int fim, unsigned long cod, int tipo)
  * @brief Pesquisa binária para os códigos
  * @param FILE *arq - Arquivo onde será procurada a struct desejada
@@ -142,14 +162,6 @@ typedef struct
  * @return Posição, dentro do arquivo, da struct procurada
 */
 int binary_search(FILE *arq, int ini, int fim, unsigned long cod, int tipo);
-
-/**
- * @fn gerador_codigo(int tipo)
- * @brief Gerador de códigos (Produtos | Fornecedores)
- * @param int tipo - Tipo do arquivo em que será contada a quantidade de elementos (structs), ou seja, arquivo de fornecedores, produtos ou colaboradores
- * @return Quantidade de elementos (structs) dentro do arquivo
-*/
-unsigned long gerador_codigo(int tipo);
 
 /**
  * @fn logo_nmagalu(void)
@@ -163,6 +175,27 @@ void logo_nmagalu(void);
  * @param char str[] - String em que se deseja retirar o "\n"
 */
 void clear(char str[]);
+
+/**
+ * @fn print_fornecedor(fornecedor aux_forn)
+ * @brief Esta é a função a ser chamada pelas outras funções para apresentar os dados
+ * dos fornecedores.
+*/
+void print_fornecedor(fornecedor aux_forn);
+
+/**
+ * @fn print_produto(produtos aux_prod)
+ * @brief Esta é a função a ser chamada pelas outras funções para apresentar os dados
+ * de produtos.
+*/
+void print_produto(produtos aux_prod);
+
+/**
+ * @fn print_colaboradores(colaborador aux_col)
+ * @brief Esta é a função a ser chamada pelas outras funções para apresentar os dados
+ * de colaboradores.
+*/
+void print_colaboradores(colaborador aux_col);
 
 /**
  * @fn confirmar(void)
@@ -296,12 +329,12 @@ void atualizar_colaborador(void);
 /**
  * @fn remover_fornecedor(void)
  * @brief Pede para o usuário digitar o código do fornecedor a ser removido, em seguida
- * faz a busca do código chamando a função binary_search. Caso o código não esteja 
+ * faz a busca do código chamando a função binary_search. Caso o código não esteja
  * presente no arqivo de fornecedores ou o fornecedor já tenha sido excluído, é
- * apresentado na tela uma mesagen de código inexistente. Caso o código não esteja 
- * excluído, são apresentados os dados do fornecedor e pede uma confirmação 
+ * apresentado na tela uma mesagen de código inexistente. Caso o código não esteja
+ * excluído, são apresentados os dados do fornecedor e pede uma confirmação
  * da exclusão. Se o usúario informar que quer excluír o fornecedor,
- * a função pede para o usuário inserir a data do fim das relações e exclui logicamente, 
+ * a função pede para o usuário inserir a data do fim das relações e exclui logicamente,
  * o fornecedor, trocando o valor lógico de exclusão.
 */
 void remover_fornecedor(void);
@@ -309,10 +342,10 @@ void remover_fornecedor(void);
 /**
  * @fn remover_produto(void)
  * @brief Pede para o usuário digitar o código do produto a ser removido, em seguida
- * faz a busca do código chamando a função binary_search. Caso o código não esteja 
+ * faz a busca do código chamando a função binary_search. Caso o código não esteja
  * presente no arqivo de produtos ou o produto já tenha sido excluído, é
- * apresentado na tela uma mesagen de código inexistente. Caso o código não esteja 
- * excluído, são apresentados os dados do produto e pede para uma confirmação da 
+ * apresentado na tela uma mesagen de código inexistente. Caso o código não esteja
+ * excluído, são apresentados os dados do produto e pede para uma confirmação da
  * exclusão. Se o usúario informar que quer excluír o produto, a função exclui
  * logicamente o item, trocando o valor lógico de exclusão.
 */
@@ -321,10 +354,10 @@ void remover_produto(void);
 /**
  * @fn remover_colaborador(void)
  * @brief Pede para o usuário digitar o código do colaborador a ser removido, em seguida
- * faz a busca do código chamando a função binary_search. Caso o código não esteja 
+ * faz a busca do código chamando a função binary_search. Caso o código não esteja
  * presente no arqivo de colaboraboradores ou o colaborador já tenha sido excluído, é
- * apresentado na tela uma mesagen de código inexistente. Caso o código não esteja 
- * excluído, são apresentados os dados do colaborador e pede uma confirmação da 
+ * apresentado na tela uma mesagen de código inexistente. Caso o código não esteja
+ * excluído, são apresentados os dados do colaborador e pede uma confirmação da
  * exclusão. Se o usúario informar que quer excluír o colaborador, a função exclui
  * logicamente o item, trocando o valor lógico de exclusão.
 */
@@ -340,7 +373,7 @@ void relatorio_geral_prod(void);
 
 /**
  * @fn relatorio_geral_forn(void)
- * @brief Exibe na tela todos os dados de fornecedores que foram obtidos até o 
+ * @brief Exibe na tela todos os dados de fornecedores que foram obtidos até o
  * momento da sua chamada, além disso, apresenta a sua situação cadastral (se está ou não
  * excluído).
 */
@@ -348,32 +381,12 @@ void relatorio_geral_forn(void);
 
 /**
  * @fn relatorio_geral_col(void)
- * @brief Apresenta na tela todos os dados de colaboradores que foram obtidos até o 
+ * @brief Apresenta na tela todos os dados de colaboradores que foram obtidos até o
  * momento da sua chamada, além disso, exibe a sua situação cadastral (se está ou não
  * excluído).
 */
 void relatorio_geral_col(void);
 
-/**
- * @fn print_fornecedor(fornecedor aux_forn)
- * @brief Esta é a função a ser chamada pelas outras funções para apresentar os dados 
- * dos fornecedores.  
-*/
-void print_fornecedor(fornecedor aux_forn);
-
-/**
- * @fn print_produto(produtos aux_prod)
- * @brief Esta é a função a ser chamada pelas outras funções para apresentar os dados 
- * de produtos.  
-*/
-void print_produto(produtos aux_prod);
-
-/**
- * @fn print_colaboradores(colaborador aux_col)
- * @brief Esta é a função a ser chamada pelas outras funções para apresentar os dados 
- * de colaboradores.  
-*/
-void print_colaboradores(colaborador aux_col);
 
 /********************************************
  *              MAIN
@@ -411,17 +424,65 @@ int main(void)
  *      IMPLEMENTAÇÃO DAS FUNÇÕES
  ********************************************/
 
-//saída da logo
-void logo_nmagalu(){
-    printf("-----------------------------------------------------------------------------------\n\n");
-    printf("           _   __                        __  ___                  __     \n");
-    printf("          / | / /___ _____              /  |/  /___ _____ _____ _/ /_  __\n");
-    printf("         /  |/ / __ `/ __ \\   ______   / /|_/ / __ `/ __ `/ __ `/ / / / /\n");
-    printf("        / /|  / /_/ / /_/ /  /_____/  / /  / / /_/ / /_/ / /_/ / / /_/ / \n");
-    printf("       /_/ |_/\\__,_/\\____/           /_/  /_/\\__,_/\\__, /\\__,_/_/\\__,_/  \n");
-    printf("                                                  /____/                 \n");
-    printf("-----------------------------------------------------------------------------------\n");
+//Gerador de códigos (Produtos | Fornecedoresi | Colaboradores)
+unsigned long gerador_codigo(int tipo)
+{
+    unsigned long quant = 0; //guarda a quantidade de elementos no arquivo
 
+    char buff_nome_arquivo[CARAC_A]; //Irá guardar o nome do arquivo
+
+    if (tipo == 1)
+    {
+         strcpy(buff_nome_arquivo, A_PROD);
+    }
+    else if (tipo == 0)
+    {
+        strcpy(buff_nome_arquivo, A_FORN);
+    }
+    else
+    {
+        strcpy(buff_nome_arquivo, A_COL);
+    }
+
+    FILE *arquiv = fopen(buff_nome_arquivo, "rb");
+    if (!arquiv)
+    {
+        //caso ainda não tenha um arquivo contendo os dados
+        return 1;
+    }
+
+    if (tipo == 1)
+    {
+        produtos aux_prod;
+
+        fseek(arquiv, sizeof(produtos)*(-1), SEEK_END);
+        fread(&aux_prod, sizeof(produtos), 1, arquiv);
+        quant = aux_prod.cod_produto + 1;
+    }
+
+    else
+    {
+        if (tipo == 0)
+        {
+            fornecedor aux_forn;
+
+            fseek(arquiv, sizeof(fornecedor)*(-1), SEEK_END);
+            fread(&aux_forn, sizeof(fornecedor), 1, arquiv);
+            quant = aux_forn.cod_fornecedor + 1;
+        }
+        else
+        {
+            colaborador aux_col;
+
+            fseek(arquiv,sizeof(colaborador)*(-1), SEEK_END);
+            fread(&aux_col, sizeof(colaborador), 1, arquiv);
+            quant = aux_col.cod_colaborador + 1;
+        }
+    }
+
+    fclose(arquiv);
+
+    return quant;
 }
 
 //Pesquisa binária dos códigos
@@ -536,7 +597,22 @@ int binary_search(FILE *arq, int ini, int fim, unsigned long cod, int tipo)
     return -1;
 }
 
-//Limpeza do "\n" das strings e dos caracteres excedentes 
+
+//saída da logo
+void logo_nmagalu(){
+    printf("-----------------------------------------------------------------------------------\n\n");
+    printf("           _   __                        __  ___                  __     \n");
+    printf("          / | / /___ _____              /  |/  /___ _____ _____ _/ /_  __\n");
+    printf("         /  |/ / __ `/ __ \\   ______   / /|_/ / __ `/ __ `/ __ `/ / / / /\n");
+    printf("        / /|  / /_/ / /_/ /  /_____/  / /  / / /_/ / /_/ / /_/ / / /_/ / \n");
+    printf("       /_/ |_/\\__,_/\\____/           /_/  /_/\\__,_/\\__, /\\__,_/_/\\__,_/  \n");
+    printf("                                                  /____/                 \n");
+    printf("-----------------------------------------------------------------------------------\n");
+
+}
+
+
+//Limpeza do "\n" das strings e dos caracteres excedentes
 void clear(char str[])
 {
     int c = strlen(str); //guarda o tamanho da string
@@ -686,7 +762,7 @@ void gerenciar_produtos(void)
     }
 }
 
-//gerenciar colaboradores
+//Gerenciar colaboradores
 void gerenciar_colaborador(void)
 {
     int res = 0; //variável para guardar a resposta
@@ -737,66 +813,6 @@ void gerenciar_colaborador(void)
     }
 }
 
-//Gerador de códigos (Produtos | Fornecedores)
-unsigned long gerador_codigo(int tipo)
-{
-    unsigned long quant = 0; //guarda a quantidade de elementos no arquivo
-
-    char buff_nome_arquivo[CARAC_A]; //Irá guardar o nome do arquivo
-
-    if (tipo == 1)
-    {
-         strcpy(buff_nome_arquivo, A_PROD);
-    }
-    else if (tipo == 0)
-    {
-        strcpy(buff_nome_arquivo, A_FORN);
-    }
-    else
-    {
-        strcpy(buff_nome_arquivo, A_COL);
-    }
-
-    FILE *arquiv = fopen(buff_nome_arquivo, "rb");
-    if (!arquiv)
-    {
-        //caso ainda não tenha um arquivo contendo os dados
-        return 1;
-    }
-
-    if (tipo == 1)
-    {
-        produtos aux_prod;
-        
-        fseek(arquiv, sizeof(produtos)*(-1), SEEK_END);
-        fread(&aux_prod, sizeof(produtos), 1, arquiv);
-        quant = aux_prod.cod_produto + 1;
-    }
-
-    else
-    {
-        if (tipo == 0)
-        {
-            fornecedor aux_forn;
-            
-            fseek(arquiv, sizeof(fornecedor)*(-1), SEEK_END);
-            fread(&aux_forn, sizeof(fornecedor), 1, arquiv);
-            quant = aux_forn.cod_fornecedor + 1;
-        }
-        else
-        {
-            colaborador aux_col;
-            
-            fseek(arquiv,sizeof(colaborador)*(-1), SEEK_END);
-            fread(&aux_col, sizeof(colaborador), 1, arquiv);
-            quant = aux_col.cod_colaborador + 1;
-        }
-    }
-
-    fclose(arquiv);
-
-    return quant;
-}
 
 //Apresenta na tela os dados dos fornecedores
 void print_fornecedor(fornecedor aux_forn)
@@ -1535,7 +1551,7 @@ void atualizar_fornecedor(void)
 void atualizar_produto(void)
 {
     produtos aux_prod;//guarda os dados do produto
-    unsigned long codigo;//guarda o código do produto a ser pesquisado; 
+    unsigned long codigo;//guarda o código do produto a ser pesquisado;
     unsigned long aux = gerador_codigo(PROD) - 1;//guarda a quantidade de elementos no arquivo de produtos
     int resp, posicao, x; //auxiliares
 
@@ -1799,7 +1815,7 @@ void atualizar_colaborador(void)
 void remover_fornecedor(void)
 {
     fornecedor aux_forn;//auxiliar par guardar os dados do fornecedor
-    unsigned long codigo;//código a ser pesquisado; 
+    unsigned long codigo;//código a ser pesquisado;
     unsigned long aux = gerador_codigo(FORN) - 1;//quantidade de elementos no arquivo de fornecedores
     int resp, posicao, x;//auxiliares
 
@@ -1994,7 +2010,7 @@ void remover_produto(void)
 void remover_colaborador(void)
 {
     colaborador aux_col;//guardar os dados do colaborador
-    unsigned long codigo; //código a ser pesquisado; 
+    unsigned long codigo; //código a ser pesquisado;
     unsigned long aux = gerador_codigo(COL) - 1;//quantidade de elementos no arquivo de colaboradores
     int resp, posicao, x;//auxiliares
 
@@ -2225,3 +2241,4 @@ void relatorio_geral_col(void)
 
     fclose(arq);
 }
+
