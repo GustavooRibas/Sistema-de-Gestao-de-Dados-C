@@ -2,12 +2,12 @@
 
 ![logo](https://user-images.githubusercontent.com/74943794/117087041-c1654700-ad24-11eb-898e-1563ddb32717.png)
 
-
 ## Descrição do Projeto
 
  O projeto consiste no desenvolvimento de um sistema de gestão
  de dados de fornecedores, produtos e colaboradores de uma varejista (”Não-Magalu”). Elaborado para rodar em linha de comando, o sistema foi desenvolvido em linguagem C e permite, além da inserção, pesquisa, alteração e remoção dos dados, apresentar um relatório geral dos dados que foram obtidos.
 
+---
 ### Tabela de conteúdos
 
 * [Descrição do Projeto](#descrição-do-Projeto)
@@ -19,7 +19,7 @@
     * [3. Colaboradores](#3-colaboradores)
 * [Features](#features)
 * [Quem são os desenvolvedores](#quem-são-os-desenvolvedores)
-
+---
 ### Como compilar e rodar
 
 Para compilar o programa, primeiro você deve conferir se a sua máquina possui um compilador de C instalado com o seguinte comando: 
@@ -46,7 +46,7 @@ Após isso, basta rodar com:
 ```
 <Nome do executável>
 ```
-
+---
 ### Dados no cadastro
 
 Os dados que serão cadastrados no sistema são:
@@ -84,9 +84,10 @@ Os dados que serão cadastrados no sistema são:
 
 Os  CRUD's de fornecedores e colaboradores em si, devem conter as opções de inserção, remoção, alteração e consulta dos dados que foram obtidos e o CRUD de produtos as opções de pesquisar, atualizar e remover produtos. Foi colocado também uma opção, em cada um dos CRUD's, para apresentar um relatório geral dos dados que foram obtidos.
 
+---
 ### Features
 
-- [X] Função para limpeza de tela;
+- [x] Função para limpeza de tela;
 - [X] Menu principal;
 - [X] Menu para Gerenciar Fornecedores;
 - [X] Menu para Gerenciar Colaboradores;
@@ -109,7 +110,7 @@ Os  CRUD's de fornecedores e colaboradores em si, devem conter as opções de in
 - [x] Relatório Geral de Fornecedores;
 - [X] Relatório Geral de Colaboradores;
 
-
+---
 ### Quem são os desenvolvedores
 
 A equipe de desenvolvimento é composta pelos alunos: 
