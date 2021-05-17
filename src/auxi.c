@@ -5,8 +5,8 @@
 
  DESCRIÇÃO:
  ---------
- Implementação das funções da biblioteca "aux.h", que contêm os protótipos das funções 
- auxiliares.  
+ Implementação das funções da biblioteca "aux.h", que contêm os protótipos das funções
+ auxiliares.
 
  DESENVOLVEDORES:
  ----------------
@@ -31,7 +31,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "aux.h"
+#include "auxi.h"
 
 
 /*********************************************

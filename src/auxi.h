@@ -23,8 +23,8 @@
  DATA DA ÚLTIMA ALTERAÇÃO: 08 de Maio de 2021
 ----------------------------------------------------------------*/
 
-#ifndef AUX_H
-#define AUC_H
+#ifndef AUXI_H
+#define AUXI_H
 
 /*********************************************
  *          BIBLIOTECAS
@@ -38,10 +38,10 @@
  *******************************************/
 
 //Auxiliar para a limpeza da tela de acordo com o sistema operacional do usuário
-#ifdef _WIN32 
+#ifdef _WIN32
     #define CLS "cls"//Para sistemas Windows
 
-#elif __linux__ 
+#elif __linux__
     #define CLS "clear"//Para sistemas UNIX/Linux
 
 #endif

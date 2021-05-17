@@ -6,7 +6,7 @@
  DESCRIÇÃO:
  ---------
  Implementação das funções da biblioteca "func.h", que contêm os protótipos das funções
- principais. 
+ principais.
 
  DESENVOLVEDORES:
  ----------------
@@ -31,7 +31,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "func.h"
-#include "aux.h"
+#include "auxi.h"
 
 /*********************************************
  *      IMPLEMENTAÇÃO DAS FUNÇÕES
