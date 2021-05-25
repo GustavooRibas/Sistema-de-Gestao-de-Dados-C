@@ -7,7 +7,6 @@
  O projeto consiste no desenvolvimento de um sistema de gestão
  de dados de fornecedores, produtos e colaboradores de uma varejista (”Não-Magalu”). Elaborado para rodar em linha de comando, o sistema foi desenvolvido em linguagem C e permite, além da inserção, pesquisa, alteração e remoção dos dados, apresentar um relatório geral dos dados que foram obtidos.
 
----
 ### Tabela de conteúdos
 
 * [Descrição do Projeto](#descrição-do-Projeto)
@@ -19,7 +18,7 @@
     * [3. Colaboradores](#3-colaboradores)
 * [Features](#features)
 * [Quem são os desenvolvedores](#quem-são-os-desenvolvedores)
----
+
 ### Como compilar e rodar
 
 Para compilar o programa, primeiro você deve conferir se a sua máquina possui um compilador de C instalado com o seguinte comando: 
@@ -30,10 +29,16 @@ gcc -v
 
 (No caso utilizamos o gcc, um compilador que já vem disponível para a maiorias das distribuições Linux e que pode ser instalada facilmente em compudatores com Windows e OSX)
 
-Caso não apareça uma mensagem de erro, basta compilar com o seguinte comando:
+Caso não apareça uma mensagem de erro, insira os seguintes  comando:
 
+- Para entrar na pasta:
 ```
-gcc <Nome do arquivo *.c> -lm -o <Nome do executável>
+cd <diretório>
+```
+
+- Para compilar:
+```
+gcc main.c auxi.c func.c -lm -o <Nome do executável>
 ```
 
 Após isso, basta rodar com:
@@ -46,7 +51,12 @@ Após isso, basta rodar com:
 ```
 <Nome do executável>
 ```
----
+
+- No PowerShell:
+```
+./<Nome do executável>
+```
+
 ### Dados no cadastro
 
 Os dados que serão cadastrados no sistema são:
