@@ -20,10 +20,10 @@
 -----------------------------------------------------------------
  REPOSITÓRIO DO PROJETO: https://github.com/GustavooRibas/Trabalho-Final-AED1
 -----------------------------------------------------------------
- DATA DA ÚLTIMA ALTERAÇÃO: 08 de Maio de 2021
+ DATA DA ÚLTIMA ALTERAÇÃO: 25 de Maio de 2021
 ----------------------------------------------------------------*/
 
-#ifndef FUNC_H
+#ifndef FUNC_H //include_guard (segurança na chamada do *.h)
 #define FUNC_H
 
 /********************************************
@@ -31,7 +31,7 @@
  *******************************************/
 
 //Constantes de definição dos arquivos
-#define FORN  0 //Numero que define o "tipo" fornecedor
+#define FORN  0 //Número que define o "tipo" fornecedor
 #define PROD  1 //Número que define o "tipo" produto
 #define COL   2 //Número que define o "tipo" colaborador
 
@@ -78,7 +78,7 @@ typedef struct
 //Estrutura para data
 typedef struct
 {
-    int dia; 
+    int dia;
     int mes;
     int ano;
 }data;
@@ -91,15 +91,15 @@ typedef struct
 	int quant_produtos; //quantidade de produtos
 	unsigned long cod_produtos[QUANT_PROD]; //código dos produtos
 	char CNPJ[NUM_CNPJ]; //CNPJ do fornecedor
-	char rua[END]; //Rua 
+	char rua[END]; //Rua
     char bairro[END]; //bairro
     int CEP; //CEP
     char cidade[END]; //cidade
-    char UF[UF]; //UF
+    char UF[UF]; //Unidade Federativa
     int telefone; //telefone para o contato
-    data inicio_rel; //dada de inicio das relações 
-    data final_rel; //data de fim das relaçõess 
-	int valor_logico; //valor lógico para exclusão
+    data inicio_rel; //dada de inicio das relações
+    data final_rel; //data de fim das relaçõess
+	int valor_logico; //valor lógico de exclusão
 
 }fornecedor;
 
@@ -111,11 +111,11 @@ typedef struct
 	char cargo[CARG]; //cargo do colaborador
 	float salario; //salário do colaborador
 	char CPF[NUM_CPF];//CPF do colaborador
-	char rua[END]; //rua 
+	char rua[END]; //rua
     char bairro[END];//Bairro
     int CEP; //CEP
-    char cidade[END];//cidade 
-    char UF[UF]; //UF
+    char cidade[END];//cidade
+    char UF[UF]; //Unidade Federativa
     int telefone; //telefone para contato
     data inicio_cont; //data do inicio do contrato
     data final_cont; //data do fim do contrato
@@ -130,18 +130,18 @@ typedef struct
  * @fn inserir_fornecedor(void)
  * @brief Solicita ao usuário a inserção dos seguintes dados:  Nome do fornecedor, quantidade de produtos a serem cadastrados,
  * CNPJ, telefone , o endereço e data do início das relações com o fornecedor. Além disso, a função gera o código dos fornecedores e
- * dos produtos, chamando a função gerador_codigo tendo como parâmetro o tipo do arquivo (Fornecedor | Produto | Colaborador).
- * O código dos produtos é passado como argumento na função inserir_produto e, em seguida, ele atribui o valor 0 ao valor lógico
- * de exclusão, indicando que não está excluso. Por fim, ele escreve os dados do fornecedor em um arquivo de fornecedores.
+ * dos produtos, chamando a função gerador_codigo que possui como parâmetro o tipo do arquivo (Fornecedor | Produto | Colaborador).
+ * Alem disso, é atribuido o valor 0 ao valor lógico de exclusão, indicando que não está excluso, por fim, ele escreve os dados
+ * do fornecedor no final de um arquivo binário de fornecedores.
 */
 void inserir_fornecedor(void);
 
 /**
  * @fn inserir_produto(void)
  * @brief A Função recebe como argumento o código do produto e solicita ao usuário a inserção dos seguintes dados:
- * nome do produto, preço de compra, preço de venda e descrição do produto a ser ofertado. Em seguida, ele
- * atribui o valor 0 ao valor lógico de exclusão, indicando que não está excluso e, por fim, escreve os
- * dados do produto em um arquivo de produtos.
+ * nome do produto, preço de compra, preço de venda e descrição do produto a ser ofertado. Em seguida, a função
+ * atribui o valor 0 ao valor lógico de exclusão, indicando que não está excluso. Por fim, escreve os
+ * dados do produto no final de um arquivo binário de produtos.
  * @param int codigo - código do produto a ser ofertado
 */
 void inserir_produto(int codigo);
@@ -151,9 +151,9 @@ void inserir_produto(int codigo);
  * @brief Solicita ao usuário a inserção dos seguintes dados:
  * nome do colaborador, CPF, telefone , o endereço e data do início do contrato com o colaborador.
  * Além disso, a função gera o código do colaborador, chamando a função gerador_codigo,
- * tendo como parâmetro o tipo do arquivo (Fornecedor | Produto | Colaborador). Em seguida, ele
+ * que possui como parâmetro o tipo do arquivo (Fornecedor | Produto | Colaborador). Em seguida, ele
  * atribui o valor 0 ao valor lógico de exclusão, indicando que não está excluso. Por fim, ele escreve os
- * dados do colaborador em um arquivo de colaboradores.
+ * dados do colaborador no final de um arquivo binário de colaboradores.
 */
 void inserir_colaborador(void);
 
@@ -195,7 +195,7 @@ void pesquisar_colaborador(void);
  * da função binary_search para procurar seus dados no arquivo de fornecedores. Apresenta na tela uma confirmação chamando a função confirmar, se o usuário
  * digitar 's' ou 'S' a função solicita ao usuário os dados para serem atualizados, como: Nome do fornecedor, quantidade de produtos a serem cadastrados,
  * CNPJ, telefone , o endereço e data do início das relações com o fornecedor. Em seguida, insere os dados no arquivo, no local do dados anteriores.
- * Caso o usuário, na confirmação, digite 'n' ou 'N' a função irá retornar ao gerenciar_fornecedore.
+ * Caso o usuário, na confirmação, digite 'n' ou 'N' a função irá retornar ao gerenciar_fornecedores.
 */
 void atualizar_fornecedor(void);
 
@@ -213,7 +213,7 @@ void atualizar_produto(void);
  * @fn atualizar_colaborador(void)
  * @brief Pede para o usuário o código do colaborador a ter seus dados atualizados, em seguida faz a chamada
  * da função binary_search para procurar seus dados no arquivo de colaboradores. Apresenta na tela uma confirmação chamando a função confirmar, se o usuário
- * digitar 's' ou 'S' a função solicita ao usuário os dados para serem atualizados, como: nome do colaborador, CPF, telefone ,
+ * digitar 's' ou 'S' a função solicita ao usuário os dados para serem atualizados, como: nome do colaborador, CPF, telefone,
  * o endereço e data do início do contrato com o colaborador. Em seguida, insere os dados no arquivo, no local do dados anteriores.
  * Caso o usuário, na confirmação, digite 'n' ou 'N' a função irá retornar ao gerenciar_colaborador.
 */
@@ -223,8 +223,8 @@ void atualizar_colaborador(void);
  * @fn remover_fornecedor(void)
  * @brief Pede para o usuário digitar o código do fornecedor a ser removido, em seguida
  * faz a busca do código chamando a função binary_search. Caso o código não esteja
- * presente no arqivo de fornecedores ou o fornecedor já tenha sido excluído, é
- * apresentado na tela uma mesagen de código inexistente. Caso o código não esteja
+ * presente no arquivo de fornecedores ou o fornecedor já tenha sido excluído, é
+ * apresentado na tela uma mensagen de código inexistente. Caso o código não esteja
  * excluído, são apresentados os dados do fornecedor e pede uma confirmação
  * da exclusão. Se o usúario informar que quer excluír o fornecedor,
  * a função pede para o usuário inserir a data do fim das relações e exclui logicamente,
@@ -236,8 +236,8 @@ void remover_fornecedor(void);
  * @fn remover_produto(void)
  * @brief Pede para o usuário digitar o código do produto a ser removido, em seguida
  * faz a busca do código chamando a função binary_search. Caso o código não esteja
- * presente no arqivo de produtos ou o produto já tenha sido excluído, é
- * apresentado na tela uma mesagen de código inexistente. Caso o código não esteja
+ * presente no arquivo de produtos ou o produto já tenha sido excluído, é
+ * apresentado na tela uma mensagen de código inexistente. Caso o código não esteja
  * excluído, são apresentados os dados do produto e pede para uma confirmação da
  * exclusão. Se o usúario informar que quer excluír o produto, a função exclui
  * logicamente o item, trocando o valor lógico de exclusão.
@@ -248,11 +248,12 @@ void remover_produto(void);
  * @fn remover_colaborador(void)
  * @brief Pede para o usuário digitar o código do colaborador a ser removido, em seguida
  * faz a busca do código chamando a função binary_search. Caso o código não esteja
- * presente no arqivo de colaboraboradores ou o colaborador já tenha sido excluído, é
- * apresentado na tela uma mesagen de código inexistente. Caso o código não esteja
+ * presente no arquivo de colaboraboradores ou o colaborador já tenha sido excluído, é
+ * apresentado na tela uma mensagen de código inexistente. Caso o código não esteja
  * excluído, são apresentados os dados do colaborador e pede uma confirmação da
- * exclusão. Se o usúario informar que quer excluír o colaborador, a função exclui
- * logicamente o item, trocando o valor lógico de exclusão.
+ * exclusão. Se o usúario informar que quer excluír o colaborador, a função pede
+ * para o usuário inserir a data do fim das relações e exclui logicamente o colaborador,
+ * trocando o valor lógico de exclusão.
 */
 void remover_colaborador(void);
 
@@ -280,4 +281,4 @@ void relatorio_geral_forn(void);
 */
 void relatorio_geral_col(void);
 
-#endif
+#endif //FUNC_H

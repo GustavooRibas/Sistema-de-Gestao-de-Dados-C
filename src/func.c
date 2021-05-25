@@ -21,7 +21,7 @@
 -----------------------------------------------------------------
  REPOSITÓRIO DO PROJETO: https://github.com/GustavooRibas/Trabalho-Final-AED1
 -----------------------------------------------------------------
- DATA DA ÚLTIMA ALTERAÇÃO: 08 de Maio de 2021
+ DATA DA ÚLTIMA ALTERAÇÃO: 25 de Maio de 2021
 ----------------------------------------------------------------*/
 
 /*********************************************
@@ -42,7 +42,7 @@ void inserir_fornecedor(void){
 
     printf("------------------------------------------------------\n\n");
     fornecedor aux_forn; //auxiliar para guardar os dados de fornecedores
-    int x=0, i, quant_forn; //auxliares
+    int x=0, i, quant_forn; //auxliares para o controle dos loops
 
     printf("Digite a quantidade de fornecedores a serem inseridos: ");
     scanf("%d", &quant_forn);
@@ -55,8 +55,9 @@ void inserir_fornecedor(void){
         printf("\n");
         printf("------------------------------------------------------\n\n");
 
-        memset(&aux_forn, 0, sizeof(fornecedor));
+        memset(&aux_forn, 0, sizeof(fornecedor)); //limpeza da struct de fornecedores auxiliar
 
+        //Escrita das informações a serem armazenadas no arquivo de fornecedores
         aux_forn.cod_fornecedor = gerador_codigo(FORN);
         printf("# Codigo do Fornecedor: %lu\n", aux_forn.cod_fornecedor);
         printf("\n");
@@ -79,6 +80,7 @@ void inserir_fornecedor(void){
         getchar();
         printf("\n");
 
+        //Inserção e armazenamento dos produtos ("RELAÇÃO PRODUTO FORNECEDOR")
         for(x=0; x<aux_forn.quant_produtos; x++){
 
             printf("* Produto %d\n", x+1);
@@ -122,8 +124,9 @@ void inserir_fornecedor(void){
         clear(aux_forn.UF);
 
 
-        aux_forn.valor_logico = NEXC;
+        aux_forn.valor_logico = NEXC; //Não excluso
 
+        //Abertura do arquivo
         FILE *arq = fopen(A_FORN, "ab");
         if (!arq)
         {
@@ -131,7 +134,7 @@ void inserir_fornecedor(void){
             exit(1);
         }
 
-        fwrite(&aux_forn, sizeof(fornecedor), 1, arq);
+        fwrite(&aux_forn, sizeof(fornecedor), 1, arq); //Armazenamento dos dados no arquivo
 
         fclose(arq);
     }
@@ -148,6 +151,7 @@ void inserir_produto(int codigo)
     printf("----------------\n");
     produtos aux_prod; //auxiliar para guardar os dados de produtos
 
+    //Abertura do arquivo
     FILE *arq = fopen(A_PROD, "ab");
     if (!arq)
     {
@@ -158,8 +162,9 @@ void inserir_produto(int codigo)
         return;
     }
 
-    memset(&aux_prod, 0, sizeof(produtos));
+    memset(&aux_prod, 0, sizeof(produtos)); //limpeza da struct de produtos auxiliar
 
+    //Escrita das informações a serem armazenadas no arquivo de produtos
     aux_prod.cod_produto = codigo;
     printf("Codigo do Produto: %lu\n", aux_prod.cod_produto);
 
@@ -167,10 +172,10 @@ void inserir_produto(int codigo)
     fgets(aux_prod.nome_prod, NOM, stdin);
     clear(aux_prod.nome_prod);
 
-    printf("Valor de compra produto: ");
+    printf("Valor de compra produto: R$");
     scanf("%f", &aux_prod.preco_prod);
 
-    printf("Valor de venda do produto: ");
+    printf("Valor de venda do produto: R$");
     scanf("%f", &aux_prod.venda_prod);
     getchar();
 
@@ -178,9 +183,9 @@ void inserir_produto(int codigo)
     fgets(aux_prod.descricao, DESC, stdin);
     clear(aux_prod.descricao);
 
-    aux_prod.valor_logico = NEXC;
+    aux_prod.valor_logico = NEXC; //Não excluso
 
-    fwrite(&aux_prod, sizeof(produtos), 1, arq);
+    fwrite(&aux_prod, sizeof(produtos), 1, arq); //Escrita dos dados no arquivo
 
     printf("\n");
 
@@ -192,7 +197,7 @@ void inserir_colaborador(void)
 {
     printf("------------------------------------------------------\n\n");
     colaborador aux_col; //auxliar para guardar dados do colaborador
-    int i, quant_col; //auxiliares
+    int i, quant_col; //auxiliares para os loop's
 
     printf("Digite a quantidade de colaboradores a serem inseridos: ");
     scanf("%d", &quant_col);
@@ -205,8 +210,9 @@ void inserir_colaborador(void)
         printf("\n");
         printf("------------------------------------------------------\n\n");
 
-        memset(&aux_col, 0, sizeof(colaborador));
+        memset(&aux_col, 0, sizeof(colaborador)); //limpeza da struct de colaboradores auxiliar
 
+        //Escrita das informações a serem armazenadas no arquivo de colaboradores
         aux_col.cod_colaborador = gerador_codigo(COL);
         printf("# Codigo do colaborador: %lu\n", aux_col.cod_colaborador);
         printf("\n");
@@ -219,7 +225,7 @@ void inserir_colaborador(void)
         fgets(aux_col.cargo, CARG, stdin);
         clear(aux_col.cargo);
 
-        printf("- Salario do colaborador: ");
+        printf("- Salario do colaborador: R$");
         scanf("%f", &aux_col.salario);
         getchar();
 
@@ -266,8 +272,9 @@ void inserir_colaborador(void)
         fgets(aux_col.UF, UF, stdin);
         clear(aux_col.UF);
 
-        aux_col.valor_logico = NEXC;
+        aux_col.valor_logico = NEXC; //Não excluso
 
+        //Abertura do arquivo
         FILE *arq = fopen(A_COL, "ab");
         if (!arq)
         {
@@ -275,7 +282,7 @@ void inserir_colaborador(void)
             exit(1);
         }
 
-        fwrite(&aux_col, sizeof(colaborador), 1, arq);
+        fwrite(&aux_col, sizeof(colaborador), 1, arq); //Armazenamento dos dados no arquivo
 
         fclose(arq);
     }
@@ -288,11 +295,10 @@ void inserir_colaborador(void)
 //Pesquisar fornecedor
 void pesquisar_fornecedor(void)
 {
-    fornecedor aux_forn; //auxiliaar para guardar os dados de fornecedor
+    fornecedor aux_forn; //auxiliar para guardar os dados de fornecedor
     unsigned long aux = gerador_codigo(FORN) - 1; //guarda a quantidade de elementos no arquivo de fornecedores
-    unsigned long codigo = 0; // guarda o código do fornecedor a ser pesquisado
-    int posicao; //guarda a posição no arquivo
-    int x = 0; //auxiliar
+    unsigned long codigo = 0; //guarda o código do fornecedor a ser pesquisado
+    int posicao; //guarda a posição da struct no arquivo
 
     printf("------------------------------------------------------\n\n");
     printf("Digite o codigo a ser pesquisado: ");
@@ -302,6 +308,7 @@ void pesquisar_fornecedor(void)
 
     system(CLS);
 
+    //Abertura do arquivo
     FILE *arq = fopen(A_FORN, "r+b");
     if (!arq)
     {
@@ -328,7 +335,7 @@ void pesquisar_fornecedor(void)
     }
 
     fseek(arq, posicao, SEEK_SET);
-    fread(&aux_forn, sizeof(fornecedor), 1, arq);
+    fread(&aux_forn, sizeof(fornecedor), 1, arq); //Leitura dos dados desejados
 
     if (aux_forn.valor_logico == EXC)
     {
@@ -342,7 +349,7 @@ void pesquisar_fornecedor(void)
     {
         printf("------------------------------------------------------\n\n");
 
-        print_fornecedor(aux_forn);
+        print_fornecedor(aux_forn); //Saída dos dados
 
 
         printf("\n\n (Aperte a tecla Enter para sair)\n\n");
@@ -358,8 +365,9 @@ void pesquisar_produto_forn(unsigned long codigo)
 {
     produtos aux_prod;//auxiliar para guardar os dados de produtos
     unsigned long aux = gerador_codigo(PROD) - 1; //guarda a quantidade de elementos no arquivo de produtos
-    int posicao;//guarda a posição no arquivo
+    int posicao; //guarda a posição da struct no arquivo
 
+    //Abertura do arquivo
     FILE *arq = fopen(A_PROD, "r+b");
     if (!arq)
     {
@@ -379,8 +387,9 @@ void pesquisar_produto_forn(unsigned long codigo)
     }
 
     fseek(arq, posicao, SEEK_SET);
-    fread(&aux_prod, sizeof(produtos), 1, arq);
+    fread(&aux_prod, sizeof(produtos), 1, arq); //Leitura dos dados desejados
 
+    //Teste de validade do código
     if (aux_prod.valor_logico == EXC)
     {
         printf("------------\n");
@@ -393,7 +402,7 @@ void pesquisar_produto_forn(unsigned long codigo)
 
         printf("------------\n");
 
-        print_produto(aux_prod);
+        print_produto(aux_prod); //Apresentação dos dados
 
     }
 
@@ -406,7 +415,7 @@ void pesquisar_produto(void)
     produtos aux_prod; //auxiliar para guardar os dados de produtos
     unsigned long aux = gerador_codigo(PROD) - 1; //guarda a quantidade de elementos no arquivo de produtos
     unsigned long codigo = 0; //guarda o código a ser pesquisado
-    int posicao;//guarda a posição no arquivo
+    int posicao; //guarda a posição da struct no arquivo
 
     printf("------------------------------------------------------\n\n");
     printf("Digite o codigo a ser pesquisado: ");
@@ -415,6 +424,7 @@ void pesquisar_produto(void)
 
     system(CLS);
 
+    //Abertura do arquivo
     FILE *arq = fopen(A_PROD, "r+b");
     if (!arq)
     {
@@ -440,7 +450,7 @@ void pesquisar_produto(void)
     }
 
     fseek(arq, posicao, SEEK_SET);
-    fread(&aux_prod, sizeof(produtos), 1, arq);
+    fread(&aux_prod, sizeof(produtos), 1, arq); //leitura dos dados
 
     if (aux_prod.valor_logico == EXC)
     {
@@ -455,7 +465,7 @@ void pesquisar_produto(void)
 
         printf("------------------------------------------------------\n\n");
 
-        print_produto(aux_prod);
+        print_produto(aux_prod); //Apresentação dos dados
 
 
         printf("\n\n (Aperte a tecla Enter para sair)\n\n");
@@ -472,8 +482,7 @@ void pesquisar_colaborador(void)
     colaborador aux_col; //auxiliar para guardar os dados de colaboradores
     unsigned long aux = gerador_codigo(COL) - 1; //guarda a quantidade de elementos no arquivo de colaboradores
     unsigned long codigo = 0;//guarda o código a ser pesquisado
-    int posicao; //guarda a posição no arquivo
-    int x = 0; //auxiliar
+    int posicao; //guarda a posição da struct no arquivo
 
     printf("------------------------------------------------------\n\n");
     printf("Digite o codigo a ser pesquisado: ");
@@ -483,6 +492,7 @@ void pesquisar_colaborador(void)
 
     system(CLS);
 
+    //Abertura do arquivo
     FILE *arq = fopen(A_COL, "r+b");
     if (!arq)
     {
@@ -509,7 +519,7 @@ void pesquisar_colaborador(void)
     }
 
     fseek(arq, posicao, SEEK_SET);
-    fread(&aux_col, sizeof(colaborador), 1, arq);
+    fread(&aux_col, sizeof(colaborador), 1, arq); //Leitura dos dados
 
     if (aux_col.valor_logico == EXC)
     {
@@ -523,7 +533,7 @@ void pesquisar_colaborador(void)
     {
         printf("------------------------------------------------------\n\n");
 
-        print_colaboradores(aux_col);
+        print_colaboradores(aux_col);//Apresentação dos dados
 
 
         printf("\n\n (Aperte a tecla Enter para sair)\n\n");
@@ -540,9 +550,10 @@ void atualizar_fornecedor(void)
     fornecedor aux_forn; //guarda os dados do fornecedor
     unsigned long codigo; //guarda o codigo a ser pesquisado;
     unsigned long aux = gerador_codigo(FORN) - 1; // guarda a quantidade de elementos no arquivo de fornecedores
-    int resp, posicao, x; //auxiliares
+    int resp,  x; //auxiliares
+    int posicao; //guarda a posição da struct no arquivo
 
-    memset(&aux_forn, 0, sizeof(fornecedor));
+    memset(&aux_forn, 0, sizeof(fornecedor));//Limpeza da struct de fornecedores auxiliar
 
     printf("------------------------------------------------------\n\n");
     printf("Digite o codigo do fornecedor a ser atualizado: ");
@@ -551,6 +562,7 @@ void atualizar_fornecedor(void)
 
     system(CLS);
 
+    //Abertura do arquivo
     FILE *arq = fopen(A_FORN, "r+b");
     if (!arq)
     {
@@ -577,7 +589,7 @@ void atualizar_fornecedor(void)
     }
 
     fseek(arq, posicao, SEEK_SET);
-    fread(&aux_forn, sizeof(fornecedor), 1, arq);
+    fread(&aux_forn, sizeof(fornecedor), 1, arq); //Leitura dos dados
 
     if (aux_forn.valor_logico == EXC)
     {
@@ -593,20 +605,21 @@ void atualizar_fornecedor(void)
     {
         printf("------------------------------------------------------\n\n");
 
-        print_fornecedor(aux_forn);
+        print_fornecedor(aux_forn); //Apresentação dos dados
 
     }
 
+    resp = confirmar(); //Confirmação da ação
 
-    resp = confirmar();
-
-    if (!resp)
+    if (!resp) //Caso não deseje atualizar os dados
     {
         fclose(arq);
         return;
     }
+
     else
     {
+        //Escrita dos dados a serem atualizados
         printf("------------------------------------------------------\n\n");
         printf("# Codigo do Fornecedor: %lu\n", aux_forn.cod_fornecedor);
         printf("\n");
@@ -628,6 +641,7 @@ void atualizar_fornecedor(void)
         getchar();
         printf("\n");
 
+        //Chamada da nova inserção de produtos ("RELAÇÃO DE FORNECEDORES E PRODUTOS")
         for(x=0; x<aux_forn.quant_produtos; x++){
 
             printf("* Produto %d\n", x+1);
@@ -670,11 +684,11 @@ void atualizar_fornecedor(void)
         fgets(aux_forn.UF, UF, stdin);
         clear(aux_forn.UF);
 
-        aux_forn.valor_logico = NEXC;
+        aux_forn.valor_logico = NEXC; //Atribuição do valor lógico de não excluso;
 
         fseek(arq, posicao, SEEK_SET);
 
-        fwrite(&aux_forn, sizeof(fornecedor), 1, arq);
+        fwrite(&aux_forn, sizeof(fornecedor), 1, arq); //Reescrita dos dados no arquivo
 
         system(CLS);
 
@@ -695,9 +709,10 @@ void atualizar_produto(void)
     produtos aux_prod;//guarda os dados do produto
     unsigned long codigo;//guarda o código do produto a ser pesquisado;
     unsigned long aux = gerador_codigo(PROD) - 1;//guarda a quantidade de elementos no arquivo de produtos
-    int resp, posicao, x; //auxiliares
+    int resp,  x; //auxiliares
+    int posicao; //guarda a posição da struct no arquivo
 
-    memset(&aux_prod, 0, sizeof(produtos));
+    memset(&aux_prod, 0, sizeof(produtos)); //Limpeza da struct de produtos auxiliar
 
     printf("------------------------------------------------------\n\n");
     printf("Digite o codigo do produto a ser atualizado: ");
@@ -706,6 +721,7 @@ void atualizar_produto(void)
 
     system(CLS);
 
+    //Abertura do arquivo
     FILE *arq = fopen(A_PROD, "r+b");
     if (!arq)
     {
@@ -731,7 +747,7 @@ void atualizar_produto(void)
     }
 
     fseek(arq, posicao, SEEK_SET);
-    fread(&aux_prod, sizeof(produtos), 1, arq);
+    fread(&aux_prod, sizeof(produtos), 1, arq); //Leitura dos dados
 
     if (aux_prod.valor_logico == EXC)
     {
@@ -748,19 +764,21 @@ void atualizar_produto(void)
 
         printf("------------------------------------------------------\n\n");
 
-        print_produto(aux_prod);
+        print_produto(aux_prod); //Apresentação dos dados
 
     }
 
-    resp = confirmar();
+    resp = confirmar(); //Confirmação da ação
 
-    if (!resp)
+    if (!resp) //Caso não deseje atualizar os dados
     {
         fclose(arq);
         return;
     }
+
     else
     {
+        //Escrita dos dados a serem atualizados
 
         printf("------------------------------------------------------\n\n");
         printf("* Insira as seguintes informacoes *\n\n");
@@ -771,10 +789,10 @@ void atualizar_produto(void)
         fgets(aux_prod.nome_prod, NOM, stdin);
         clear(aux_prod.nome_prod);
 
-        printf("Valor de compra produto: ");
+        printf("Valor de compra produto: R$");
         scanf("%f", &aux_prod.preco_prod);
 
-        printf("Valor de venda do produto: ");
+        printf("Valor de venda do produto: R$");
         scanf("%f", &aux_prod.venda_prod);
         getchar();
 
@@ -782,11 +800,11 @@ void atualizar_produto(void)
         fgets(aux_prod.descricao, DESC, stdin);
         clear(aux_prod.descricao);
 
-        aux_prod.valor_logico = NEXC;
+        aux_prod.valor_logico = NEXC; //Atribuição do valor lógico de não excluso;
 
         fseek(arq, posicao, SEEK_SET);
 
-        fwrite(&aux_prod, sizeof(produtos), 1, arq);
+        fwrite(&aux_prod, sizeof(produtos), 1, arq); //Reescrita dos dados no arquivo
 
         system(CLS);
 
@@ -808,9 +826,10 @@ void atualizar_colaborador(void)
     colaborador aux_col;//guarda os dados do colaborador
     unsigned long codigo; //guarda o código do colaborador;
     unsigned long aux = gerador_codigo(COL) - 1;//guarda a quantidade de elementos no arquivo de colaboradores
-    int resp, posicao, x; //auxiliares
+    int resp, x; //auxiliares
+    int posicao; //guarda a posição da struct no arquivo
 
-    memset(&aux_col, 0, sizeof(colaborador));
+    memset(&aux_col, 0, sizeof(colaborador)); //Limpeza da struct de colaborador auxiliar
 
     printf("------------------------------------------------------\n\n");
     printf("Digite o codigo do colaborador a ser atualizado: ");
@@ -819,6 +838,7 @@ void atualizar_colaborador(void)
 
     system(CLS);
 
+    //Abertura do arquivo
     FILE *arq = fopen(A_COL, "r+b");
     if (!arq)
     {
@@ -845,7 +865,7 @@ void atualizar_colaborador(void)
     }
 
     fseek(arq, posicao, SEEK_SET);
-    fread(&aux_col, sizeof(colaborador), 1, arq);
+    fread(&aux_col, sizeof(colaborador), 1, arq); //Leitura dos dados
 
     if (aux_col.valor_logico == EXC)
     {
@@ -861,20 +881,21 @@ void atualizar_colaborador(void)
     {
         printf("------------------------------------------------------\n\n");
 
-        print_colaboradores(aux_col);
+        print_colaboradores(aux_col); //Apresentação dos dados
 
     }
 
 
-    resp = confirmar();
+    resp = confirmar(); //Confirmação da ação
 
-    if (!resp)
+    if (!resp) //Caso não deseje atualizar os dados
     {
         fclose(arq);
         return;
     }
     else
     {
+        //Escrita dos dados a serem atualizados
         printf("------------------------------------------------------\n\n");
         printf("# Codigo do colaborador: %lu\n", aux_col.cod_colaborador);
         printf("\n");
@@ -887,7 +908,7 @@ void atualizar_colaborador(void)
         fgets(aux_col.cargo, CARG, stdin);
         clear(aux_col.cargo);
 
-        printf("- Salario do colaborador: ");
+        printf("- Salario do colaborador: R$");
         scanf("%f", &aux_col.salario);
         getchar();
 
@@ -934,11 +955,11 @@ void atualizar_colaborador(void)
         fgets(aux_col.UF, UF, stdin);
         clear(aux_col.UF);
 
-        aux_col.valor_logico = NEXC;
+        aux_col.valor_logico = NEXC; //Atribuição do valor lógico de não excluso;
 
         fseek(arq, posicao, SEEK_SET);
 
-        fwrite(&aux_col, sizeof(colaborador), 1, arq);
+        fwrite(&aux_col, sizeof(colaborador), 1, arq); //Reescrita dos dados no arquivo
 
         system(CLS);
 
@@ -953,13 +974,14 @@ void atualizar_colaborador(void)
     fclose(arq);
 }
 
-//Remover fornecefor
+//Remover fornecedor
 void remover_fornecedor(void)
 {
     fornecedor aux_forn;//auxiliar par guardar os dados do fornecedor
     unsigned long codigo;//código a ser pesquisado;
     unsigned long aux = gerador_codigo(FORN) - 1;//quantidade de elementos no arquivo de fornecedores
-    int resp, posicao, x;//auxiliares
+    int resp,  x;//auxiliares
+    int posicao; //guarda a posição da struct no arquivo
 
     printf("------------------------------------------------------\n\n");
     printf("Digite o codigo do fornecedor a ser excluido: ");
@@ -968,6 +990,7 @@ void remover_fornecedor(void)
 
     system(CLS);
 
+    //Abertura do arquivo
     FILE *arq = fopen(A_FORN, "r+b");
     if (!arq)
     {
@@ -994,7 +1017,7 @@ void remover_fornecedor(void)
     }
 
     fseek(arq, posicao, SEEK_SET);
-    fread(&aux_forn, sizeof(fornecedor), 1, arq);
+    fread(&aux_forn, sizeof(fornecedor), 1, arq); //Leitura dos dados
 
     if (aux_forn.valor_logico == EXC)
     {
@@ -1010,21 +1033,20 @@ void remover_fornecedor(void)
     {
         printf("------------------------------------------------------\n\n");
 
-
-       print_fornecedor(aux_forn);
+       print_fornecedor(aux_forn); //Apresentação dos dados
 
     }
 
+    resp = confirmar(); //Confirmação da ação
 
-    resp = confirmar();
-
-    if (!resp)
+    if (!resp) //Caso não deseje remover os dados
     {
         fclose(arq);
         return;
     }
     else
     {
+        //Escrita da data do fim das relações com o fornecedor
         printf("------------------------------------------------------\n\n");
 
         fseek(arq, posicao, SEEK_SET);
@@ -1042,9 +1064,9 @@ void remover_fornecedor(void)
         getchar();
         printf("\n");
 
-        aux_forn.valor_logico = EXC;
+        aux_forn.valor_logico = EXC; //Atribuição do valor lógico de excluso;
 
-        fwrite(&aux_forn, sizeof(fornecedor), 1, arq);
+        fwrite(&aux_forn, sizeof(fornecedor), 1, arq); //Reescrita dos dados no arquivo
 
         system(CLS);
 
@@ -1066,7 +1088,8 @@ void remover_produto(void)
     produtos aux_prod; //auxiliar para guardar os ados do produto
     unsigned long codigo;//guardar o código a ser pesquisado;
     unsigned long  aux = gerador_codigo(PROD) - 1;//quantidade de elementos no arquivo de produtos
-    int resp, posicao, x; //auxiliares
+    int resp,  x; //auxiliares
+    int posicao;//guarda a posição da struct no arquivo
 
     printf("------------------------------------------------------\n\n");
     printf("Digite o codigo do produto a ser excluido: ");
@@ -1075,6 +1098,7 @@ void remover_produto(void)
 
     system(CLS);
 
+    //Abertura do arquivo
     FILE *arq = fopen(A_PROD, "r+b");
     if (!arq)
     {
@@ -1100,7 +1124,7 @@ void remover_produto(void)
     }
 
     fseek(arq, posicao, SEEK_SET);
-    fread(&aux_prod, sizeof(produtos), 1, arq);
+    fread(&aux_prod, sizeof(produtos), 1, arq); //Leitura dos dados
 
     if (aux_prod.valor_logico == EXC)
     {
@@ -1117,13 +1141,13 @@ void remover_produto(void)
 
         printf("------------------------------------------------------\n\n");
 
-        print_produto(aux_prod);
+        print_produto(aux_prod); //Apresentação dos dados
 
     }
 
-    resp = confirmar();
+    resp = confirmar(); //Confirmação da ação
 
-    if (!resp)
+    if (!resp) //Caso não deseje remover os dados
     {
         fclose(arq);
         return;
@@ -1132,9 +1156,9 @@ void remover_produto(void)
     {
         fseek(arq, posicao, SEEK_SET);
 
-        aux_prod.valor_logico = EXC;
+        aux_prod.valor_logico = EXC; //Atribuição do valor lógico de excluso;
 
-        fwrite(&aux_prod, sizeof(produtos), 1, arq);
+        fwrite(&aux_prod, sizeof(produtos), 1, arq); //Reescrita dos dados no arquivo
 
         printf("------------------------------------------------------\n\n");
 
@@ -1154,7 +1178,8 @@ void remover_colaborador(void)
     colaborador aux_col;//guardar os dados do colaborador
     unsigned long codigo; //código a ser pesquisado;
     unsigned long aux = gerador_codigo(COL) - 1;//quantidade de elementos no arquivo de colaboradores
-    int resp, posicao, x;//auxiliares
+    int resp,  x;//auxiliares
+    int posicao; //guarda a posição da struct no arquivo
 
     printf("------------------------------------------------------\n\n");
     printf("Digite o codigo do colaborador a ser excluido: ");
@@ -1163,6 +1188,7 @@ void remover_colaborador(void)
 
     system(CLS);
 
+    //Abertura do arquivo
     FILE *arq = fopen(A_COL, "r+b");
     if (!arq)
     {
@@ -1189,7 +1215,7 @@ void remover_colaborador(void)
     }
 
     fseek(arq, posicao, SEEK_SET);
-    fread(&aux_col, sizeof(colaborador), 1, arq);
+    fread(&aux_col, sizeof(colaborador), 1, arq); //Leitura dos dados
 
     if (aux_col.valor_logico == EXC)
     {
@@ -1206,19 +1232,20 @@ void remover_colaborador(void)
         printf("------------------------------------------------------\n\n");
 
 
-       print_colaboradores(aux_col);
+       print_colaboradores(aux_col); //Apresentação dos dados
 
     }
 
-    resp = confirmar();
+    resp = confirmar(); //Confirmação da ação
 
-    if (!resp)
+    if (!resp) //Caso não deseje remover os dados
     {
         fclose(arq);
         return;
     }
     else
     {
+        //Escrita da data do fim do contrato com o colaborador
         printf("------------------------------------------------------\n\n");
 
         fseek(arq, posicao, SEEK_SET);
@@ -1236,9 +1263,9 @@ void remover_colaborador(void)
         getchar();
         printf("\n");
 
-        aux_col.valor_logico = EXC;
+        aux_col.valor_logico = EXC; //Atribuição do valor lógico de excluso;
 
-        fwrite(&aux_col, sizeof(colaborador), 1, arq);
+        fwrite(&aux_col, sizeof(colaborador), 1, arq); //Reescrita dos dados no arquivo
 
         system(CLS);
 
@@ -1254,11 +1281,13 @@ void remover_colaborador(void)
     fclose(arq);
 }
 
-////Relatório geral de fornecedores
+//Relatório geral de fornecedores
 void relatorio_geral_forn(void)
 {
     printf("------------------------------------------------------\n\n");
-    FILE *arq = fopen(A_FORN, "rb"); //abertura do arquivo
+
+    //Abertura do arquivo
+    FILE *arq = fopen(A_FORN, "rb");
     if (!arq)
     {
         fprintf(stderr, "Arquivo de fornecedores nao pode ser encontrado\n");
@@ -1268,22 +1297,23 @@ void relatorio_geral_forn(void)
         return;
     }
 
-    fornecedor aux_forn;
+    fornecedor aux_forn; //guardar os dados do fornecedor
 
     fseek(arq, 0, SEEK_SET);
 
     printf("    * Relatorio Geral de Fornecedores *\n\n");
 
-    while(fread(&aux_forn, sizeof(fornecedor), 1, arq))
+    while(fread(&aux_forn, sizeof(fornecedor), 1, arq)) //Leitura e impressão sequencial dos dados do fornecedor até o fim do arquivo
     {
         printf("------------------------------------------------------\n\n");
 
-        print_fornecedor(aux_forn);
+        print_fornecedor(aux_forn); //Apresentação dos dados
 
-        if(!aux_forn.valor_logico){
+        //Teste de exclusão
+        if(!aux_forn.valor_logico){ //Não excuído
             printf("\n\n    = Fornecedor Cadastrado =\n\n");
         }
-        else{
+        else{//Excluído
 
             printf("- Data do fim das relacoes com o fornecedor: %d/%d/%d\n", aux_forn.final_rel.dia, aux_forn.final_rel.mes, aux_forn.final_rel.ano);
 
@@ -1302,7 +1332,9 @@ void relatorio_geral_forn(void)
 void relatorio_geral_prod(void){
 
     printf("------------------------------------------------------\n\n");
-    FILE *arq = fopen(A_PROD, "rb"); //abertura do arquivo
+
+    //Abertura do arquivo
+    FILE *arq = fopen(A_PROD, "rb");
     if (!arq)
     {
         fprintf(stderr, "Arquivo de produtos nao pode ser encontrado\n");
@@ -1312,22 +1344,23 @@ void relatorio_geral_prod(void){
         return;
     }
 
-    produtos aux_prod;
+    produtos aux_prod; //guardar os dados do produto
 
     fseek(arq, 0, SEEK_SET);
 
     printf("    * Relatorio Geral de Produtos *\n\n");
 
-    while(fread(&aux_prod, sizeof(produtos), 1, arq)){
+    while(fread(&aux_prod, sizeof(produtos), 1, arq)){ //Leitura e impressão sequencial dos dados do produto até o fim do arquivo
 
         printf("------------------------------------------------------\n\n");
 
-        print_produto(aux_prod);
+        print_produto(aux_prod); //Apresentação dos dados
 
-        if(!aux_prod.valor_logico){
+        //Teste de exclusão
+        if(!aux_prod.valor_logico){//Não excluído
             printf("\n\n    = Produto Cadastrado =\n\n");
         }
-        else{
+        else{//Excluído
             printf("\n\n    = Produto Excluido =\n\n");
         }
 
@@ -1344,7 +1377,9 @@ void relatorio_geral_prod(void){
 void relatorio_geral_col(void)
 {
     printf("------------------------------------------------------\n\n");
-    FILE *arq = fopen(A_COL, "rb"); //abertura do arquivo
+
+    //Abertura do arquivo
+    FILE *arq = fopen(A_COL, "rb");
     if (!arq)
     {
         fprintf(stderr, "Arquivo de Colaborador nao pode ser encontrado\n");
@@ -1354,22 +1389,23 @@ void relatorio_geral_col(void)
         return;
     }
 
-    colaborador aux_col;
+    colaborador aux_col; //guardar os dados do colaborador
 
     fseek(arq, 0, SEEK_SET);
 
     printf("    * Relatorio Geral de Colaborador *\n\n");
 
-    while(fread(&aux_col, sizeof(colaborador), 1, arq))
+    while(fread(&aux_col, sizeof(colaborador), 1, arq)) //Leitura e impressão sequencial dos dados do colaborador até o fim do arquivo
     {
         printf("------------------------------------------------------\n\n");
 
-        print_colaboradores(aux_col);
+        print_colaboradores(aux_col); //Apresentação dos dados
 
-        if(!aux_col.valor_logico){
+        //Teste de exclusão
+        if(!aux_col.valor_logico){//Não excluído
             printf("\n\n    = Colaborador Cadastrado =\n\n");
         }
-        else{
+        else{//Excluído
 
             printf("- Data do fim do contrato com o colaborador: %d/%d/%d\n", aux_col.final_cont.dia, aux_col.final_cont.mes, aux_col.final_cont.ano);
 

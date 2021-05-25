@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------
   	        	        TRABALHO FINAL AED-1
-                                (aux.c)
+                                (auxi.c)
  -----------------------------------------------------------------
 
  DESCRIÇÃO:
@@ -21,7 +21,7 @@
 -----------------------------------------------------------------
  REPOSITÓRIO DO PROJETO: https://github.com/GustavooRibas/Trabalho-Final-AED1
 -----------------------------------------------------------------
- DATA DA ÚLTIMA ALTERAÇÃO: 08 de Maio de 2021
+ DATA DA ÚLTIMA ALTERAÇÃO: 25 de Maio de 2021
 ----------------------------------------------------------------*/
 
 /*********************************************
@@ -38,13 +38,14 @@
  *      IMPLEMENTAÇÃO DAS FUNÇÕES
  ********************************************/
 
-//Gerador de códigos (Produtos | Fornecedoresi | Colaboradores)
+//Gerador de códigos (Produtos | Fornecedores | Colaboradores)
 unsigned long gerador_codigo(int tipo)
 {
-    unsigned long quant = 0; //guarda a quantidade de elementos no arquivo
+    unsigned long quant = 0; //Guarda a quantidade de elementos no arquivo
 
     char buff_nome_arquivo[CARAC_A]; //Irá guardar o nome do arquivo
 
+    //Copia o nome do arquivo selecionado para a auxiliar
     if (tipo == 1)
     {
          strcpy(buff_nome_arquivo, A_PROD);
@@ -65,7 +66,8 @@ unsigned long gerador_codigo(int tipo)
         return 1;
     }
 
-    if (tipo == 1)
+    //Gera o código a partir do tipo do arquivo
+    if (tipo == 1) //Produtos
     {
         produtos aux_prod;
 
@@ -76,7 +78,7 @@ unsigned long gerador_codigo(int tipo)
 
     else
     {
-        if (tipo == 0)
+        if (tipo == 0) //Fornecedores
         {
             fornecedor aux_forn;
 
@@ -84,7 +86,7 @@ unsigned long gerador_codigo(int tipo)
             fread(&aux_forn, sizeof(fornecedor), 1, arquiv);
             quant = aux_forn.cod_fornecedor + 1;
         }
-        else
+        else //Colaboradores
         {
             colaborador aux_col;
 
@@ -102,9 +104,9 @@ unsigned long gerador_codigo(int tipo)
 //Pesquisa binária dos códigos
 int binary_search(FILE *arq, int ini, int fim, unsigned long cod, int tipo)
 {
-    char buff_arquiv[CARAC_A]; //vairável para guardar o nome do arquivo
+    char buff_arquiv[CARAC_A]; //variável para guardar o nome do arquivo
 
-    if (tipo == 1)
+    if (tipo == 1) //pesquisa binária dentro do arquivo de produtos
     {
         strcpy(buff_arquiv, A_PROD);
         produtos aux_prod;
@@ -140,7 +142,7 @@ int binary_search(FILE *arq, int ini, int fim, unsigned long cod, int tipo)
 
     else
     {
-    if (tipo == 0)
+    if (tipo == 0) //Pesquisa binária dentro do arquivo de Fornecedores
     {
         strcpy(buff_arquiv, A_FORN);
         fornecedor aux_forn;
@@ -173,7 +175,7 @@ int binary_search(FILE *arq, int ini, int fim, unsigned long cod, int tipo)
         }
     }
 
-    else
+    else //Pesquisa binária dentro do arquivo de Colaboradores
     {
         strcpy(buff_arquiv, A_COL);
         colaborador aux_col;
@@ -211,7 +213,7 @@ int binary_search(FILE *arq, int ini, int fim, unsigned long cod, int tipo)
     return -1;
 }
 
-//saída da logo
+//Impressão da logo
 void logo_nmagalu(){
     printf("-----------------------------------------------------------------------------------\n\n");
     printf("           _   __                        __  ___                  __     \n");
@@ -242,19 +244,18 @@ int confirmar(void)
         printf("-----------------------------------------------------------------\n\n");
         printf("Tem certeza? - Os dados nao poderao ser recuperados [S-s/N-n]: ");
         scanf("%c", &resp);
-        getchar();
         printf("\n");
         system(CLS);
     }
+    getchar();
     if (resp == 'n' || resp == 'N') return 0;
     else return 1;
 }
 
-
 //Apresenta na tela os dados dos fornecedores
 void print_fornecedor(fornecedor aux_forn)
 {
-        int x; //variável auxiliar para o for que será utilizado
+        int x; //variável auxiliar para o loop que será utilizado
 
         printf("# Codigo do Fornecedor: %lu\n", aux_forn.cod_fornecedor);
         printf("\n");
@@ -271,7 +272,7 @@ void print_fornecedor(fornecedor aux_forn)
         for(x=0; x<aux_forn.quant_produtos; x++){
 
             printf("* Produto %d\n", x+1);
-            pesquisar_produto_forn(aux_forn.cod_produtos[x]);
+            pesquisar_produto_forn(aux_forn.cod_produtos[x]); //Chamada para a pesquisa dentro do arquivo de produtos
             printf("\n");
         }
 
@@ -295,9 +296,9 @@ void print_produto(produtos aux_prod)
 
         printf("Nome do produto: %s\n", aux_prod.nome_prod);
 
-        printf("Valor de compra produto: %.2f\n", aux_prod.preco_prod);
+        printf("Valor de compra produto: R$%.2f\n", aux_prod.preco_prod);
 
-        printf("Valor de venda do produto: %.2f\n", aux_prod.venda_prod);
+        printf("Valor de venda do produto: R$%.2f\n", aux_prod.venda_prod);
 
         printf("Descricao do produto: %s\n", aux_prod.descricao);
 }

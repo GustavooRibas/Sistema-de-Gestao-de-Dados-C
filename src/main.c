@@ -9,7 +9,7 @@
  de dados de fornecedores, produtos e colaboradores de uma varejista (”Não-Magalu”).
  Elaborado para rodar em linha de comando, o sistema foi desenvolvido em linguagem C
  e permite, além da inserção, pesquisa, alteração e remoção dos dados, apresentar
- um relatório geral dos dados que foram obtidos.
+ um relatório geral dos dados que foram armazenados.
 
  DESENVOLVEDORES:
  ----------------
@@ -24,7 +24,7 @@
 -----------------------------------------------------------------
  REPOSITÓRIO DO PROJETO: https://github.com/GustavooRibas/Trabalho-Final-AED1
 -----------------------------------------------------------------
- DATA DA ÚLTIMA ALTERAÇÃO: 08 de Maio de 2021
+ DATA DA ÚLTIMA ALTERAÇÃO: 25 de Maio de 2021
 ----------------------------------------------------------------*/
 
 /*********************************************
@@ -43,6 +43,7 @@
 /**
  * @fn menu_principal(void)
  * @brief Display de ações a serem realizadas no menu principal
+ * @return Resposta do usuário de qual a opção desejada
 */
 int menu_principal(void);
 
@@ -79,7 +80,8 @@ int main(void)
   int resp; //variável para obter a resposta do menu_principal
 
     system(CLS); //limpar a tela do usuário antes de iniciar de fato o código
-    resp = menu_principal();
+
+    resp = menu_principal(); //Armazenamento da resposta do menu principal
 
     while (resp != 4)
     {
@@ -95,9 +97,8 @@ int main(void)
                 gerenciar_colaborador();
         }
 
-        resp = menu_principal();
+        resp = menu_principal(); //Armazenamento da resposta do menu principal
     }
-
 
     exit(0);
 }
@@ -105,10 +106,11 @@ int main(void)
 /*********************************************
  *      IMPLEMENTAÇÃO DAS FUNÇÕES
  ********************************************/
+
 //Menu Principal
 int menu_principal(void)
 {
-    int res = -1; //variável para guardar a resposta
+    int res = -1; //variável para armazenar a resposta
 
     while (res < 1 || res > 4)
     {
@@ -132,7 +134,7 @@ int menu_principal(void)
 //Gerenciar Fornecedores
 void gerenciar_fornecedor(void)
 {
-    int res = 0; //variável para guardar a resposta
+    int res = 0; //variável para armazenar a resposta
 
     while (res != 6)
     {
@@ -183,7 +185,7 @@ void gerenciar_fornecedor(void)
 //Gerenciar Produtos
 void gerenciar_produtos(void)
 {
-    int res = 0; //variável para guardar a resposta
+    int res = 0; //variável para armazenar a resposta
 
     while (res != 5)
     {
@@ -232,7 +234,7 @@ void gerenciar_produtos(void)
 //Gerenciar colaboradores
 void gerenciar_colaborador(void)
 {
-    int res = 0; //variável para guardar a resposta
+    int res = 0; //variável para armazenar a resposta
 
     while (res != 6)
     {
