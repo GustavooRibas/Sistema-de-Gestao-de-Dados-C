@@ -179,7 +179,7 @@ void inserir_produto(int codigo)
     scanf("%f", &aux_prod.venda_prod);
     getchar();
 
-    printf("Digite uma pequena descricao do produto: ");
+    printf("Digite uma pequena descricao do produto (maximo 100 caracteres): ");
     fgets(aux_prod.descricao, DESC, stdin);
     clear(aux_prod.descricao);
 
