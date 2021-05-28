@@ -21,7 +21,7 @@
 -----------------------------------------------------------------
  REPOSITÓRIO DO PROJETO: https://github.com/GustavooRibas/Trabalho-Final-AED1
 -----------------------------------------------------------------
- DATA DA ÚLTIMA ALTERAÇÃO: 25 de Maio de 2021
+ DATA DA ÚLTIMA ALTERAÇÃO: 27 de Maio de 2021
 ----------------------------------------------------------------*/
 
 /*********************************************
@@ -300,7 +300,7 @@ void print_produto(produtos aux_prod)
 
         printf("Valor de venda do produto: R$%.2f\n", aux_prod.venda_prod);
 
-        printf("Descricao do produto: %s\n", aux_prod.descricao);
+        printf("Descricao do produto: \n%s\n", aux_prod.descricao);
 }
 
 //Apresenta na tela os dados de colaboradores

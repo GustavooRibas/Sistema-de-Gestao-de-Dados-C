@@ -21,7 +21,7 @@
 -----------------------------------------------------------------
  REPOSITÓRIO DO PROJETO: https://github.com/GustavooRibas/Trabalho-Final-AED1
 -----------------------------------------------------------------
- DATA DA ÚLTIMA ALTERAÇÃO: 25 de Maio de 2021
+ DATA DA ÚLTIMA ALTERAÇÃO: 27 de Maio de 2021
 ----------------------------------------------------------------*/
 
 /*********************************************
@@ -179,7 +179,7 @@ void inserir_produto(int codigo)
     scanf("%f", &aux_prod.venda_prod);
     getchar();
 
-    printf("Digite uma pequena descricao do produto (maximo 100 caracteres): ");
+    printf("Digite uma pequena descricao do produto (maximo 100 caracteres): \n");
     fgets(aux_prod.descricao, DESC, stdin);
     clear(aux_prod.descricao);
 
