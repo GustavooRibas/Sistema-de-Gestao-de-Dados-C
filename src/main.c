@@ -14,11 +14,9 @@
  DESENVOLVEDORES:
  ----------------
   Nome: Diego Enrique da Silva Lima
-  Matrícula: 202003556;
   E-mail: diegoenrique@discente.ufg.br
 
   Nome: Gustavo Rodrigues Ribeiro
-  Matrícula: 202003570;
   E-mail: ribeirogustavo@discente.ufg.br;
 
 -----------------------------------------------------------------
