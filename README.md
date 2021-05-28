@@ -33,7 +33,7 @@ Caso não apareça uma mensagem de erro, insira os seguintes  comando:
 
 - Para entrar na pasta:
 ```
-cd <diretório>
+cd <caminho para o diretório src>
 ```
 
 - Para compilar:
