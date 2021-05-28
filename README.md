@@ -127,13 +127,11 @@ A equipe de desenvolvimento é composta pelos alunos:
 
 __[Diego Enrique da Silva Lima](https://github.com/dgoenrique)__
 
-- Matrícula: 202003556;
 - E-mail: diegoenrique@discente.ufg.br;
 - Aluno de Ciência da Computação do INF-UFG.
 
 __[Gustavo Rodrigues Ribeiro](https://github.com/GustavooRibas)__
 
-- Matrícula: 202003570;
 - E-mail:  ribeirogustavo@discente.ufg.br;
 - Aluno de Ciência da Computação do INF-UFG.
 
