@@ -38,7 +38,7 @@ cd <Caminho para o diretório src>
 
 - Para compilar:
 ```
-gcc main.c auxi.c func.c -lm -o <Nome do executável>
+gcc main.c AVL.c -lm -o <Nome do executável>
 ```
 
 Após isso, basta rodar com:
