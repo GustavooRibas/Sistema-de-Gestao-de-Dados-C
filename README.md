@@ -1,4 +1,4 @@
-# Projeto de implementação para a disciplina de Estrutura de Dados 1
+# Projeto de implementação de um sistema de gestão de dados
 
 ![logo](https://user-images.githubusercontent.com/74943794/117087041-c1654700-ad24-11eb-898e-1563ddb32717.png)
 
